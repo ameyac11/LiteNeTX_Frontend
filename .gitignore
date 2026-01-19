@@ -9,10 +9,13 @@ lerna-debug.log*
 
 # Dependencies
 node_modules
+.pnp
+.pnp.js
 
 # Build output
 dist
 dist-ssr
+build
 *.local
 
 # Environment variables
@@ -31,12 +34,12 @@ dist-ssr
 # Testing
 coverage
 .nyc_output
+.vitest
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
@@ -46,3 +49,27 @@ coverage
 # OS
 Thumbs.db
 .DS_Store
+*~
+
+# Cache
+.cache
+.parcel-cache
+.eslintcache
+.stylelintcache
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Package manager
+.yarn/
+.pnpm-debug.log
+
+# TypeScript
+*.tsbuildinfo
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
