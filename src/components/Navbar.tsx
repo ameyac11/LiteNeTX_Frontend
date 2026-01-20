@@ -10,7 +10,7 @@ const navLinks = [
   { href: '/demos', label: 'Demos' },
   { href: '/models', label: 'Models' },
   { href: '/architecture', label: 'Architecture' },
-  { href: '/neural-network', label: '3D NN' },
+  { href: '/3d-nn', label: '3D NN' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -37,15 +37,15 @@ export default function Navbar() {
     return location.pathname.startsWith(href);
   };
 
-  const is3DPage = location.pathname === '/neural-network';
+  const is3DPage = location.pathname === '/3d-nn';
 
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${is3DPage
-          ? 'bg-transparent py-4'
-          : isScrolled
-            ? 'glass-card py-3'
-            : 'bg-background/50 backdrop-blur-sm py-4'
+        ? 'bg-transparent py-4'
+        : isScrolled
+          ? 'glass-card py-3'
+          : 'bg-background/50 backdrop-blur-sm py-4'
         }`}
     >
       <div className="container-custom flex items-center justify-between">
@@ -63,10 +63,10 @@ export default function Navbar() {
               key={link.href}
               to={link.href}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive(link.href)
-                  ? 'text-primary bg-primary/10'
-                  : is3DPage
-                    ? 'text-white/70 hover:text-white hover:bg-white/10'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
+                ? 'text-primary bg-primary/10'
+                : is3DPage
+                  ? 'text-white/70 hover:text-white hover:bg-white/10'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
                 }`}
             >
               {link.label}
@@ -80,12 +80,12 @@ export default function Navbar() {
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
-            className="rounded-lg"
+            className={`rounded-lg ${is3DPage ? 'hover:bg-white/10' : ''}`}
           >
             {theme === 'dark' ? (
-              <Sun className="w-5 h-5" />
+              <Sun className={`w-5 h-5 ${is3DPage ? 'text-white' : 'text-foreground'}`} />
             ) : (
-              <Moon className="w-5 h-5" />
+              <Moon className={`w-5 h-5 ${is3DPage ? 'text-white' : 'text-foreground'}`} />
             )}
           </Button>
           <Button asChild className="gradient-bg hover:opacity-90 transition-opacity">
@@ -99,12 +99,12 @@ export default function Navbar() {
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
-            className="rounded-lg"
+            className={`rounded-lg ${is3DPage ? 'hover:bg-white/10' : ''}`}
           >
             {theme === 'dark' ? (
-              <Sun className="w-5 h-5" />
+              <Sun className={`w-5 h-5 ${is3DPage ? 'text-white' : 'text-foreground'}`} />
             ) : (
-              <Moon className="w-5 h-5" />
+              <Moon className={`w-5 h-5 ${is3DPage ? 'text-white' : 'text-foreground'}`} />
             )}
           </Button>
           <button

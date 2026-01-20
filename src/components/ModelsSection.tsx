@@ -33,6 +33,7 @@ const comparisonData = [
   { property: 'Input Size', fashion: '28×28', cifar: '32×32' },
   { property: 'Channels', fashion: '1 (Grayscale)', cifar: '3 (RGB)' },
   { property: 'Number of Classes', fashion: '10', cifar: '10' },
+  { property: 'Model Size', fashion: '26 MB', cifar: '42 MB' },
   { property: 'Inference Endpoint', fashion: '/predict/fashion', cifar: '/predict/cifar' },
   { property: 'Model File', fashion: 'best_model.pth', cifar: 'best_model_cifar.pth' },
 ];
@@ -67,9 +68,8 @@ export default function ModelsSection() {
               className="glass-card rounded-2xl p-8"
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${
-                  model.color === 'primary' ? 'gradient-bg' : 'bg-gradient-to-br from-emerald-500 to-teal-500'
-                }`}>
+                <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${model.color === 'primary' ? 'gradient-bg' : 'bg-gradient-to-br from-emerald-500 to-teal-500'
+                  }`}>
                   <model.icon className="w-7 h-7 text-white" />
                 </div>
                 <div>

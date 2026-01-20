@@ -45,7 +45,7 @@ const App = () => {
                   <Route path="/demos" element={<Demos />} />
                   <Route path="/models" element={<Models />} />
                   <Route path="/architecture" element={<Architecture />} />
-                  <Route path="/neural-network" element={<NeuralNetworkPage />} />
+                  <Route path="/3d-nn" element={<NeuralNetworkPage />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>

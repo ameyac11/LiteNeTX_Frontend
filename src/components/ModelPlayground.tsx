@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, Loader2, AlertCircle, ImageIcon, Scan, Cpu, Layers } from 'lucide-react';
+import { Upload, Loader2, AlertCircle, ImageIcon, Scan, Cpu, Layers, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -77,7 +77,6 @@ export default function ModelPlayground() {
                 const response = await fetch(`${baseUrl}/api/examples/list/${activeModel}`);
 
                 if (!response.ok) {
-                    console.warn('Failed to fetch examples from backend');
                     return;
                 }
 
@@ -94,7 +93,6 @@ export default function ModelPlayground() {
                     setExamples([]);
                 }
             } catch (error) {
-                console.error('Error fetching examples:', error);
                 setExamples([]);
             }
         };
@@ -156,6 +154,16 @@ export default function ModelPlayground() {
         reader.readAsDataURL(selectedFile);
     };
 
+    const handleClear = (e?: React.MouseEvent) => {
+        e?.stopPropagation();
+        setImage(null);
+        setFile(null);
+        setResults([]);
+        setError(null);
+        setIsScanning(false);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+
     const handlePredict = async () => {
         if (!file) return;
 
@@ -202,49 +210,51 @@ export default function ModelPlayground() {
         <div className="flex flex-col lg:flex-row gap-6 min-h-[600px] glass-card rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
 
             {/* Sidebar / Model Selector */}
-            <div className="lg:w-64 bg-secondary/30 border-r border-white/10 p-4 flex flex-col gap-2">
+            <div className="w-full lg:w-64 bg-secondary/30 border-b lg:border-b-0 lg:border-r border-white/10 p-4 flex flex-col gap-2">
                 <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 pl-2">Select Model</h3>
-                {(Object.keys(MODELS) as ModelType[]).map((key) => {
-                    const model = MODELS[key];
-                    const isActive = activeModel === key;
-                    const Icon = model.icon;
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-col gap-2">
+                    {(Object.keys(MODELS) as ModelType[]).map((key) => {
+                        const model = MODELS[key];
+                        const isActive = activeModel === key;
+                        const Icon = model.icon;
 
-                    return (
-                        <button
-                            key={key}
-                            onClick={() => {
-                                setActiveModel(key);
-                                setResults([]);
-                                setError(null);
-                                // Keep image if user wants to test same image on different model
-                            }}
-                            className={cn(
-                                "flex items-center gap-3 p-3 rounded-xl transition-all duration-300 text-left relative overflow-hidden group",
-                                isActive
-                                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
-                                    : "hover:bg-white/5 text-muted-foreground hover:text-foreground"
-                            )}
-                        >
-                            <Icon className={cn("w-5 h-5", isActive ? "text-primary-foreground" : model.accent)} />
-                            <div className="flex-1 z-10">
-                                <div className="font-medium text-sm">{model.shortName}</div>
-                                <div className={cn("text-xs opacity-70", isActive ? "text-primary-foreground/80" : "text-muted-foreground")}>
-                                    {model.inputFormat}
+                        return (
+                            <button
+                                key={key}
+                                onClick={() => {
+                                    setActiveModel(key);
+                                    setResults([]);
+                                    setError(null);
+                                    // Keep image if user wants to test same image on different model
+                                }}
+                                className={cn(
+                                    "flex items-center gap-3 p-3 rounded-xl transition-all duration-300 text-left relative overflow-hidden group cursor-pointer",
+                                    isActive
+                                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
+                                        : "hover:bg-white/5 text-muted-foreground hover:text-foreground"
+                                )}
+                            >
+                                <Icon className={cn("w-5 h-5", isActive ? "text-primary-foreground" : model.accent)} />
+                                <div className="flex-1 z-10">
+                                    <div className="font-medium text-sm">{model.shortName}</div>
+                                    <div className={cn("text-xs opacity-70", isActive ? "text-primary-foreground/80" : "text-muted-foreground")}>
+                                        {model.inputFormat}
+                                    </div>
                                 </div>
-                            </div>
 
-                            {isActive && (
-                                <motion.div
-                                    layoutId="active-glow"
-                                    className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent pointer-events-none"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ duration: 0.3 }}
-                                />
-                            )}
-                        </button>
-                    );
-                })}
+                                {isActive && (
+                                    <motion.div
+                                        layoutId="active-glow"
+                                        className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent pointer-events-none"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ duration: 0.3 }}
+                                    />
+                                )}
+                            </button>
+                        );
+                    })}
+                </div>
 
                 <div className="mt-auto p-4 rounded-xl bg-muted/50 border border-border text-xs text-muted-foreground">
                     <Cpu className="w-4 h-4 mb-2 text-primary/50" />
@@ -254,10 +264,10 @@ export default function ModelPlayground() {
             </div>
 
             {/* Main Workspace */}
-            <div className="flex-1 p-6 lg:p-8 flex flex-col">
+            <div className="flex-1 p-4 lg:p-8 flex flex-col">
 
                 {/* Header */}
-                <div className="flex items-center justify-between mb-8">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 lg:mb-8">
                     <div>
                         <h2 className="text-2xl font-bold flex items-center gap-2">
                             {currentModel.name}
@@ -271,7 +281,7 @@ export default function ModelPlayground() {
                         onClick={handlePredict}
                         disabled={!file || isLoading}
                         size="lg"
-                        className={cn("bg-gradient-to-r shadow-lg hover:shadow-xl hover:scale-105 transition-all", currentModel.color)}
+                        className={cn("w-full sm:w-auto bg-gradient-to-r shadow-lg hover:shadow-xl hover:scale-105 transition-all", currentModel.color)}
                     >
                         {isLoading ? (
                             <>
@@ -293,7 +303,7 @@ export default function ModelPlayground() {
                     <div className="flex flex-col gap-4">
                         <div
                             className={cn(
-                                "relative group flex-1 min-h-[300px] border-2 border-dashed rounded-2xl transition-all duration-300 flex flex-col items-center justify-center overflow-hidden bg-black/5 dark:bg-white/5",
+                                "relative group flex-1 min-h-[250px] lg:min-h-[300px] border-2 border-dashed rounded-2xl transition-all duration-300 flex flex-col items-center justify-center overflow-hidden bg-black/5 dark:bg-white/5 cursor-pointer",
                                 image ? "border-primary/50" : "border-muted-foreground/20 hover:border-primary/30",
                                 isScanning && "border-primary/80"
                             )}
@@ -313,54 +323,119 @@ export default function ModelPlayground() {
                                     >
                                         <img src={image} alt="Preview" className="max-h-[300px] object-contain rounded-lg shadow-2xl relative z-10" />
 
+                                        {/* Remove Button */}
+                                        <motion.button
+                                            initial={{ opacity: 0, scale: 0.5 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            whileHover={{ scale: 1.1 }}
+                                            whileTap={{ scale: 0.9 }}
+                                            onClick={handleClear}
+                                            className="absolute top-6 right-6 z-30 p-2 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white hover:bg-destructive hover:border-destructive transition-all shadow-xl"
+                                        >
+                                            <X className="w-4 h-4" />
+                                        </motion.button>
+
                                         {/* Premium Scanning Animation Overlay */}
                                         {isScanning && (
                                             <div className="absolute inset-0 z-20 pointer-events-none rounded-2xl overflow-hidden">
-                                                {/* 1. Cyberpunk Grid Background */}
-                                                <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.2)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20" />
+                                                {/* 1. Cyberpunk Grid & Depth */}
+                                                <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:30px_30px] opacity-30" />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-primary/10 opacity-20" />
 
-                                                {/* 2. Scanning Laser Line */}
+                                                {/* 2. Scanning Laser Line with Glow */}
                                                 <motion.div
-                                                    className="absolute w-full h-24 bg-gradient-to-b from-primary/50 to-transparent blur-sm"
-                                                    initial={{ top: "-20%" }}
+                                                    className="absolute w-full h-32 bg-gradient-to-b from-primary/40 to-transparent blur-md"
+                                                    initial={{ top: "-30%" }}
                                                     animate={{ top: "120%" }}
-                                                    transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                                                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                                                 />
                                                 <motion.div
-                                                    className="absolute w-full h-0.5 bg-primary shadow-[0_0_15px_rgba(59,130,246,1)]"
-                                                    initial={{ top: "-20%" }}
+                                                    className="absolute w-full h-0.5 bg-primary shadow-[0_0_20px_rgba(59,130,246,1)] z-30"
+                                                    initial={{ top: "-30%" }}
                                                     animate={{ top: "120%" }}
-                                                    transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                                                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                                                 />
 
-                                                {/* 3. Corner Brackets HUD */}
-                                                <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-primary/60 rounded-tl-lg" />
-                                                <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-primary/60 rounded-tr-lg" />
-                                                <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-primary/60 rounded-bl-lg" />
-                                                <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-primary/60 rounded-br-lg" />
+                                                {/* 3. Central HUD Ring */}
+                                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+                                                    <motion.div
+                                                        className="w-48 h-48 border border-primary/20 rounded-full"
+                                                        animate={{ rotate: 360 }}
+                                                        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                                                    />
+                                                    <motion.div
+                                                        className="absolute inset-4 border-t-2 border-primary/40 rounded-full"
+                                                        animate={{ rotate: -360 }}
+                                                        transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+                                                    />
+                                                    <motion.div
+                                                        className="absolute inset-10 border-b-2 border-primary/60 rounded-full opacity-50"
+                                                        animate={{ rotate: 360 }}
+                                                        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                                                    />
+                                                </div>
 
-                                                {/* 4. Processing Text */}
+                                                {/* 4. Corner Brackets HUD (Improved) */}
+                                                <div className="absolute top-6 left-6 w-10 h-10 border-t-2 border-l-2 border-primary/80 rounded-tl-sm shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                                                <div className="absolute top-6 right-6 w-10 h-10 border-t-2 border-r-2 border-primary/80 rounded-tr-sm shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                                                <div className="absolute bottom-6 left-6 w-10 h-10 border-b-2 border-l-2 border-primary/80 rounded-bl-sm shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                                                <div className="absolute bottom-6 right-6 w-10 h-10 border-b-2 border-r-2 border-primary/80 rounded-br-sm shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+
+                                                {/* 5. Dynamic Processing HUD */}
                                                 <motion.div
-                                                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/60 backdrop-blur-md px-4 py-2 rounded border border-primary/30 flex items-center gap-3"
+                                                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/80 backdrop-blur-xl px-6 py-4 rounded-xl border border-primary/40 flex flex-col items-center gap-3 z-40 shadow-2xl min-w-[220px]"
                                                     initial={{ opacity: 0, scale: 0.9 }}
                                                     animate={{ opacity: 1, scale: 1 }}
                                                     exit={{ opacity: 0, scale: 0.9 }}
                                                 >
-                                                    <Loader2 className="w-4 h-4 text-primary animate-spin" />
-                                                    <span className="text-xs font-mono text-primary uppercase tracking-widest">Analyzing Features...</span>
+                                                    <div className="flex items-center gap-3">
+                                                        <Loader2 className="w-5 h-5 text-primary animate-spin" />
+                                                        <span className="text-sm font-mono text-primary font-bold uppercase tracking-[0.2em]">Analyzing...</span>
+                                                    </div>
+
+                                                    {/* Rotating Status Messages */}
+                                                    <div className="h-4 overflow-hidden text-[10px] font-mono text-primary/70 uppercase">
+                                                        <motion.div
+                                                            animate={{ y: [0, -16, -32, -48] }}
+                                                            transition={{
+                                                                duration: 4,
+                                                                repeat: Infinity,
+                                                                times: [0, 0.33, 0.66, 1],
+                                                                ease: "linear"
+                                                            }}
+                                                        >
+                                                            <div className="h-4 flex items-center justify-center">KERNEL_LITENET_V2</div>
+                                                            <div className="h-4 flex items-center justify-center">EXTRACTING_FEATURES</div>
+                                                            <div className="h-4 flex items-center justify-center">NEURAL_PASS_ACTIVE</div>
+                                                            <div className="h-4 flex items-center justify-center">COMPUTING_DATA</div>
+                                                        </motion.div>
+                                                    </div>
+
+                                                    {/* Small Bitstream Decoration */}
+                                                    <div className="flex gap-1">
+                                                        {[...Array(12)].map((_, i) => (
+                                                            <motion.div
+                                                                key={i}
+                                                                className="w-1 h-3 bg-primary/20 rounded-full overflow-hidden"
+                                                            >
+                                                                <motion.div
+                                                                    className="w-full h-full bg-primary"
+                                                                    animate={{ height: ['0%', '100%', '0%'] }}
+                                                                    transition={{ duration: 1, repeat: Infinity, delay: i * 0.1 }}
+                                                                />
+                                                            </motion.div>
+                                                        ))}
+                                                    </div>
                                                 </motion.div>
 
-                                                {/* 5. Random glitch artifacts (simulated with pulsing overlays) */}
+                                                {/* 6. Random Glitch Blocks */}
                                                 <motion.div
-                                                    className="absolute top-1/4 left-1/4 w-12 h-[1px] bg-white/40"
-                                                    animate={{ opacity: [0, 1, 0], width: [0, 50, 0] }}
-                                                    transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 0.2 }}
-                                                />
-                                                <motion.div
-                                                    className="absolute bottom-1/3 right-1/4 w-16 h-[1px] bg-white/40"
-                                                    animate={{ opacity: [0, 1, 0], width: [0, 60, 0] }}
-                                                    transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 0.4 }}
-                                                />
+                                                    className="absolute top-1/3 left-10 w-20 h-10 border border-primary/10 bg-primary/5 rounded flex items-center justify-center"
+                                                    animate={{ opacity: [0, 0.5, 0], x: [0, 5, 0] }}
+                                                    transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1 }}
+                                                >
+                                                    <span className="text-[8px] font-mono text-primary/50">FRM_082</span>
+                                                </motion.div>
                                             </div>
                                         )}
 
@@ -408,7 +483,7 @@ export default function ModelPlayground() {
                                                 e.stopPropagation();
                                                 handleExampleSelect(ex.url);
                                             }}
-                                            className="relative group w-16 h-16 rounded-lg overflow-hidden border border-white/10 hover:border-primary/50 transition-all flex-shrink-0"
+                                            className="relative group w-16 h-16 rounded-lg overflow-hidden border border-white/10 hover:border-primary/50 transition-all flex-shrink-0 cursor-pointer"
                                         >
                                             <img src={ex.url} alt={ex.label} className="w-full h-full object-cover" />
                                             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
@@ -428,63 +503,177 @@ export default function ModelPlayground() {
                     {/* Results Zone */}
                     <div className="flex flex-col">
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-semibold">Analysis Results</h3>
+                            <div className="flex items-center gap-2">
+                                <Scan className="w-5 h-5 text-primary" />
+                                <h3 className="text-lg font-semibold tracking-tight">Analysis Results</h3>
+                            </div>
                             {results.length > 0 && (
-                                <span className="text-xs text-primary font-mono bg-primary/10 px-2 py-1 rounded">
-                                    Confidence Score
-                                </span>
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    className="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20"
+                                >
+                                    <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                                    <span className="text-[10px] font-bold text-primary uppercase tracking-widest">
+                                        Live Feed Active
+                                    </span>
+                                </motion.div>
                             )}
                         </div>
 
-                        <div className="flex-1 bg-secondary/20 rounded-2xl p-6 border border-white/5 relative overflow-hidden">
+                        <div className="flex-1 bg-black/[0.03] dark:bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-black/10 dark:border-white/10 relative overflow-hidden group/results shadow-inner">
+                            {/* Decorative Corner Brackets */}
+                            <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary/40 dark:border-primary/30 rounded-tl-lg" />
+                            <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary/40 dark:border-primary/30 rounded-tr-lg" />
+                            <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary/40 dark:border-primary/30 rounded-bl-lg" />
+                            <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary/40 dark:border-primary/30 rounded-br-lg" />
+
+                            {/* Background Mesh Gradient (Subtle) */}
+                            <div className={cn(
+                                "absolute inset-0 opacity-10 transition-colors duration-1000",
+                                currentModel.bg
+                            )} style={{ filter: 'blur(100px)' }} />
+
                             <AnimatePresence mode="wait">
                                 {error ? (
                                     <motion.div
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        className="flex items-center gap-3 text-destructive"
+                                        initial={{ opacity: 0, scale: 0.95 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        className="flex flex-col items-center justify-center h-full text-center gap-4"
                                     >
-                                        <AlertCircle className="w-5 h-5" />
-                                        <span>{error}</span>
+                                        <div className="w-16 h-16 rounded-full bg-destructive/10 flex items-center justify-center">
+                                            <AlertCircle className="w-8 h-8 text-destructive" />
+                                        </div>
+                                        <div>
+                                            <h4 className="font-semibold text-destructive">Analysis Failed</h4>
+                                            <p className="text-sm text-muted-foreground max-w-[200px]">{error}</p>
+                                        </div>
+                                        <Button variant="outline" size="sm" onClick={() => setError(null)}>
+                                            Try Again
+                                        </Button>
                                     </motion.div>
                                 ) : results.length > 0 ? (
                                     <motion.div
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
-                                        className="space-y-6"
+                                        className="space-y-8 relative z-10"
                                     >
-                                        {results.map((result, index) => (
-                                            <motion.div
-                                                key={result.label}
-                                                initial={{ opacity: 0, x: -20 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                transition={{ delay: index * 0.1 }}
-                                            >
-                                                <div className="flex justify-between text-sm mb-2">
-                                                    <span className="font-medium capitalize">{result.label}</span>
-                                                    <span className="font-mono text-muted-foreground">{(result.probability * 100).toFixed(1)}%</span>
-                                                </div>
-                                                <div className="h-3 bg-secondary rounded-full overflow-hidden relative">
-                                                    <motion.div
-                                                        initial={{ width: 0 }}
-                                                        animate={{ width: `${result.probability * 100}%` }}
-                                                        transition={{ duration: 1, ease: 'easeOut' }}
-                                                        className={cn(
-                                                            "h-full rounded-full relative overflow-hidden",
-                                                            "bg-gradient-to-r", currentModel.color
-                                                        )}
-                                                    >
-                                                        <div className="absolute inset-0 bg-white/20 animate-[shimmer_2s_infinite]" />
-                                                    </motion.div>
-                                                </div>
-                                            </motion.div>
-                                        ))}
+                                        {results.map((result, index) => {
+                                            const isTop = index === 0;
+                                            const confidence = result.probability * 100;
+
+                                            let confidenceLabel = "Low Confidence";
+                                            let labelColor = "text-muted-foreground";
+                                            if (confidence > 80) {
+                                                confidenceLabel = "Strong Match";
+                                                labelColor = currentModel.accent;
+                                            } else if (confidence > 50) {
+                                                confidenceLabel = "Likely Match";
+                                                labelColor = "text-yellow-500";
+                                            }
+
+                                            return (
+                                                <motion.div
+                                                    key={result.label}
+                                                    initial={{ opacity: 0, x: -20, filter: 'blur(10px)' }}
+                                                    animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                                                    transition={{ delay: index * 0.15, duration: 0.5 }}
+                                                    className="relative"
+                                                >
+                                                    <div className="flex justify-between items-end mb-2.5">
+                                                        <div className="flex flex-col">
+                                                            <div className="flex items-center gap-2">
+                                                                {isTop && <div className={cn("w-1.5 h-1.5 rounded-full animate-ping", currentModel.color.split(' ')[0])} />}
+                                                                <span className={cn(
+                                                                    "font-bold tracking-tight capitalize transition-colors",
+                                                                    isTop ? "text-lg text-foreground" : "text-sm text-foreground/60 dark:text-muted-foreground"
+                                                                )}>
+                                                                    {result.label}
+                                                                </span>
+                                                            </div>
+                                                            <span className="text-[10px] uppercase tracking-widest font-extrabold opacity-60 dark:opacity-50">
+                                                                {isTop ? confidenceLabel : "Secondary Detection"}
+                                                            </span>
+                                                        </div>
+                                                        <div className="flex flex-col items-end">
+                                                            <span className={cn(
+                                                                "font-mono font-bold leading-none transition-all",
+                                                                isTop ? "text-2xl text-foreground" : "text-sm text-foreground/70 dark:text-muted-foreground"
+                                                            )}>
+                                                                {confidence.toFixed(1)}<span className="text-[0.6em] opacity-60 ml-0.5">%</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="h-4 bg-black/[0.05] dark:bg-black/40 rounded-full overflow-hidden relative border border-black/10 dark:border-white/10 p-[1px]">
+                                                        {/* Progress Bar background track pattern */}
+                                                        <div className="absolute inset-0 opacity-[0.1] dark:opacity-[0.05] bg-[radial-gradient(circle,currentColor_1px,transparent_1px)] bg-[size:4px_4px]" />
+
+                                                        <motion.div
+                                                            initial={{ width: 0 }}
+                                                            animate={{ width: `${confidence}%` }}
+                                                            transition={{ duration: 1.5, ease: [0.34, 1.56, 0.64, 1] }}
+                                                            className={cn(
+                                                                "h-full rounded-full relative overflow-hidden flex items-center",
+                                                                "bg-gradient-to-r shadow-[0_0_20px_rgba(var(--primary),0.3)]",
+                                                                currentModel.color
+                                                            )}
+                                                        >
+                                                            {/* Inner glass highlight */}
+                                                            <div className="absolute inset-0 bg-white/20 dark:bg-white/10" />
+
+                                                            {/* Animated Sweep Effect */}
+                                                            <motion.div
+                                                                className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/40 dark:via-white/30 to-transparent skew-x-12"
+                                                                animate={{ x: ['-100%', '250%'] }}
+                                                                transition={{ duration: 2, repeat: Infinity, ease: "linear", repeatDelay: 1 }}
+                                                            />
+
+                                                            {/* Terminal indicator at the end of progress */}
+                                                            <div className="absolute right-0 h-full w-1 bg-white/40 shadow-[0_0_8px_white]" />
+                                                        </motion.div>
+                                                    </div>
+
+                                                    {/* HUD Decoration below bar */}
+                                                    <div className="flex justify-between items-center mt-1 px-1">
+                                                        <div className="flex gap-1">
+                                                            {[1, 2, 3, 4, 5].map(i => (
+                                                                <div key={i} className={cn(
+                                                                    "w-1 h-0.5 rounded-full",
+                                                                    confidence > (i * 20) ? "bg-primary/70 dark:bg-primary/60" : "bg-black/10 dark:bg-primary/10"
+                                                                )} />
+                                                            ))}
+                                                        </div>
+                                                        <span className="text-[8px] font-mono text-foreground/40 dark:text-muted-foreground/50">HEX_SIGNAL_STRENGTH</span>
+                                                    </div>
+                                                </motion.div>
+                                            );
+                                        })}
                                     </motion.div>
                                 ) : (
-                                    <div className="flex flex-col items-center justify-center h-full text-muted-foreground/50 text-sm italic">
-                                        <Scan className="w-12 h-12 mb-4 opacity-20" />
-                                        <p>No analysis performed yet.</p>
-                                        <p>Upload an image and click "Analyze" to see results.</p>
+                                    <div className="flex flex-col items-center justify-center h-full text-muted-foreground text-center">
+                                        <div className="relative mb-6">
+                                            <Scan className="w-16 h-16 opacity-30 dark:opacity-50 animate-[pulse_3s_infinite]" />
+                                            <motion.div
+                                                className="absolute inset-0 border-2 border-primary/30 rounded-xl"
+                                                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0, 0.3] }}
+                                                transition={{ duration: 3, repeat: Infinity }}
+                                            />
+                                        </div>
+                                        <h4 className="text-sm font-semibold uppercase tracking-widest mb-1 text-foreground/80">System Idle</h4>
+                                        <p className="text-xs max-w-[180px] opacity-70">Initialize neural network by providing visual input data</p>
+
+                                        {/* Status Indicators */}
+                                        <div className="mt-8 grid grid-cols-2 gap-4 w-full px-4">
+                                            <div className="flex flex-col items-center gap-1 border border-primary/10 rounded-lg p-2 bg-primary/5 backdrop-blur-sm">
+                                                <span className="text-[9px] uppercase tracking-tighter font-bold text-muted-foreground/80">Link State</span>
+                                                <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold">STABLE</span>
+                                            </div>
+                                            <div className="flex flex-col items-center gap-1 border border-primary/10 rounded-lg p-2 bg-primary/5 backdrop-blur-sm">
+                                                <span className="text-[9px] uppercase tracking-tighter font-bold text-muted-foreground/80">Kernel</span>
+                                                <span className="text-[10px] font-mono text-blue-600 dark:text-blue-400 font-bold">LITENET_V2</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 )}
                             </AnimatePresence>

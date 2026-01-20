@@ -34,7 +34,7 @@ export default function HeroSection() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
           >
-            <span className="gradient-text">LiteNeT</span>
+            <span className="text-foreground">Lite</span><span className="gradient-text">NeT</span>
             <br />
             <span className="text-foreground">Custom CNN Models for</span>
             <br />
@@ -48,8 +48,8 @@ export default function HeroSection() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
           >
-            Two lightweight CNNs trained from scratch and deployed for real-time inference.
-            Experience the power of deep learning in your browser.
+            Two lightweight CNNs implemented from scratch.
+            Experience the power of deep learning running directly in your browser.
           </motion.p>
 
           {/* CTA Buttons */}

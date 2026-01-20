@@ -6,7 +6,7 @@ import NeuralNetwork3D from '@/components/NeuralNetwork3D';
 export default function NeuralNetworkPage() {
   return (
     <PageTransition>
-      <div className="h-screen pt-16 pb-4 bg-black relative overflow-hidden flex flex-col">
+      <div className="h-screen pt-24 pb-4 bg-black relative overflow-hidden flex flex-col">
 
         {/* Cinematic Background */}
         <div className="absolute inset-0 pointer-events-none">

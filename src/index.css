@@ -160,6 +160,23 @@
   .page-description {
     @apply text-muted-foreground text-lg max-w-2xl mx-auto;
   }
+
+  .architecture-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .architecture-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .architecture-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.2);
+    border-radius: 3px;
+  }
+
+  .architecture-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.3);
+  }
 }
 
 @layer utilities {

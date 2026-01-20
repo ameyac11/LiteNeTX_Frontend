@@ -9,7 +9,7 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
-  const isNeuralNetworkPage = location.pathname === '/neural-network';
+  const isNeuralNetworkPage = location.pathname === '/3d-nn';
 
   return (
     <div className="min-h-screen bg-background flex flex-col">

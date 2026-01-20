@@ -41,7 +41,7 @@ const comparisonData = [
   { property: 'Dataset', fashion: 'FashionMNIST', cifar: 'CIFAR-10' },
   { property: 'Input Shape', fashion: '28×28 (1 channel)', cifar: '32×32 (3 channels)' },
   { property: 'Architecture Type', fashion: 'Standard CNN', cifar: 'ResNet-like' },
-  { property: 'Model Size', fashion: '< 1 MB', cifar: '< 2 MB' },
+  { property: 'Model Size', fashion: '26 MB', cifar: '42 MB' },
   { property: 'Inference Time', fashion: '~15ms', cifar: '~35ms' },
   { property: 'Training Epochs', fashion: '50', cifar: '100+' },
 ];

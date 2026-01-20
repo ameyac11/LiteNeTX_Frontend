@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <PageTransition>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col justify-center pt-20 pb-32">
+      <section className="relative min-h-[90vh] flex flex-col justify-center pt-24 pb-6">
 
         {/* Background Effects */}
         <div className="absolute inset-0 -z-20 bg-background" />
@@ -24,11 +24,11 @@ export default function Home() {
           <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-[128px]" />
         </div>
 
-        <div className="container-custom relative z-10">
+        <div className="container-custom relative z-10 flex-1 flex flex-col justify-center">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
 
             {/* Left Column: Content */}
-            <div className="text-left space-y-8">
+            <div className="text-left space-y-6">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -42,12 +42,12 @@ export default function Home() {
                   PyTorch x React Inference Engine
                 </div>
 
-                <h1 className="text-6xl md:text-8xl font-bold tracking-tighter leading-tight mb-4">
-                  Lite<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">NeT</span>
+                <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-tight mb-3">
+                  <span className="text-foreground">Lite</span><span className="gradient-text">NeT</span>
                 </h1>
 
-                <p className="text-xl md:text-2xl text-muted-foreground max-w-lg leading-relaxed">
-                  Next-generation neural networks running directly in your browser.
+                <p className="text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed">
+                  Advanced neural networks running directly in your browser.
                   Experience <span className="text-foreground font-semibold">real-time classification</span> with zero setup.
                 </p>
               </motion.div>
@@ -58,15 +58,15 @@ export default function Home() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="flex flex-wrap gap-4"
               >
-                <Button asChild size="lg" className="h-14 px-8 text-lg rounded-full bg-primary hover:bg-primary/90 shadow-[0_0_30px_-10px_rgba(59,130,246,0.5)] transition-all hover:scale-105">
+                <Button asChild size="lg" className="h-12 px-7 text-base rounded-full bg-primary hover:bg-primary/90 shadow-[0_0_20px_-5px_rgba(59,130,246,0.4)] transition-all hover:scale-105">
                   <Link to="/demos">
                     Launch Studio
-                    <ArrowRight className="ml-2 w-5 h-5" />
+                    <ArrowRight className="ml-2 w-4 h-4" />
                   </Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full hover:bg-white/5 transition-all">
-                  <Link to="/architecture">
-                    View Blueprint
+                <Button asChild size="lg" variant="outline" className="h-12 px-7 text-base rounded-full hover:bg-white/5 transition-all">
+                  <Link to="/3d-nn">
+                    Explore 3D NN
                   </Link>
                 </Button>
               </motion.div>
@@ -77,41 +77,49 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
-              className="relative hidden lg:block h-[500px]"
+              className="relative h-[350px] lg:h-[500px] shadow-[0_0_50px_-12px_rgba(59,130,246,0.3)]"
             >
-              <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent rounded-3xl border border-white/5 backdrop-blur-sm p-8 overflow-hidden">
-                {/* Abstract Neural Web Visualization */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-gradient-to-tr from-primary/30 to-purple-500/20 rounded-full blur-[64px] animate-pulse" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-primary/5 to-transparent rounded-3xl border border-white/10 backdrop-blur-sm p-4 lg:p-8 overflow-hidden">
+                {/* Neural Network Background Image */}
+                <div className="absolute inset-0">
+                  <img
+                    src="/Home_background_card.jpg"
+                    alt="Neural Network"
+                    className="w-full h-full object-cover opacity-80"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+                </div>
 
-                {/* "Floating" Elements */}
+
+                {/* \"Floating\" Elements */}
                 <motion.div
                   animate={{ y: [0, -20, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute top-20 right-20 p-4 glass-card rounded-2xl border-white/10 shadow-xl"
+                  className="absolute top-4 right-4 lg:top-20 lg:right-20 p-3 lg:p-4 glass-card rounded-2xl border-white/10 shadow-xl"
                 >
-                  <Flame className="w-8 h-8 text-orange-500 mb-2" />
+                  <Flame className="w-6 h-6 lg:w-8 lg:h-8 text-orange-500 mb-2" />
                   <div className="text-xs text-muted-foreground">Backend</div>
-                  <div className="font-bold">FastAPI</div>
+                  <div className="font-bold text-sm lg:text-base">FastAPI</div>
                 </motion.div>
 
                 <motion.div
                   animate={{ y: [0, 15, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute bottom-32 left-10 p-4 glass-card rounded-2xl border-white/10 shadow-xl"
+                  className="absolute bottom-4 left-4 lg:bottom-32 lg:left-10 p-3 lg:p-4 glass-card rounded-2xl border-white/10 shadow-xl"
                 >
-                  <Server className="w-8 h-8 text-blue-500 mb-2" />
+                  <Server className="w-6 h-6 lg:w-8 lg:h-8 text-blue-500 mb-2" />
                   <div className="text-xs text-muted-foreground">Model Size</div>
-                  <div className="font-bold">&lt; 2 MB</div>
+                  <div className="font-bold text-sm lg:text-base">26-42 MB</div>
                 </motion.div>
 
                 <motion.div
                   animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                  className="absolute bottom-20 right-10 p-4 glass-card rounded-2xl border-white/10 shadow-xl"
+                  className="absolute bottom-4 right-4 lg:bottom-20 lg:right-10 p-3 lg:p-4 glass-card rounded-2xl border-white/10 shadow-xl"
                 >
-                  <Database className="w-8 h-8 text-emerald-500 mb-2" />
+                  <Database className="w-6 h-6 lg:w-8 lg:h-8 text-emerald-500 mb-2" />
                   <div className="text-xs text-muted-foreground">Training</div>
-                  <div className="font-bold">PyTorch</div>
+                  <div className="font-bold text-sm lg:text-base">PyTorch</div>
                 </motion.div>
               </div>
             </motion.div>
@@ -119,22 +127,40 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Floating Stats Dock - Positioned at bottom but part of flow now thanks to padding-bottom on section */}
+        {/* Stats Section - Cards on mobile, horizontal bar on desktop */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="absolute bottom-10 left-0 right-0 flex justify-center px-4 pointer-events-none"
+          className="container-custom relative z-10 mt-4 px-4"
         >
-          <div className="glass-card px-8 py-4 rounded-full border border-white/10 shadow-2xl flex items-center gap-12 overflow-x-auto max-w-[90vw] pointer-events-auto">
+          {/* Mobile: Grid of Cards */}
+          <div className="grid grid-cols-2 gap-3 w-full max-w-md mx-auto lg:hidden">
             {stats.map((stat, i) => (
-              <div key={i} className="flex items-center gap-3 shrink-0">
-                <div className="p-2 rounded-full bg-primary/10 text-primary">
-                  <stat.icon className="w-5 h-5" />
+              <div key={i} className="glass-card p-4 rounded-2xl border border-white/10 shadow-xl">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-full bg-primary/10 text-primary">
+                    <stat.icon className="w-5 h-5" />
+                  </div>
+                  <div className="text-left">
+                    <div className="text-lg font-bold leading-none">{stat.value}</div>
+                    <div className="text-xs text-muted-foreground uppercase tracking-wider">{stat.label}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: Horizontal Bar */}
+          <div className="hidden lg:flex glass-card px-6 py-3 rounded-full border border-white/10 shadow-2xl items-center gap-10 mx-auto w-fit">
+            {stats.map((stat, i) => (
+              <div key={i} className="flex items-center gap-2.5 shrink-0">
+                <div className="p-1.5 rounded-full bg-primary/10 text-primary">
+                  <stat.icon className="w-4 h-4" />
                 </div>
                 <div className="text-left">
-                  <div className="text-lg font-bold leading-none">{stat.value}</div>
-                  <div className="text-xs text-muted-foreground uppercase tracking-wider">{stat.label}</div>
+                  <div className="text-base font-bold leading-none">{stat.value}</div>
+                  <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{stat.label}</div>
                 </div>
               </div>
             ))}

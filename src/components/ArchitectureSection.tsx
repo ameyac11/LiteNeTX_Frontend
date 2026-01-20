@@ -1,220 +1,174 @@
 import { motion } from 'framer-motion';
-import { Shirt, ImageIcon } from 'lucide-react';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
+import { Shirt, ImageIcon, ChevronRight, Cpu, Database } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
-const fashionArchitecture = {
-  name: 'LiteGrayCNN',
-  layers: [
-    { name: 'Input', type: 'Input', shape: '1 × 28 × 28', description: 'Grayscale image' },
-    { name: 'conv1', type: 'Conv2d', shape: '32 × 28 × 28', description: '1→32, kernel=3, padding=1' },
-    { name: 'ReLU', type: 'Activation', shape: '32 × 28 × 28', description: 'Non-linearity' },
-    { name: 'conv2', type: 'Conv2d', shape: '64 × 28 × 28', description: '32→64, kernel=3, padding=1' },
-    { name: 'ReLU', type: 'Activation', shape: '64 × 28 × 28', description: 'Non-linearity' },
-    { name: 'MaxPool2d', type: 'Pooling', shape: '64 × 14 × 14', description: '2×2 pooling, stride=2' },
-    { name: 'Flatten', type: 'Reshape', shape: '12544', description: '64 × 14 × 14 = 12544' },
-    { name: 'fc1', type: 'Linear', shape: '4096', description: '12544 → 4096' },
-    { name: 'fc2', type: 'Linear', shape: '2048', description: '4096 → 2048' },
-    { name: 'fc3', type: 'Linear', shape: '1024', description: '2048 → 1024' },
-    { name: 'fc4', type: 'Linear', shape: '10', description: '1024 → 10 (output)' },
-  ],
-  training: [
-    'Data augmentation: Random horizontal flip, rotation',
-    'Optimizer: Adam with weight decay',
-    'Learning rate: Cosine annealing scheduler',
-    'Checkpoint: best_model.pth saved on validation improvement',
-    'Early stopping based on validation loss',
-  ],
-};
+// --- Data Structures matching backend models ---
 
-const cifarArchitecture = {
-  name: 'LiteRGBCNN (ResNet-like)',
-  layers: [
-    { name: 'Input', type: 'Input', shape: '3 × 32 × 32', description: 'RGB image' },
-    { name: 'conv1', type: 'Conv2d', shape: '64 × 32 × 32', description: '3→64, kernel=3, padding=1' },
-    { name: 'bn1', type: 'BatchNorm2d', shape: '64 × 32 × 32', description: 'Batch normalization' },
-    { name: 'ReLU', type: 'Activation', shape: '64 × 32 × 32', description: 'Non-linearity' },
-    { name: 'layer1', type: 'ResidualBlock ×2', shape: '64 × 32 × 32', description: '64→64, identity shortcut' },
-    { name: 'layer2', type: 'ResidualBlock ×2', shape: '128 × 16 × 16', description: '64→128, stride=2, conv shortcut' },
-    { name: 'layer3', type: 'ResidualBlock ×2', shape: '256 × 8 × 8', description: '128→256, stride=2, conv shortcut' },
-    { name: 'layer4', type: 'ResidualBlock ×2', shape: '512 × 4 × 4', description: '256→512, stride=2, conv shortcut' },
-    { name: 'AdaptiveAvgPool', type: 'Pooling', shape: '512 × 1 × 1', description: 'Global average pooling' },
-    { name: 'Dropout', type: 'Regularization', shape: '512', description: 'p=0.5' },
-    { name: 'fc', type: 'Linear', shape: '10', description: '512 → 10 (output)' },
-  ],
-  residualBlock: [
-    'Main path: Conv2d(3×3) → BN → ReLU → Conv2d(3×3) → BN',
-    'Shortcut: Identity OR Conv2d(1×1) + BN (if stride≠1 or channels change)',
-    'Output: Main + Shortcut → ReLU',
-  ],
-  training: [
-    'Data augmentation: Random crop, horizontal flip, color jitter',
-    'Optimizer: SGD with momentum + weight decay',
-    'Learning rate: Step decay scheduler',
-    'Checkpoint: best_model_cifar.pth saved on validation improvement',
-    'Dropout for regularization',
-  ],
-};
+const architectures = [
+  {
+    id: 'fashion',
+    name: 'LiteGrayCNN',
+    subtitle: 'Fashion-MNIST Classifier',
+    version: 'v1.0.0',
+    icon: Shirt,
+    accentColor: 'text-blue-400',
+    borderColor: 'border-blue-500/20',
+    bgGradient: 'from-blue-500/5 to-blue-600/10',
+    params: '6.5M',
+    accuracy: '98.2%',
+    layers: [
+      { name: 'Input', type: 'Input', shape: '1×28×28', description: 'Grayscale image' },
+      { name: 'conv1', type: 'Conv2d', shape: '32×28×28', description: '1→32, kernel=3, padding=1' },
+      { name: 'ReLU', type: 'Activation', shape: '32×28×28', description: 'Non-linearity' },
+      { name: 'conv2', type: 'Conv2d', shape: '64×28×28', description: '32→64, kernel=3, padding=1' },
+      { name: 'ReLU', type: 'Activation', shape: '64×28×28', description: 'Non-linearity' },
+      { name: 'MaxPool2d', type: 'Pooling', shape: '64×14×14', description: '2×2, stride=2' },
+      { name: 'Flatten', type: 'Reshape', shape: '12544', description: '64×14×14 → 12544' },
+      { name: 'fc1', type: 'Linear', shape: '512', description: '12544 → 512' },
+      { name: 'ReLU', type: 'Activation', shape: '512', description: 'Non-linearity' },
+      { name: 'fc2', type: 'Linear', shape: '128', description: '512 → 128' },
+      { name: 'ReLU', type: 'Activation', shape: '128', description: 'Non-linearity' },
+      { name: 'fc3', type: 'Linear', shape: '10', description: '128 → 10 classes' },
+    ]
+  },
+  {
+    id: 'cifar',
+    name: 'LiteRGBCNN',
+    subtitle: 'CIFAR-10 ResNet Classifier',
+    version: 'ResNet',
+    icon: ImageIcon,
+    accentColor: 'text-emerald-400',
+    borderColor: 'border-emerald-500/20',
+    bgGradient: 'from-emerald-500/5 to-emerald-600/10',
+    params: '11.2M',
+    accuracy: '95.8%',
+    layers: [
+      { name: 'Input', type: 'Input', shape: '3×32×32', description: 'RGB image' },
+      { name: 'conv1', type: 'Conv2d', shape: '64×32×32', description: '3→64, kernel=3, padding=1' },
+      { name: 'bn1', type: 'BatchNorm2d', shape: '64×32×32', description: 'Batch normalization' },
+      { name: 'ReLU', type: 'Activation', shape: '64×32×32', description: 'Non-linearity' },
+      { name: 'layer1', type: 'ResBlock×2', shape: '64×32×32', description: '64→64, identity shortcut' },
+      { name: 'layer2', type: 'ResBlock×2', shape: '128×16×16', description: '64→128, stride=2' },
+      { name: 'layer3', type: 'ResBlock×2', shape: '256×8×8', description: '128→256, stride=2' },
+      { name: 'AvgPool', type: 'Pooling', shape: '256×1×1', description: 'Global average pooling' },
+      { name: 'fc', type: 'Linear', shape: '10', description: '256 → 10 classes' },
+    ]
+  }
+];
 
 export default function ArchitectureSection() {
   return (
-    <section id="architecture" className="section-padding">
-      <div className="container-custom">
-        {/* Section Header */}
+    <section id="architecture" className="section-padding pt-32 relative overflow-hidden">
+      {/* Subtle gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
+
+      <div className="container-custom relative z-10">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Model Architecture</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Detailed breakdown of both CNN architectures with layer-by-layer specifications
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-sm font-medium mb-6">
+            <Cpu className="w-4 h-4" />
+            <span>Model Architecture</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
+            Neural Network <span className="gradient-text">Schematics</span>
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Layer-by-layer breakdown of our custom CNN architectures built from scratch
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Fashion Architecture */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="glass-card rounded-2xl overflow-hidden"
-          >
-            <div className="gradient-bg p-6">
-              <div className="flex items-center gap-3">
-                <Shirt className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-bold text-foreground">{fashionArchitecture.name}</h3>
-              </div>
-              <p className="text-muted-foreground text-sm mt-1">FashionMNIST Classification</p>
-            </div>
-
-            <div className="p-6">
-              {/* Layer Breakdown */}
-              <div className="space-y-3 mb-6">
-                {fashionArchitecture.layers.map((layer, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors"
-                  >
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
-                      {index + 1}
+        {/* Architecture Cards */}
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+          {architectures.map((arch, index) => (
+            <motion.div
+              key={arch.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className={`group relative rounded-3xl border ${arch.borderColor} bg-gradient-to-br ${arch.bgGradient} backdrop-blur-sm overflow-hidden hover:border-opacity-40 transition-all duration-300`}
+            >
+              {/* Card Header */}
+              <div className="p-8 pb-6 border-b border-white/5">
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex items-center gap-4">
+                    <div className={`p-3 rounded-2xl bg-black/40 ${arch.accentColor} group-hover:scale-110 transition-transform duration-300`}>
+                      <arch.icon className="w-6 h-6" />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="font-medium truncate">{layer.name}</span>
-                        <span className="text-xs font-mono text-muted-foreground bg-background px-2 py-0.5 rounded">
-                          {layer.shape}
-                        </span>
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-0.5">{layer.description}</p>
+                    <div>
+                      <h3 className="text-2xl font-bold tracking-tight mb-1">{arch.name}</h3>
+                      <p className="text-sm text-muted-foreground">{arch.subtitle}</p>
                     </div>
                   </div>
-                ))}
-              </div>
+                  <Badge variant="outline" className={`${arch.accentColor} border-current font-mono text-xs`}>
+                    {arch.version}
+                  </Badge>
+                </div>
 
-              {/* Training Features Accordion */}
-              <Accordion type="single" collapsible>
-                <AccordionItem value="training">
-                  <AccordionTrigger className="text-sm font-semibold">
-                    Training Features
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <ul className="space-y-2">
-                      {fashionArchitecture.training.map((feature, index) => (
-                        <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
-          </motion.div>
-
-          {/* CIFAR Architecture */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="glass-card rounded-2xl overflow-hidden"
-          >
-            <div className="bg-gradient-to-r from-emerald-500 to-teal-500 p-6">
-              <div className="flex items-center gap-3">
-                <ImageIcon className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-bold text-foreground">{cifarArchitecture.name}</h3>
-              </div>
-              <p className="text-muted-foreground text-sm mt-1">CIFAR-10 Classification</p>
-            </div>
-
-            <div className="p-6">
-              {/* Layer Breakdown */}
-              <div className="space-y-3 mb-6">
-                {cifarArchitecture.layers.map((layer, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors"
-                  >
-                    <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                      {index + 1}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="font-medium truncate">{layer.name}</span>
-                        <span className="text-xs font-mono text-muted-foreground bg-background px-2 py-0.5 rounded">
-                          {layer.shape}
-                        </span>
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-0.5">{layer.description}</p>
-                    </div>
+                {/* Stats */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 rounded-xl bg-black/20 border border-white/5">
+                    <div className="text-xs text-muted-foreground mb-1">Parameters</div>
+                    <div className={`text-lg font-bold font-mono ${arch.accentColor}`}>{arch.params}</div>
                   </div>
-                ))}
+                  <div className="p-3 rounded-xl bg-black/20 border border-white/5">
+                    <div className="text-xs text-muted-foreground mb-1">Accuracy</div>
+                    <div className={`text-lg font-bold font-mono ${arch.accentColor}`}>{arch.accuracy}</div>
+                  </div>
+                </div>
               </div>
 
-              {/* Residual Block & Training Accordions */}
-              <Accordion type="single" collapsible>
-                <AccordionItem value="residual">
-                  <AccordionTrigger className="text-sm font-semibold">
-                    Residual Block Structure
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <ul className="space-y-2">
-                      {cifarArchitecture.residualBlock.map((item, index) => (
-                        <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 shrink-0" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="training">
-                  <AccordionTrigger className="text-sm font-semibold">
-                    Training Features
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <ul className="space-y-2">
-                      {cifarArchitecture.training.map((feature, index) => (
-                        <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
-          </motion.div>
+              {/* Layers */}
+              <div className="p-8 pt-6 max-h-[600px] overflow-y-auto architecture-scrollbar">
+                <div className="space-y-2">
+                  {arch.layers.map((layer, idx) => (
+                    <div
+                      key={idx}
+                      className="group/layer flex items-start gap-4 p-4 rounded-xl bg-black/20 hover:bg-black/30 border border-white/5 hover:border-white/10 transition-all duration-200"
+                    >
+                      {/* Layer Number */}
+                      <div className={`flex-shrink-0 w-8 h-8 rounded-lg ${arch.accentColor} bg-current/10 flex items-center justify-center text-xs font-bold`}>
+                        {idx.toString().padStart(2, '0')}
+                      </div>
+
+                      {/* Layer Info */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <span className={`font-semibold ${arch.accentColor}`}>{layer.name}</span>
+                          <ChevronRight className="w-3 h-3 text-muted-foreground" />
+                          <Badge variant="secondary" className="text-[10px] bg-white/5">
+                            {layer.type}
+                          </Badge>
+                        </div>
+                        <div className="font-mono text-xs text-muted-foreground mb-1">
+                          {layer.shape}
+                        </div>
+                        <div className="text-xs text-muted-foreground/70">
+                          {layer.description}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className={`p-6 border-t border-white/5 bg-black/20 flex items-center justify-between`}>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <Database className="w-3.5 h-3.5" />
+                  <span className="font-mono">PyTorch Implementation</span>
+                </div>
+                <div className="text-xs text-muted-foreground font-mono">
+                  CPU Inference
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

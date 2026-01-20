@@ -18,6 +18,24 @@ export default function Contact() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Security: Validate origin to prevent unauthorized form submissions
+        const allowedOrigins = [
+            'https://litenet.vercel.app'
+        ];
+
+        const currentOrigin = window.location.origin;
+
+        // In production, only allow litenet.vercel.app
+        if (import.meta.env.PROD && !currentOrigin.includes('litenet.vercel.app')) {
+            toast({
+                title: 'Access Denied',
+                description: 'This form can only be used from the official LiteNeT website.',
+                variant: 'destructive',
+            });
+            return;
+        }
+
         setIsSubmitting(true);
 
         try {
@@ -40,6 +58,8 @@ export default function Contact() {
                     email: formData.email,
                     message: formData.message,
                     botcheck: '',
+                    // Add origin information for additional security tracking
+                    _origin: currentOrigin,
                 }),
             });
 
@@ -83,10 +103,10 @@ export default function Contact() {
                         transition={{ duration: 0.6 }}
                         className="text-center mb-12"
                     >
-                        <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-4 text-white">
+                        <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-4 text-foreground">
                             Get In Touch
                         </h1>
-                        <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto">
+                        <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
                             Have a question or want to work together? Feel free to reach out.
                         </p>
                     </motion.div>
@@ -97,11 +117,11 @@ export default function Contact() {
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.6, delay: 0.2 }}
-                            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 md:p-8"
+                            className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-lg p-6 md:p-8"
                         >
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div className="space-y-2">
-                                    <Label htmlFor="name" className="text-sm font-medium text-gray-300">
+                                    <Label htmlFor="name" className="text-sm font-medium text-foreground">
                                         Name
                                     </Label>
                                     <Input
@@ -111,12 +131,12 @@ export default function Contact() {
                                         onChange={handleChange}
                                         required
                                         placeholder="Your name"
-                                        className="bg-white/5 border-white/20 text-white placeholder:text-gray-500 focus-visible:border-white/40 focus-visible:ring-1 focus-visible:ring-white/20 h-11"
+                                        className="bg-background/50 border-input text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary h-11"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="email" className="text-sm font-medium text-gray-300">
+                                    <Label htmlFor="email" className="text-sm font-medium text-foreground">
                                         Email
                                     </Label>
                                     <Input
@@ -127,12 +147,12 @@ export default function Contact() {
                                         onChange={handleChange}
                                         required
                                         placeholder="your.email@example.com"
-                                        className="bg-white/5 border-white/20 text-white placeholder:text-gray-500 focus-visible:border-white/40 focus-visible:ring-1 focus-visible:ring-white/20 h-11"
+                                        className="bg-background/50 border-input text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary h-11"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="message" className="text-sm font-medium text-gray-300">
+                                    <Label htmlFor="message" className="text-sm font-medium text-foreground">
                                         Message
                                     </Label>
                                     <Textarea
@@ -143,14 +163,14 @@ export default function Contact() {
                                         required
                                         rows={5}
                                         placeholder="Tell me about your project or inquiry..."
-                                        className="bg-white/5 border-white/20 text-white placeholder:text-gray-500 focus-visible:border-white/40 focus-visible:ring-1 focus-visible:ring-white/20 resize-none"
+                                        className="bg-background/50 border-input text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary resize-none"
                                     />
                                 </div>
 
                                 <Button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="w-full h-11 bg-white text-black hover:bg-gray-200 font-medium transition-all duration-200"
+                                    className="w-full h-11 bg-primary text-primary-foreground hover:bg-primary/90 font-medium transition-all duration-200"
                                 >
                                     {isSubmitting ? (
                                         <>
@@ -175,16 +195,16 @@ export default function Contact() {
                             className="space-y-8"
                         >
                             {/* Email Section */}
-                            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 hover:border-white/20 transition-colors">
+                            <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-lg p-6 hover:border-border transition-colors">
                                 <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <Mail className="w-6 h-6 text-white" />
+                                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <Mail className="w-6 h-6 text-primary" />
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-sm font-medium text-gray-400 mb-2">Email</h3>
+                                        <h3 className="text-sm font-medium text-muted-foreground mb-2">Email</h3>
                                         <a
                                             href="mailto:ameyaccod171@gmail.com"
-                                            className="text-white hover:text-gray-300 transition-colors text-base font-medium break-all"
+                                            className="text-foreground hover:text-primary transition-colors text-base font-medium break-all"
                                         >
                                             ameyaccod171@gmail.com
                                         </a>
@@ -193,31 +213,31 @@ export default function Contact() {
                             </div>
 
                             {/* Social Links Section */}
-                            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6">
-                                <h3 className="text-sm font-medium text-gray-400 mb-4">Connect With Me</h3>
+                            <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-lg p-6">
+                                <h3 className="text-sm font-medium text-muted-foreground mb-4">Connect With Me</h3>
                                 <div className="flex gap-3">
                                     <a
                                         href="https://github.com/AmeyC171"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center justify-center w-12 h-12 bg-white/10 hover:bg-white/15 border border-white/10 hover:border-white/20 rounded-lg transition-all"
+                                        className="flex items-center justify-center w-12 h-12 bg-background/50 hover:bg-accent border border-border hover:border-border/80 rounded-lg transition-all"
                                     >
-                                        <Github className="w-5 h-5 text-white" />
+                                        <Github className="w-5 h-5 text-foreground" />
                                     </a>
                                     <a
                                         href="https://www.linkedin.com/in/ameya-chopade11"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center justify-center w-12 h-12 bg-white/10 hover:bg-white/15 border border-white/10 hover:border-white/20 rounded-lg transition-all"
+                                        className="flex items-center justify-center w-12 h-12 bg-background/50 hover:bg-accent border border-border hover:border-border/80 rounded-lg transition-all"
                                     >
-                                        <Linkedin className="w-5 h-5 text-white" />
+                                        <Linkedin className="w-5 h-5 text-foreground" />
                                     </a>
                                 </div>
                             </div>
 
                             {/* Optional Info Box */}
-                            <div className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10 rounded-lg p-6">
-                                <p className="text-sm text-gray-400 leading-relaxed">
+                            <div className="bg-gradient-to-br from-card/50 to-background/50 backdrop-blur-sm border border-border/50 rounded-lg p-6">
+                                <p className="text-sm text-muted-foreground leading-relaxed">
                                     I typically respond within 24-48 hours. For urgent inquiries, feel free to reach out via LinkedIn.
                                 </p>
                             </div>
