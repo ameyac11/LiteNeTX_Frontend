@@ -47,7 +47,7 @@ export default function Home() {
                 </h1>
 
                 <p className="text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed">
-                  Advanced neural networks running directly in your browser.
+                  Custom-built CNN from scratch running directly in your browser.
                   Experience <span className="text-foreground font-semibold">real-time classification</span> with zero setup.
                 </p>
               </motion.div>
