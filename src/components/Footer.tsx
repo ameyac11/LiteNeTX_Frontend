@@ -10,13 +10,13 @@ export default function Footer() {
           {/* Logo - Left */}
           <Link to="/" className="flex items-center gap-2 order-1 md:order-1">
             <span className="text-lg font-bold">
-              Lite<span className="gradient-text">NeT</span>
+              Lite<span className="gradient-text">NeTX</span>
             </span>
           </Link>
 
           {/* Copyright - Center */}
           <div className="text-xs text-muted-foreground/60 order-3 md:order-2 text-center">
-            <p>© {new Date().getFullYear()} LiteNeT • Built with PyTorch, FastAPI & React</p>
+            <p>© {new Date().getFullYear()} LiteNeTX • Built with PyTorch, FastAPI & React</p>
           </div>
 
           {/* Social - Right */}

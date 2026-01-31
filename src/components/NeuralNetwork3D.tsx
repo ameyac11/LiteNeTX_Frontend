@@ -21,7 +21,7 @@ import * as THREE from 'three';
 const MODEL_CONFIG = {
   fashion: {
     id: 'fashion',
-    name: 'LiteNet-Fashion',
+    name: 'LiteNeTX-Fashion',
     type: 'LiteGrayCNN',
     description: 'Optimized for high-speed classification of 28x28 grayscale fashion items.',
     layers: [
@@ -40,7 +40,7 @@ const MODEL_CONFIG = {
   },
   cifar: {
     id: 'cifar',
-    name: 'LiteNet-CIFAR',
+    name: 'LiteNeTX-CIFAR',
     type: 'ResNet-like',
     description: 'Deep Residual Network specialized for 32x32 RGB object recognition.',
     layers: [
@@ -407,8 +407,8 @@ export default function NeuralNetwork3D() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="bg-card backdrop-blur-xl border-border">
-              <SelectItem value="fashion">LiteNet-Fashion</SelectItem>
-              <SelectItem value="cifar">LiteNet-CIFAR</SelectItem>
+              <SelectItem value="fashion">LiteNeTX-Fashion</SelectItem>
+              <SelectItem value="cifar">LiteNeTX-CIFAR</SelectItem>
             </SelectContent>
           </Select>
         </div>

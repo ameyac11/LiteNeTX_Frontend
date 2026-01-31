@@ -21,7 +21,7 @@ type ModelType = 'fashion' | 'cifar';
 const MODELS = {
     fashion: {
         id: 'fashion',
-        name: 'LiteNet-Fashion',
+        name: 'LiteNeTX-Fashion',
         shortName: 'Fashion',
         description: 'Classify grayscale clothing items',
         endpoint: '/predict/fashion',
@@ -36,7 +36,7 @@ const MODELS = {
     },
     cifar: {
         id: 'cifar',
-        name: 'LiteNet-CIFAR',
+        name: 'LiteNeTX-CIFAR',
         shortName: 'CIFAR-10',
         description: 'Classify common objects in RGB',
         endpoint: '/predict/cifar',
@@ -404,7 +404,7 @@ export default function ModelPlayground() {
                                                                 ease: "linear"
                                                             }}
                                                         >
-                                                            <div className="h-4 flex items-center justify-center">KERNEL_LITENET_V2</div>
+                                                            <div className="h-4 flex items-center justify-center">KERNEL_LITENETX_V2</div>
                                                             <div className="h-4 flex items-center justify-center">EXTRACTING_FEATURES</div>
                                                             <div className="h-4 flex items-center justify-center">NEURAL_PASS_ACTIVE</div>
                                                             <div className="h-4 flex items-center justify-center">COMPUTING_DATA</div>
@@ -671,7 +671,7 @@ export default function ModelPlayground() {
                                             </div>
                                             <div className="flex flex-col items-center gap-1 border border-primary/10 rounded-lg p-2 bg-primary/5 backdrop-blur-sm">
                                                 <span className="text-[9px] uppercase tracking-tighter font-bold text-muted-foreground/80">Kernel</span>
-                                                <span className="text-[10px] font-mono text-blue-600 dark:text-blue-400 font-bold">LITENET_V2</span>
+                                                <span className="text-[10px] font-mono text-blue-600 dark:text-blue-400 font-bold">LITENETX_V2</span>
                                             </div>
                                         </div>
                                     </div>

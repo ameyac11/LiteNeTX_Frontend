@@ -34,7 +34,7 @@ export default function HeroSection() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
           >
-            <span className="text-foreground">Lite</span><span className="gradient-text">NeT</span>
+            <span className="text-foreground">Lite</span><span className="gradient-text">NeTX</span>
             <br />
             <span className="text-foreground">Custom CNN Models for</span>
             <br />

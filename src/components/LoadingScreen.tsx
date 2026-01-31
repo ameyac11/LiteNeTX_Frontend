@@ -11,7 +11,7 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
         "Waking up Backend Server...",
         "Loading Neural Weights...",
         "Configuring Tensor Layers...",
-        "LiteNet System Ready."
+        "LiteNeTX System Ready.",
     ];
 
     useEffect(() => {
@@ -161,7 +161,7 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 0.2 }}
                     >
-                        LiteNet
+                        LiteNeTX
                     </motion.h1>
                     <motion.div
                         className="h-[1px] w-12 bg-primary mx-auto mb-6"

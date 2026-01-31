@@ -33,8 +33,8 @@ export default function ContactSection() {
         },
         body: JSON.stringify({
           access_key: accessKey,
-          from_name: "LiteNeT Contact Form",
-          subject: "New Message from LiteNeT",
+          from_name: "LiteNeTX Contact Form",
+          subject: "New Message from LiteNeTX",
           name: formData.name,
           email: formData.email,
           message: formData.message,
@@ -85,7 +85,7 @@ export default function ContactSection() {
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Get in Touch</h2>
             <p className="text-muted-foreground">
-              Have questions about LiteNeT? We'd love to hear from you.
+              Have questions about LiteNeTX? We'd love to hear from you.
             </p>
           </motion.div>
 

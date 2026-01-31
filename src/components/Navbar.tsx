@@ -52,7 +52,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 group">
           <span className={`text-xl font-bold tracking-tight ${is3DPage ? 'text-white' : ''}`}>
-            Lite<span className="gradient-text">NeT</span>
+            Lite<span className="gradient-text">NeTX</span>
           </span>
         </Link>
 

@@ -21,16 +21,18 @@ export default function Contact() {
 
         // Security: Validate origin to prevent unauthorized form submissions
         const allowedOrigins = [
-            'https://litenet.vercel.app'
+            'https://litenetx.in',
+            'https://www.litenetx.in',
+            'https://litenetx.vercel.app'
         ];
 
         const currentOrigin = window.location.origin;
 
-        // In production, only allow litenet.vercel.app
-        if (import.meta.env.PROD && !currentOrigin.includes('litenet.vercel.app')) {
+        // In production, only allow litenetx.in and litenetx.vercel.app
+        if (import.meta.env.PROD && !allowedOrigins.includes(currentOrigin)) {
             toast({
                 title: 'Access Denied',
-                description: 'This form can only be used from the official LiteNeT website.',
+                description: 'This form can only be used from the official LiteNeTX website (litenetx.in, www.litenetx.in, or litenetx.vercel.app).',
                 variant: 'destructive',
             });
             return;
@@ -52,8 +54,8 @@ export default function Contact() {
                 },
                 body: JSON.stringify({
                     access_key: accessKey,
-                    from_name: "LiteNeT Contact Form",
-                    subject: "New Message from LiteNeT",
+                    from_name: "LiteNeTX Contact Form",
+                    subject: "New Message from LiteNeTX",
                     name: formData.name,
                     email: formData.email,
                     message: formData.message,

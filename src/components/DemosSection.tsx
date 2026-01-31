@@ -49,7 +49,7 @@ export default function DemosSection() {
         <div className="grid lg:grid-cols-2 gap-8">
           <DemoCard
             id="demo-fashion"
-            title="LiteNet-Fashion Demo"
+            title="LiteNeTX-Fashion Demo"
             description="Classify fashion items using our FashionMNIST model"
             endpoint="/predict/fashion"
             labels={fashionLabels}
@@ -58,7 +58,7 @@ export default function DemosSection() {
           />
           <DemoCard
             id="demo-cifar"
-            title="LiteNet-CIFAR Demo"
+            title="LiteNeTX-CIFAR Demo"
             description="Classify objects using our CIFAR-10 model"
             endpoint="/predict/cifar"
             labels={cifarLabels}

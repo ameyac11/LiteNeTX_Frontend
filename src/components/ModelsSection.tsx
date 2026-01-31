@@ -3,7 +3,7 @@ import { Shirt, ImageIcon, CheckCircle2 } from 'lucide-react';
 
 const models = [
   {
-    name: 'LiteNet-Fashion',
+    name: 'LiteNeTX-Fashion',
     icon: Shirt,
     dataset: 'FashionMNIST',
     inputSize: '28×28',
@@ -15,7 +15,7 @@ const models = [
     color: 'primary',
   },
   {
-    name: 'LiteNet-CIFAR',
+    name: 'LiteNeTX-CIFAR',
     icon: ImageIcon,
     dataset: 'CIFAR-10',
     inputSize: '32×32',
@@ -116,8 +116,8 @@ export default function ModelsSection() {
               <thead>
                 <tr className="border-b border-border bg-secondary/50">
                   <th className="text-left p-4 font-medium">Property</th>
-                  <th className="text-left p-4 font-medium">LiteNet-Fashion</th>
-                  <th className="text-left p-4 font-medium">LiteNet-CIFAR</th>
+                  <th className="text-left p-4 font-medium">LiteNeTX-Fashion</th>
+                  <th className="text-left p-4 font-medium">LiteNeTX-CIFAR</th>
                 </tr>
               </thead>
               <tbody>

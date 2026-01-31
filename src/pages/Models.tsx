@@ -6,7 +6,7 @@ import PageTransition from '@/components/PageTransition';
 
 const models = [
   {
-    name: 'LiteNet-Fashion',
+    name: 'LiteNeTX-Fashion',
     id: 'fashion',
     icon: Shirt,
     dataset: 'FashionMNIST',
@@ -21,7 +21,7 @@ const models = [
     description: 'A highly optimized CNN designed for single-channel fashion article recognition. Achieving 90%+ accuracy with minimal parameter count.'
   },
   {
-    name: 'LiteNet-CIFAR',
+    name: 'LiteNeTX-CIFAR',
     id: 'cifar',
     icon: ImageIcon,
     dataset: 'CIFAR-10',
@@ -164,8 +164,8 @@ export default function Models() {
                 <thead className="bg-muted/50">
                   <tr>
                     <th className="text-left p-6 font-semibold text-muted-foreground">Feature</th>
-                    <th className="text-left p-6 font-bold text-blue-400">LiteNet-Fashion</th>
-                    <th className="text-left p-6 font-bold text-emerald-400">LiteNet-CIFAR</th>
+                    <th className="text-left p-6 font-bold text-blue-400">LiteNeTX-Fashion</th>
+                    <th className="text-left p-6 font-bold text-emerald-400">LiteNeTX-CIFAR</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
