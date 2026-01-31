@@ -83,7 +83,7 @@ export default function Home() {
                 {/* Neural Network Background Image */}
                 <div className="absolute inset-0">
                   <img
-                    src="/Home_background_card.jpg"
+                    src="/Home_background_card_compressed.jpg"
                     alt="Neural Network"
                     className="w-full h-full object-cover opacity-80"
                   />
