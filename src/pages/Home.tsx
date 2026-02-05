@@ -77,7 +77,7 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
-              className="relative h-[350px] lg:h-[500px] shadow-[0_0_50px_-12px_rgba(59,130,246,0.3)]"
+              className="relative h-[350px] lg:h-[500px] min-h-[350px] lg:min-h-[500px] shadow-[0_0_50px_-12px_rgba(59,130,246,0.3)]"
             >
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-primary/5 to-transparent rounded-3xl border border-white/10 backdrop-blur-sm p-4 lg:p-8 overflow-hidden">
                 {/* Neural Network Background Image */}
@@ -86,6 +86,7 @@ export default function Home() {
                     src="/Home_background_card_compressed.jpg"
                     alt="Neural Network"
                     className="w-full h-full object-cover opacity-80"
+                    loading="eager"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
                 </div>

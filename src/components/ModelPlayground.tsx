@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Upload, Loader2, AlertCircle, ImageIcon, Scan, Cpu, Layers, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
@@ -65,6 +66,7 @@ export default function ModelPlayground() {
     const [results, setResults] = useState<PredictionResult[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [examples, setExamples] = useState<{ url: string; label: string }[]>([]);
+    const [isLoadingExamples, setIsLoadingExamples] = useState(true);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const currentModel = MODELS[activeModel];
@@ -72,11 +74,13 @@ export default function ModelPlayground() {
     // Fetch example images from backend
     useEffect(() => {
         const fetchExamples = async () => {
+            setIsLoadingExamples(true);
             try {
                 const baseUrl = import.meta.env.VITE_API_BASE_URL;
                 const response = await fetch(`${baseUrl}/api/examples/list/${activeModel}`);
 
                 if (!response.ok) {
+                    setExamples([]);
                     return;
                 }
 
@@ -94,6 +98,8 @@ export default function ModelPlayground() {
                 }
             } catch (error) {
                 setExamples([]);
+            } finally {
+                setIsLoadingExamples(false);
             }
         };
 
@@ -471,11 +477,20 @@ export default function ModelPlayground() {
                             />
                         </div>
 
+
                         {/* Example Images Section */}
                         <div className="space-y-2">
                             <h4 className="text-xs uppercase text-muted-foreground font-semibold tracking-wider">Try an Example</h4>
-                            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-white/10">
-                                {examples.length > 0 ? (
+                            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-white/10 min-h-[64px]">
+                                {isLoadingExamples ? (
+                                    // Skeleton loaders - exact dimensions match loaded state
+                                    [...Array(6)].map((_, i) => (
+                                        <Skeleton
+                                            key={i}
+                                            className="w-16 h-16 rounded-lg flex-shrink-0 skeleton-shimmer"
+                                        />
+                                    ))
+                                ) : examples.length > 0 ? (
                                     examples.map((ex, i) => (
                                         <button
                                             key={i}
@@ -492,8 +507,8 @@ export default function ModelPlayground() {
                                         </button>
                                     ))
                                 ) : (
-                                    <div className="text-xs text-muted-foreground italic">
-                                        Loading examples...
+                                    <div className="text-xs text-muted-foreground italic h-16 flex items-center">
+                                        No examples available
                                     </div>
                                 )}
                             </div>
@@ -521,7 +536,7 @@ export default function ModelPlayground() {
                             )}
                         </div>
 
-                        <div className="flex-1 bg-black/[0.03] dark:bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-black/10 dark:border-white/10 relative overflow-hidden group/results shadow-inner">
+                        <div className="flex-1 bg-black/[0.03] dark:bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-black/10 dark:border-white/10 relative overflow-hidden group/results shadow-inner min-h-[400px]">
                             {/* Decorative Corner Brackets */}
                             <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary/40 dark:border-primary/30 rounded-tl-lg" />
                             <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary/40 dark:border-primary/30 rounded-tr-lg" />
