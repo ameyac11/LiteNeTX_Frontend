@@ -17,6 +17,26 @@ export default function ContactSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Security: Validate origin to prevent unauthorized form submissions
+    const allowedOrigins = [
+      'https://litenetx.in',
+      'https://www.litenetx.in',
+      'https://litenetx.vercel.app'
+    ];
+
+    const currentOrigin = window.location.origin;
+
+    // In production, only allow official domains
+    if (import.meta.env.PROD && !allowedOrigins.includes(currentOrigin)) {
+      toast({
+        title: 'Access Denied',
+        description: 'This form can only be used from the official LiteNeTX website.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -39,6 +59,8 @@ export default function ContactSection() {
           email: formData.email,
           message: formData.message,
           botcheck: '',
+          // Add origin information for additional security tracking
+          _origin: currentOrigin,
         }),
       });
 
@@ -100,7 +122,7 @@ export default function ContactSection() {
             {[
               { icon: Mail, label: 'Email', href: 'mailto:ameyaccod171@gmail.com' },
               { icon: Github, label: 'GitHub', href: 'https://github.com/AmeyC171', external: true },
-              { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/ameya-chopade11', external: true },
+              { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/ameyac11', external: true },
             ].map((item, index) => (
               <a
                 key={index}

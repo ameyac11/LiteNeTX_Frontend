@@ -227,7 +227,7 @@ export default function Contact() {
                                         <Github className="w-5 h-5 text-foreground" />
                                     </a>
                                     <a
-                                        href="https://www.linkedin.com/in/ameya-chopade11"
+                                        href="https://www.linkedin.com/in/ameyac11"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="flex items-center justify-center w-12 h-12 bg-background/50 hover:bg-accent border border-border hover:border-border/80 rounded-lg transition-all"

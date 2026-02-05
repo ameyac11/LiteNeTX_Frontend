@@ -213,7 +213,7 @@ export default function ModelPlayground() {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row gap-6 min-h-[600px] glass-card rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+        <div className="flex flex-col lg:flex-row gap-6 min-h-[600px] glass-card rounded-2xl md:overflow-hidden overflow-visible border border-white/10 shadow-2xl">
 
             {/* Sidebar / Model Selector */}
             <div className="w-full lg:w-64 bg-secondary/30 border-b lg:border-b-0 lg:border-r border-white/10 p-4 flex flex-col gap-2">
@@ -341,107 +341,109 @@ export default function ModelPlayground() {
                                             <X className="w-4 h-4" />
                                         </motion.button>
 
-                                        {/* Premium Scanning Animation Overlay */}
+                                        {/* Advanced AI Interface Scanning Loop */}
                                         {isScanning && (
-                                            <div className="absolute inset-0 z-20 pointer-events-none rounded-2xl overflow-hidden">
-                                                {/* 1. Cyberpunk Grid & Depth */}
-                                                <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:30px_30px] opacity-30" />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-primary/10 opacity-20" />
-
-                                                {/* 2. Scanning Laser Line with Glow */}
+                                            <div className="absolute inset-0 z-20 pointer-events-none rounded-2xl overflow-hidden select-none">
+                                                {/* Contrast/Dimming Backdrop */}
                                                 <motion.div
-                                                    className="absolute w-full h-32 bg-gradient-to-b from-primary/40 to-transparent blur-md"
-                                                    initial={{ top: "-30%" }}
-                                                    animate={{ top: "120%" }}
-                                                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                                                />
-                                                <motion.div
-                                                    className="absolute w-full h-0.5 bg-primary shadow-[0_0_20px_rgba(59,130,246,1)] z-30"
-                                                    initial={{ top: "-30%" }}
-                                                    animate={{ top: "120%" }}
-                                                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                                                    initial={{ opacity: 0 }}
+                                                    animate={{ opacity: 1 }}
+                                                    className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"
                                                 />
 
-                                                {/* 3. Central HUD Ring */}
-                                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+                                                {/* Tech Overlay Background */}
+                                                <div className="absolute inset-0 bg-primary/5 mix-blend-overlay" />
+                                                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20" />
+
+                                                {/* 1. Dynamic Corner Brackets (Animated) */}
+                                                <motion.div
+                                                    initial={{ opacity: 0, x: -10, y: -10 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}
+                                                    className="absolute top-6 left-6 w-16 h-16 border-t-[1px] border-l-[1px] border-primary/40 rounded-tl-2xl shadow-[0_0_10px_rgba(var(--primary),0.2)]"
+                                                />
+                                                <motion.div
+                                                    initial={{ opacity: 0, x: 10, y: -10 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}
+                                                    className="absolute top-6 right-6 w-16 h-16 border-t-[1px] border-r-[1px] border-primary/40 rounded-tr-2xl shadow-[0_0_10px_rgba(var(--primary),0.2)]"
+                                                />
+                                                <motion.div
+                                                    initial={{ opacity: 0, x: -10, y: 10 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}
+                                                    className="absolute bottom-6 left-6 w-16 h-16 border-b-[1px] border-l-[1px] border-primary/40 rounded-bl-2xl shadow-[0_0_10px_rgba(var(--primary),0.2)]"
+                                                />
+                                                <motion.div
+                                                    initial={{ opacity: 0, x: 10, y: 10 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}
+                                                    className="absolute bottom-6 right-6 w-16 h-16 border-b-[1px] border-r-[1px] border-primary/40 rounded-br-2xl shadow-[0_0_10px_rgba(var(--primary),0.2)]"
+                                                />
+
+                                                {/* 2. Active Scanning Beam (High Precision) */}
+                                                <motion.div
+                                                    className="absolute w-full h-[60px] bg-gradient-to-b from-primary/20 via-primary/5 to-transparent z-30 backdrop-blur-[1px]"
+                                                    initial={{ top: "-20%" }}
+                                                    animate={{ top: "120%" }}
+                                                    transition={{ duration: 2.2, repeat: Infinity, ease: "linear" }}
+                                                >
+                                                    <div className="absolute w-full h-[2px] bg-primary/50 shadow-[0_0_15px_rgba(var(--primary),0.5)] top-0" />
+                                                </motion.div>
+
+                                                {/* 3. Central Analysis Node */}
+                                                <div className="absolute inset-0 flex items-center justify-center z-40">
                                                     <motion.div
-                                                        className="w-48 h-48 border border-primary/20 rounded-full"
-                                                        animate={{ rotate: 360 }}
-                                                        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                                                    />
-                                                    <motion.div
-                                                        className="absolute inset-4 border-t-2 border-primary/40 rounded-full"
-                                                        animate={{ rotate: -360 }}
-                                                        transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                                                    />
-                                                    <motion.div
-                                                        className="absolute inset-10 border-b-2 border-primary/60 rounded-full opacity-50"
-                                                        animate={{ rotate: 360 }}
-                                                        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                                                    />
+                                                        className="relative w-48 h-48 flex items-center justify-center"
+                                                        initial={{ opacity: 0, scale: 0.9 }}
+                                                        animate={{ opacity: 1, scale: 1 }}
+                                                        transition={{ duration: 0.5 }}
+                                                    >
+                                                        {/* Rotating outer ring */}
+                                                        <motion.div
+                                                            className="absolute inset-0 border border-t-primary/30 border-r-transparent border-b-primary/30 border-l-transparent rounded-full"
+                                                            animate={{ rotate: 360 }}
+                                                            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                                                        />
+                                                        {/* Counter-rotating inner ring */}
+                                                        <motion.div
+                                                            className="absolute inset-8 border border-white/10 rounded-full"
+                                                            animate={{ rotate: -360 }}
+                                                            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                                                        />
+
+                                                        {/* Center Core */}
+                                                        <div className="absolute bg-black/80 backdrop-blur-xl border border-white/10 p-5 rounded-2xl shadow-2xl flex flex-col items-center gap-2 min-w-[160px]">
+                                                            <div className="flex items-center gap-2">
+                                                                <Loader2 className="w-4 h-4 text-primary animate-spin" />
+                                                                <span className="font-mono text-xs font-bold text-white tracking-[0.2em] relative top-px">ANALYZING</span>
+                                                            </div>
+                                                            <div className="h-[1px] w-full bg-white/10 my-1" />
+                                                            <div className="flex flex-col gap-1.5 w-full">
+                                                                <div className="flex justify-between items-center text-[9px] text-muted-foreground font-mono">
+                                                                    <span>CONFIDENCE</span>
+                                                                    <span className="text-primary animate-pulse">CALCULATING...</span>
+                                                                </div>
+                                                                {/* Animated Bar */}
+                                                                <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                                                                    <motion.div
+                                                                        className="h-full bg-primary"
+                                                                        animate={{ width: ["10%", "60%", "30%", "90%"] }}
+                                                                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </motion.div>
                                                 </div>
 
-                                                {/* 4. Corner Brackets HUD (Improved) */}
-                                                <div className="absolute top-6 left-6 w-10 h-10 border-t-2 border-l-2 border-primary/80 rounded-tl-sm shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
-                                                <div className="absolute top-6 right-6 w-10 h-10 border-t-2 border-r-2 border-primary/80 rounded-tr-sm shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
-                                                <div className="absolute bottom-6 left-6 w-10 h-10 border-b-2 border-l-2 border-primary/80 rounded-bl-sm shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
-                                                <div className="absolute bottom-6 right-6 w-10 h-10 border-b-2 border-r-2 border-primary/80 rounded-br-sm shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
-
-                                                {/* 5. Dynamic Processing HUD */}
-                                                <motion.div
-                                                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/80 backdrop-blur-xl px-6 py-4 rounded-xl border border-primary/40 flex flex-col items-center gap-3 z-40 shadow-2xl min-w-[220px]"
-                                                    initial={{ opacity: 0, scale: 0.9 }}
-                                                    animate={{ opacity: 1, scale: 1 }}
-                                                    exit={{ opacity: 0, scale: 0.9 }}
-                                                >
-                                                    <div className="flex items-center gap-3">
-                                                        <Loader2 className="w-5 h-5 text-primary animate-spin" />
-                                                        <span className="text-sm font-mono text-primary font-bold uppercase tracking-[0.2em]">Analyzing...</span>
-                                                    </div>
-
-                                                    {/* Rotating Status Messages */}
-                                                    <div className="h-4 overflow-hidden text-[10px] font-mono text-primary/70 uppercase">
+                                                {/* 4. Side Data Stream (Decorative) */}
+                                                <div className="absolute right-8 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-3 opacity-60">
+                                                    {[...Array(5)].map((_, i) => (
                                                         <motion.div
-                                                            animate={{ y: [0, -16, -32, -48] }}
-                                                            transition={{
-                                                                duration: 4,
-                                                                repeat: Infinity,
-                                                                times: [0, 0.33, 0.66, 1],
-                                                                ease: "linear"
-                                                            }}
+                                                            key={i}
+                                                            className="flex items-center justify-end gap-2"
+                                                            initial={{ opacity: 0, x: 20 }}
+                                                            animate={{ opacity: 1, x: 0 }}
+                                                            transition={{ delay: 0.2 + (i * 0.1) }}
                                                         >
-                                                            <div className="h-4 flex items-center justify-center">KERNEL_LITENETX_V2</div>
-                                                            <div className="h-4 flex items-center justify-center">EXTRACTING_FEATURES</div>
-                                                            <div className="h-4 flex items-center justify-center">NEURAL_PASS_ACTIVE</div>
-                                                            <div className="h-4 flex items-center justify-center">COMPUTING_DATA</div>
+                                                            <div className="h-[1px] w-8 bg-white/20" />
+                                                            <div className="w-1 h-1 bg-primary rounded-full" />
                                                         </motion.div>
-                                                    </div>
-
-                                                    {/* Small Bitstream Decoration */}
-                                                    <div className="flex gap-1">
-                                                        {[...Array(12)].map((_, i) => (
-                                                            <motion.div
-                                                                key={i}
-                                                                className="w-1 h-3 bg-primary/20 rounded-full overflow-hidden"
-                                                            >
-                                                                <motion.div
-                                                                    className="w-full h-full bg-primary"
-                                                                    animate={{ height: ['0%', '100%', '0%'] }}
-                                                                    transition={{ duration: 1, repeat: Infinity, delay: i * 0.1 }}
-                                                                />
-                                                            </motion.div>
-                                                        ))}
-                                                    </div>
-                                                </motion.div>
-
-                                                {/* 6. Random Glitch Blocks */}
-                                                <motion.div
-                                                    className="absolute top-1/3 left-10 w-20 h-10 border border-primary/10 bg-primary/5 rounded flex items-center justify-center"
-                                                    animate={{ opacity: [0, 0.5, 0], x: [0, 5, 0] }}
-                                                    transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1 }}
-                                                >
-                                                    <span className="text-[8px] font-mono text-primary/50">FRM_082</span>
-                                                </motion.div>
+                                                    ))}
+                                                </div>
                                             </div>
                                         )}
 
@@ -481,7 +483,7 @@ export default function ModelPlayground() {
                         {/* Example Images Section */}
                         <div className="space-y-2">
                             <h4 className="text-xs uppercase text-muted-foreground font-semibold tracking-wider">Try an Example</h4>
-                            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-white/10 min-h-[64px]">
+                            <div className="flex gap-2 overflow-x-auto overflow-y-hidden pb-4 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent min-h-[64px] w-full max-w-[calc(100vw-64px)] lg:max-w-none hover:scrollbar-thumb-white/40 transition-colors">
                                 {isLoadingExamples ? (
                                     // Skeleton loaders - exact dimensions match loaded state
                                     [...Array(6)].map((_, i) => (
@@ -536,7 +538,7 @@ export default function ModelPlayground() {
                             )}
                         </div>
 
-                        <div className="flex-1 bg-black/[0.03] dark:bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-black/10 dark:border-white/10 relative overflow-hidden group/results shadow-inner min-h-[400px]">
+                        <div className="flex-1 bg-black/[0.03] dark:bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-black/10 dark:border-white/10 relative md:overflow-hidden overflow-visible group/results shadow-inner min-h-[400px]">
                             {/* Decorative Corner Brackets */}
                             <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary/40 dark:border-primary/30 rounded-tl-lg" />
                             <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary/40 dark:border-primary/30 rounded-tr-lg" />
