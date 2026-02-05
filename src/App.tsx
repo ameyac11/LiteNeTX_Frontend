@@ -18,11 +18,15 @@ import { AnimatePresence } from "framer-motion";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import LoadingScreen from "@/components/LoadingScreen";
+import { useKeepAlive } from "@/hooks/useKeepAlive";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
+
+  // Keep backend alive by pinging every 5 minutes
+  useKeepAlive();
 
   return (
     <QueryClientProvider client={queryClient}>
