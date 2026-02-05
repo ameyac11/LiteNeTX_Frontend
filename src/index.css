@@ -2,6 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Font face declarations with fallbacks to prevent layout shift */
+@font-face {
+  font-family: 'Inter Fallback';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  /* System fonts adjusted to match Inter metrics */
+  src: local('Arial');
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+  size-adjust: 107%;
+}
+
+@font-face {
+  font-family: 'Inter Fallback';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Arial');
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+  size-adjust: 107%;
+}
+
+@font-face {
+  font-family: 'Inter Fallback';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Arial');
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+  size-adjust: 107%;
+}
+
+@font-face {
+  font-family: 'Inter Fallback';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Arial');
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+  size-adjust: 107%;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -99,6 +149,24 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+    /* Enhanced font rendering for consistency across browsers */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* Prevent text size adjustments on orientation change (mobile) */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  /* Ensure consistent font loading and prevent FOUT */
+  html {
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    font-kerning: normal;
+  }
+  
+  /* Prevent layout shift during font loading */
+  * {
+    font-synthesis: none;
   }
 
   /* Custom Scrollbar */
