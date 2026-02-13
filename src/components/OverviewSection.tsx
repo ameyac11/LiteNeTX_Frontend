@@ -10,12 +10,12 @@ const features = [
   {
     icon: Server,
     title: 'FastAPI Backend',
-    description: 'Deployed on Render for reliable API inference',
+    description: 'High-performance API for real-time inference',
   },
   {
     icon: Database,
-    title: 'Two Datasets',
-    description: 'FashionMNIST (28x28) & CIFAR-10 (32x32)',
+    title: 'Three Datasets',
+    description: 'FMNIST, CIFAR-10, and CIFAR-100 support',
   },
   {
     icon: Zap,

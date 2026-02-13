@@ -10,7 +10,8 @@ const navLinks = [
   { href: '/demos', label: 'Demos' },
   { href: '/models', label: 'Models' },
   { href: '/architecture', label: 'Architecture' },
-  { href: '/3d-nn', label: '3D NN' },
+  { href: '/performance', label: 'Insights' },
+  { href: '/3d-nn', label: '3D View' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -50,7 +51,12 @@ export default function Navbar() {
     >
       <div className="container-custom flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 group">
+        <Link to="/" className="flex items-center gap-0 group">
+          <img
+            src={is3DPage || theme === 'dark' ? "/LiteNeTX_logo_bwhite.png" : "/LiteNeTX_logo_bblack.png"}
+            alt="LiteNeTX Logo"
+            className="w-12 h-12 object-contain -mr-1"
+          />
           <span className={`text-xl font-bold tracking-tight ${is3DPage ? 'text-white' : ''}`}>
             Lite<span className="gradient-text">NeTX</span>
           </span>

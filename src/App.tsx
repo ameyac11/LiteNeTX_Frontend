@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Demos from "./pages/Demos";
 import Models from "./pages/Models";
 import Architecture from "./pages/Architecture";
+import PerformanceInsights from "./pages/PerformanceInsights";
 import NeuralNetworkPage from "./pages/NeuralNetworkPage";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
@@ -18,6 +19,7 @@ import { AnimatePresence } from "framer-motion";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import LoadingScreen from "@/components/LoadingScreen";
+import ScrollToTop from "@/components/ScrollToTop";
 import { useKeepAlive } from "@/hooks/useKeepAlive";
 
 const queryClient = new QueryClient();
@@ -43,12 +45,14 @@ const App = () => {
 
           {!isLoading && (
             <BrowserRouter>
+              <ScrollToTop />
               <Layout>
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/demos" element={<Demos />} />
                   <Route path="/models" element={<Models />} />
                   <Route path="/architecture" element={<Architecture />} />
+                  <Route path="/performance" element={<PerformanceInsights />} />
                   <Route path="/3d-nn" element={<NeuralNetworkPage />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="*" element={<NotFound />} />

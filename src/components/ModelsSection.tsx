@@ -1,48 +1,63 @@
 import { motion } from 'framer-motion';
-import { Shirt, ImageIcon, CheckCircle2 } from 'lucide-react';
+import { Shirt, ImageIcon, Grid3X3, CheckCircle2 } from 'lucide-react';
 
 const models = [
   {
-    name: 'LiteNeTX-Fashion',
+    name: 'LiteNeTX-FMNIST',
     icon: Shirt,
     dataset: 'FashionMNIST',
     inputSize: '28×28',
     channels: 1,
     classes: 10,
+    params: '426K',
+    modelSize: '1.63 MB',
     endpoint: '/predict/fashion',
-    modelFile: 'best_model.pth',
-    useCase: 'Fashion item classification',
+    useCase: 'Grayscale fashion classification',
     color: 'primary',
   },
   {
-    name: 'LiteNeTX-CIFAR',
+    name: 'LiteNeTX-CIFAR10',
     icon: ImageIcon,
     dataset: 'CIFAR-10',
     inputSize: '32×32',
     channels: 3,
     classes: 10,
+    params: '1.9M',
+    modelSize: '7.26 MB',
     endpoint: '/predict/cifar',
-    modelFile: 'best_model_cifar.pth',
-    useCase: 'Object classification',
+    useCase: 'RGB object classification',
     color: 'emerald',
+  },
+  {
+    name: 'LiteNeTX-CIFAR100',
+    icon: Grid3X3,
+    dataset: 'CIFAR-100',
+    inputSize: '32×32',
+    channels: 3,
+    classes: 100,
+    params: '14.6M',
+    modelSize: '55.62 MB',
+    endpoint: '/predict/cifar100',
+    useCase: 'Fine-grained 100-class classification',
+    color: 'purple',
   },
 ];
 
 const comparisonData = [
-  { property: 'Dataset', fashion: 'FashionMNIST', cifar: 'CIFAR-10' },
-  { property: 'Input Size', fashion: '28×28', cifar: '32×32' },
-  { property: 'Channels', fashion: '1 (Grayscale)', cifar: '3 (RGB)' },
-  { property: 'Number of Classes', fashion: '10', cifar: '10' },
-  { property: 'Model Size', fashion: '26 MB', cifar: '42 MB' },
-  { property: 'Inference Endpoint', fashion: '/predict/fashion', cifar: '/predict/cifar' },
-  { property: 'Model File', fashion: 'best_model.pth', cifar: 'best_model_cifar.pth' },
+  { property: 'Dataset', values: ['FashionMNIST', 'CIFAR-10', 'CIFAR-100'] },
+  { property: 'Input Size', values: ['1×28×28', '3×32×32', '3×32×32'] },
+  { property: 'Classes', values: ['10', '10', '100'] },
+  { property: 'Parameters', values: ['426,602', '1,903,146', '14,579,492'] },
+  { property: 'Model Size', values: ['1.63 MB', '7.26 MB', '55.62 MB'] },
+  { property: 'Endpoint', values: ['/predict/fashion', '/predict/cifar', '/predict/cifar100'] },
 ];
+
+const headerColors = ['text-blue-400', 'text-emerald-400', 'text-purple-400'];
 
 export default function ModelsSection() {
   return (
     <section id="models" className="section-padding bg-secondary/30">
       <div className="container-custom">
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -52,12 +67,11 @@ export default function ModelsSection() {
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Models</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Two lightweight CNNs optimized for fast inference on different image domains
+            Three lightweight CNNs optimized for fast inference across different image domains
           </p>
         </motion.div>
 
-        {/* Model Cards */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
           {models.map((model, index) => (
             <motion.div
               key={index}
@@ -68,7 +82,9 @@ export default function ModelsSection() {
               className="glass-card rounded-2xl p-8"
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${model.color === 'primary' ? 'gradient-bg' : 'bg-gradient-to-br from-emerald-500 to-teal-500'
+                <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${model.color === 'primary' ? 'gradient-bg' :
+                  model.color === 'emerald' ? 'bg-gradient-to-br from-emerald-500 to-teal-500' :
+                    'bg-gradient-to-br from-purple-500 to-fuchsia-500'
                   }`}>
                   <model.icon className="w-7 h-7 text-white" />
                 </div>
@@ -81,9 +97,10 @@ export default function ModelsSection() {
               <div className="space-y-4">
                 {[
                   { label: 'Dataset', value: model.dataset },
-                  { label: 'Input', value: `${model.inputSize} × ${model.channels} channel${model.channels > 1 ? 's' : ''}` },
+                  { label: 'Input', value: `${model.inputSize} × ${model.channels}ch` },
                   { label: 'Classes', value: model.classes },
-                  { label: 'Endpoint', value: model.endpoint },
+                  { label: 'Parameters', value: model.params },
+                  { label: 'Model Size', value: model.modelSize },
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-center justify-between py-2 border-b border-border/50 last:border-0">
                     <span className="text-muted-foreground">{item.label}</span>
@@ -100,7 +117,6 @@ export default function ModelsSection() {
           ))}
         </div>
 
-        {/* Comparison Table */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -116,16 +132,18 @@ export default function ModelsSection() {
               <thead>
                 <tr className="border-b border-border bg-secondary/50">
                   <th className="text-left p-4 font-medium">Property</th>
-                  <th className="text-left p-4 font-medium">LiteNeTX-Fashion</th>
-                  <th className="text-left p-4 font-medium">LiteNeTX-CIFAR</th>
+                  <th className={`text-left p-4 font-bold ${headerColors[0]}`}>LiteNeTX-FMNIST</th>
+                  <th className={`text-left p-4 font-bold ${headerColors[1]}`}>LiteNeTX-CIFAR10</th>
+                  <th className={`text-left p-4 font-bold ${headerColors[2]}`}>LiteNeTX-CIFAR100</th>
                 </tr>
               </thead>
               <tbody>
                 {comparisonData.map((row, index) => (
                   <tr key={index} className="border-b border-border/50 last:border-0">
                     <td className="p-4 text-muted-foreground">{row.property}</td>
-                    <td className="p-4 font-mono text-sm">{row.fashion}</td>
-                    <td className="p-4 font-mono text-sm">{row.cifar}</td>
+                    {row.values.map((val, i) => (
+                      <td key={i} className={`p-4 font-mono text-sm ${headerColors[i]}`}>{val}</td>
+                    ))}
                   </tr>
                 ))}
               </tbody>

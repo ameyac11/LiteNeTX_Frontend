@@ -49,8 +49,8 @@ export default function DemosSection() {
         <div className="grid lg:grid-cols-2 gap-8">
           <DemoCard
             id="demo-fashion"
-            title="LiteNeTX-Fashion Demo"
-            description="Classify fashion items using our FashionMNIST model"
+            title="LiteNeTX-FMNIST Demo"
+            description="Classify fashion items using our LiteNeTX-FMNIST model"
             endpoint="/predict/fashion"
             labels={fashionLabels}
             inputFormat="28×28 grayscale (any image accepted)"
@@ -58,8 +58,8 @@ export default function DemosSection() {
           />
           <DemoCard
             id="demo-cifar"
-            title="LiteNeTX-CIFAR Demo"
-            description="Classify objects using our CIFAR-10 model"
+            title="LiteNeTX-CIFAR10 Demo"
+            description="Classify objects using our LiteNeTX-CIFAR10 model"
             endpoint="/predict/cifar"
             labels={cifarLabels}
             inputFormat="32×32 RGB (any image accepted)"

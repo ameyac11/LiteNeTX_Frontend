@@ -21,43 +21,66 @@ import * as THREE from 'three';
 const MODEL_CONFIG = {
   fashion: {
     id: 'fashion',
-    name: 'LiteNeTX-Fashion',
+    name: 'LiteNeTX-FMNIST',
     type: 'LiteGrayCNN',
     description: 'Optimized for high-speed classification of 28x28 grayscale fashion items.',
     layers: [
-      { id: 'input', name: 'Input Layer', type: 'Input', nodes: 9, shape: '1×28×28', params: '0', x: -9, color: '#3b82f6', details: 'Holding raw 28x28 grayscale pixel values. This is the starting point where individual image intensity values are fed into the network.' },
-      { id: 'conv1', name: 'Conv Block 1', type: 'Conv2d + ReLU', nodes: 16, shape: '32×28×28', params: '320', x: -6, color: '#60a5fa', details: 'Detects basic features like edges and lines by sliding 3x3 filters across the input image, creating 32 unique feature maps.' },
-      { id: 'conv2', name: 'Conv Block 2', type: 'Conv2d + ReLU', nodes: 25, shape: '64×28×28', params: '18,496', x: -3, color: '#818cf8', details: 'Deeper convolution that combines simpler features from the first layer to recognize more complex textures and patterns.' },
-      { id: 'pool', name: 'Pooling', type: 'MaxPool2d', nodes: 16, shape: '64×14×14', params: '0', x: 0, color: '#a78bfa', details: 'Downsamples the data by taking the maximum value in 2x2 windows, reducing spatial size while preserving the most important features.' },
-      { id: 'fc1', name: 'Dense 1', type: 'Linear + ReLU', nodes: 36, shape: '512', params: '6,423,040', x: 3, color: '#c084fc', details: 'A fully connected layer that performs global reasoning. It looks at all extracted features to decide which patterns are present.' },
-      { id: 'fc2', name: 'Dense 2', type: 'Linear + ReLU', nodes: 25, shape: '128', params: '65,664', x: 6, color: '#d8b4fe', details: 'Refines the decision-making process by mapping high-level features to a more compact, abstract representation.' },
-      { id: 'fc3', name: 'Output', type: 'Linear', nodes: 10, shape: '10', params: '1,290', x: 9, color: '#e879f9', details: 'The final layer that outputs prediction scores. Each node represents a class (e.g., T-shirt, Bag) with a specific probability.' },
+      { id: 'input', name: 'Input Layer', type: 'Input', nodes: 9, shape: '1×28×28', params: '0', x: -9, color: '#3b82f6', details: 'Raw 28x28 grayscale pixel values. Entry point for fashion item images.' },
+      { id: 'conv1', name: 'Conv1 + BN', type: 'Conv2d + BN', nodes: 16, shape: '32×28×28', params: '320', x: -7, color: '#60a5fa', details: 'First convolutional block: 1→32 channels with batch normalization and ReLU activation.' },
+      { id: 'conv2', name: 'Conv2 + BN', type: 'Conv2d + BN', nodes: 20, shape: '64×28×28', params: '18,496', x: -5, color: '#818cf8', details: 'Second convolutional block: 32→64 channels with batch normalization and ReLU.' },
+      { id: 'down1', name: 'Strided Conv1', type: 'StridedConv + BN', nodes: 16, shape: '64×14×14', params: '36,928', x: -3, color: '#a78bfa', details: 'Strided convolution for downsampling (stride=2), halving spatial dimensions.' },
+      { id: 'conv3', name: 'Conv3 + BN', type: 'Conv2d + BN', nodes: 25, shape: '128×14×14', params: '73,856', x: -1, color: '#c084fc', details: 'Third convolutional block: 64→128 channels for deeper feature extraction.' },
+      { id: 'down2', name: 'Strided Conv2', type: 'StridedConv + BN', nodes: 16, shape: '128×7×7', params: '147,584', x: 1, color: '#d8b4fe', details: 'Second strided convolution, further reducing spatial size to 7×7.' },
+      { id: 'pool', name: 'Global Pool', type: 'AdaptiveAvgPool', nodes: 9, shape: '128×1×1', params: '0', x: 3, color: '#e879f9', details: 'Global average pooling condenses spatial features into a single 128-dim vector.' },
+      { id: 'fc', name: 'Classifier', type: 'Linear', nodes: 10, shape: '10', params: '1,290', x: 5, color: '#f0abfc', details: 'Final fully connected layer: 128→10 classes (T-shirt, Trouser, Dress, etc.)' },
     ],
     connections: [
-      ['input', 'conv1'], ['conv1', 'conv2'], ['conv2', 'pool'],
-      ['pool', 'fc1'], ['fc1', 'fc2'], ['fc2', 'fc3'],
+      ['input', 'conv1'], ['conv1', 'conv2'], ['conv2', 'down1'],
+      ['down1', 'conv3'], ['conv3', 'down2'], ['down2', 'pool'], ['pool', 'fc'],
     ],
   },
   cifar: {
     id: 'cifar',
-    name: 'LiteNeTX-CIFAR',
-    type: 'ResNet-like',
+    name: 'LiteNeTX-CIFAR10',
+    type: 'Custom Residual',
     description: 'Deep Residual Network specialized for 32x32 RGB object recognition.',
     layers: [
       { id: 'input', name: 'Input Layer', type: 'Input', nodes: 9, shape: '3×32×32', params: '0', x: -9, color: '#10b981', details: 'Processes 32x32 color (RGB) images. Each channel represents Red, Green, and Blue intensity values.' },
-      { id: 'conv1', name: 'Stem', type: 'Conv2d + BN', nodes: 16, shape: '64×32×32', params: '1,792', x: -6, color: '#34d399', details: 'Initial convolutional layer that creates 64 feature maps while normalizing outputs to speed up deep training.' },
-      { id: 'res1', name: 'ResBlock 1', type: 'Residual Block', nodes: 16, shape: '64×32×32', params: '73,856', x: -3, color: '#4ade80', isResidual: true, details: 'Standard ResNet block with a skip connection that allows raw information to bypass the layer, preventing signal loss.' },
-      { id: 'res2', name: 'ResBlock 2', type: 'Residual Block', nodes: 25, shape: '128×16×16', params: '295,424', x: 0, color: '#2dd4bf', isResidual: true, details: 'Increases feature depth to 128 while reducing spatial size. Skip connections help maintain fine-grained details.' },
-      { id: 'res3', name: 'ResBlock 3', type: 'Residual Block', nodes: 36, shape: '256×8×8', params: '1,180,672', x: 3, color: '#22d3ee', isResidual: true, details: 'Final residual block focusing on high-level semantic features before global average pooling.' },
-      { id: 'pool', name: 'AvgPool', type: 'AdaptiveAvgPool', nodes: 9, shape: '256×1×1', params: '0', x: 6, color: '#38bdf8', details: 'Collapses spatial dimensions by averaging all features, producing a single 256-dimensional vector for classification.' },
-      { id: 'fc', name: 'Classifier', type: 'Linear', nodes: 10, shape: '10', params: '2,570', x: 8, color: '#60a5fa', details: 'Fully connected classifier that maps the 256 average features to the 10 object classes (e.g., Airplane, Ship, Bird).' },
+      { id: 'conv1', name: 'Stem', type: 'Conv2d + BN', nodes: 16, shape: '32×32×32', params: '896', x: -6, color: '#34d399', details: 'Initial convolutional layer: 3→32 channels with batch normalization and ReLU.' },
+      { id: 'stage1', name: 'Stage 1', type: 'ResBlock ×2', nodes: 16, shape: '64×32×32', params: '73k', x: -3, color: '#4ade80', isResidual: true, details: 'First residual stage with 2 blocks: 32→64 channels, identity shortcuts for gradient flow.' },
+      { id: 'stage2', name: 'Stage 2', type: 'ResBlock ×2', nodes: 25, shape: '128×16×16', params: '295k', x: 0, color: '#2dd4bf', isResidual: true, details: 'Second stage with spatial downsampling: 64→128 channels, stride=2, projection shortcuts.' },
+      { id: 'stage3', name: 'Stage 3', type: 'ResBlock ×2', nodes: 36, shape: '192×8×8', params: '885k', x: 3, color: '#22d3ee', isResidual: true, details: 'Final residual stage: 128→192 channels, focusing on high-level semantic features.' },
+      { id: 'pool', name: 'Global Pool', type: 'AdaptiveAvgPool', nodes: 9, shape: '192×1×1', params: '0', x: 6, color: '#38bdf8', details: 'Global average pooling produces a 192-dimensional feature vector.' },
+      { id: 'fc', name: 'Classifier', type: 'Linear', nodes: 10, shape: '10', params: '1,930', x: 8, color: '#60a5fa', details: 'Final classifier: 192→10 classes (airplane, car, bird, cat, deer, dog, frog, horse, ship, truck).' },
     ],
     connections: [
-      ['input', 'conv1'], ['conv1', 'res1'], ['res1', 'res2'],
-      ['res2', 'res3'], ['res3', 'pool'], ['pool', 'fc'],
+      ['input', 'conv1'], ['conv1', 'stage1'], ['stage1', 'stage2'],
+      ['stage2', 'stage3'], ['stage3', 'pool'], ['pool', 'fc'],
     ],
     residualConnections: [
-      ['res1', 'res1'], ['res2', 'res2'], ['res3', 'res3'],
+      ['stage1', 'stage1'], ['stage2', 'stage2'], ['stage3', 'stage3'],
+    ],
+  },
+  cifar100: {
+    id: 'cifar100',
+    name: 'LiteNeTX-CIFAR100',
+    type: 'SE-CNN',
+    description: 'High-performance Squeeze-and-Excitation CNN for 100-class fine-grained classification.',
+    layers: [
+      { id: 'input', name: 'Input Layer', type: 'Input', nodes: 9, shape: '3×32×32', params: '0', x: -9, color: '#a855f7', details: 'Raw RGB input. The entry point for 32x32 pixel images.' },
+      { id: 'stem', name: 'Stem', type: 'Conv2d + BN', nodes: 16, shape: '64×32×32', params: '1,792', x: -6, color: '#d8b4fe', details: 'Initial processing layer that expands channel depth to 64.' },
+      { id: 'stage1', name: 'Stage 1', type: 'SE-Bottleneck x3', nodes: 16, shape: '256×32×32', params: '228k', x: -3, color: '#c084fc', isResidual: true, details: 'First block of 3 bottleneck layers with Squeeze-and-Excitation attention.' },
+      { id: 'stage2', name: 'Stage 2', type: 'SE-Bottleneck x12', nodes: 25, shape: '512×16×16', params: '3.2M', x: 0, color: '#a855f7', isResidual: true, details: 'Deep processing block with 12 layers, handling complex pattern recognition.' },
+      { id: 'stage3', name: 'Stage 3', type: 'SE-Bottleneck x8', nodes: 36, shape: '1024×8×8', params: '11M', x: 3, color: '#9333ea', isResidual: true, details: 'Final feature extraction stage producing high-level 1024-channel features.' },
+      { id: 'pool', name: 'Global Pool', type: 'AdaptiveAvgPool', nodes: 9, shape: '1024×1×1', params: '0', x: 6, color: '#7e22ce', details: 'Condenses spatial information into a single feature vector.' },
+      { id: 'fc', name: 'Classifier', type: 'Linear', nodes: 10, shape: '100', params: '102,500', x: 8, color: '#f0abfc', details: 'Final dense layer mapping features to 100 specific object classes.' },
+    ],
+    connections: [
+      ['input', 'stem'], ['stem', 'stage1'], ['stage1', 'stage2'],
+      ['stage2', 'stage3'], ['stage3', 'pool'], ['pool', 'fc'],
+    ],
+    residualConnections: [
+      ['stage1', 'stage1'], ['stage2', 'stage2'], ['stage3', 'stage3'],
     ],
   },
 };
@@ -285,7 +308,7 @@ function Scene({ model, autoRotate, showConnections, showResidual, density, onLa
       }
     });
 
-    if (model === 'cifar' && showResidual && 'residualConnections' in config) {
+    if ((model === 'cifar' || model === 'cifar100') && showResidual && 'residualConnections' in config) {
       config.residualConnections.forEach(([layerId]: string[]) => {
         const layer = layerMap.get(layerId) as any;
         if (!layer) return;
@@ -357,7 +380,7 @@ function Scene({ model, autoRotate, showConnections, showResidual, density, onLa
 }
 
 export default function NeuralNetwork3D() {
-  const [model, setModel] = useState<'fashion' | 'cifar'>('fashion');
+  const [model, setModel] = useState<'fashion' | 'cifar' | 'cifar100'>('fashion');
   const [autoRotate, setAutoRotate] = useState(true);
   const [showConnections, setShowConnections] = useState(true);
   const [showResidual, setShowResidual] = useState(true);
@@ -403,12 +426,13 @@ export default function NeuralNetwork3D() {
         <div className="flex items-center gap-2 border-r border-border pr-4">
           <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Model</span>
           <Select value={model} onValueChange={(v: any) => setModel(v)}>
-            <SelectTrigger className="w-[140px] h-7 bg-secondary border-border text-foreground text-xs rounded-full focus:ring-0 focus:ring-offset-0">
+            <SelectTrigger className="w-[180px] h-7 bg-secondary border-border text-foreground text-xs rounded-full focus:ring-0 focus:ring-offset-0">
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="bg-card backdrop-blur-xl border-border">
-              <SelectItem value="fashion">LiteNeTX-Fashion</SelectItem>
-              <SelectItem value="cifar">LiteNeTX-CIFAR</SelectItem>
+              <SelectItem value="fashion">LiteNeTX-FMNIST</SelectItem>
+              <SelectItem value="cifar">LiteNeTX-CIFAR10</SelectItem>
+              <SelectItem value="cifar100">LiteNeTX-CIFAR100</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -448,7 +472,7 @@ export default function NeuralNetwork3D() {
             <Activity className="w-3.5 h-3.5" />
           </Button>
 
-          {model === 'cifar' && (
+          {(model === 'cifar' || model === 'cifar100') && (
             <Button
               variant="ghost"
               size="icon"
@@ -481,14 +505,22 @@ export default function NeuralNetwork3D() {
         transition={{ delay: 0.5 }}
         className="flex sm:hidden absolute bottom-6 left-0 right-0 mx-auto w-fit bg-card/95 backdrop-blur-xl border border-border rounded-full px-5 py-3 items-center justify-center gap-5 shadow-2xl z-50 pointer-events-auto"
       >
-        {/* Model Toggle */}
+        {/* Mobile Model Toggle - Cycle 3 models */}
         <Button
           variant="ghost"
           size="icon"
-          className={cn("rounded-full w-9 h-9", model === 'fashion' ? "bg-blue-500/20 text-blue-500" : "bg-emerald-500/20 text-emerald-500")}
-          onClick={() => setModel(model === 'fashion' ? 'cifar' : 'fashion')}
+          className={cn("rounded-full w-9 h-9",
+            model === 'fashion' ? "bg-blue-500/20 text-blue-500" :
+              model === 'cifar' ? "bg-emerald-500/20 text-emerald-500" :
+                "bg-purple-500/20 text-purple-500"
+          )}
+          onClick={() => {
+            if (model === 'fashion') setModel('cifar');
+            else if (model === 'cifar') setModel('cifar100');
+            else setModel('fashion');
+          }}
         >
-          {model === 'fashion' ? <Shirt className="w-4 h-4" /> : <ImageIcon className="w-4 h-4" />}
+          {model === 'fashion' ? <Shirt className="w-4 h-4" /> : model === 'cifar' ? <ImageIcon className="w-4 h-4" /> : <Layers className="w-4 h-4" />}
         </Button>
 
         <div className="w-px h-4 bg-border" />

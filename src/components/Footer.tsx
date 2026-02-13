@@ -1,14 +1,22 @@
 import { Link } from 'react-router-dom';
 import { Github, Linkedin, Mail } from 'lucide-react';
+import { useTheme } from '@/components/ThemeProvider';
 
 export default function Footer() {
+  const { theme } = useTheme();
+
   return (
     <footer className="py-6 mt-12 border-t border-border bg-muted/30 backdrop-blur-sm">
       <div className="container-custom">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
 
           {/* Logo - Left */}
-          <Link to="/" className="flex items-center gap-2 order-1 md:order-1">
+          <Link to="/" className="flex items-center gap-0 order-1 md:order-1">
+            <img
+              src={theme === 'dark' ? "/LiteNeTX_logo_bwhite.png" : "/LiteNeTX_logo_bblack.png"}
+              alt="LiteNeTX Logo"
+              className="w-12 h-12 object-contain -mr-1"
+            />
             <span className="text-lg font-bold">
               Lite<span className="gradient-text">NeTX</span>
             </span>

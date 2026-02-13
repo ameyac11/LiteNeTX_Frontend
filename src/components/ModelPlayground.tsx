@@ -12,18 +12,31 @@ const fashionLabels = [
     'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot',
 ];
 
-const cifarLabels = [
+const cifar10Labels = [
     'airplane', 'automobile', 'bird', 'cat', 'deer',
     'dog', 'frog', 'horse', 'ship', 'truck',
 ];
 
-type ModelType = 'fashion' | 'cifar';
+const cifar100Labels = [
+    'apple', 'aquarium_fish', 'baby', 'bear', 'beaver', 'bed', 'bee', 'beetle', 'bicycle', 'bottle',
+    'bowl', 'boy', 'bridge', 'bus', 'butterfly', 'camel', 'can', 'castle', 'caterpillar', 'cattle',
+    'chair', 'chimpanzee', 'clock', 'cloud', 'cockroach', 'couch', 'crab', 'crocodile', 'cup', 'dinosaur',
+    'dolphin', 'elephant', 'flatfish', 'forest', 'fox', 'girl', 'hamster', 'house', 'kangaroo', 'keyboard',
+    'lamp', 'lawn_mower', 'leopard', 'lion', 'lizard', 'lobster', 'man', 'maple_tree', 'motorcycle', 'mountain',
+    'mouse', 'mushroom', 'oak_tree', 'orange', 'orchid', 'otter', 'palm_tree', 'pear', 'pickup_truck', 'pine_tree',
+    'plain', 'plate', 'poppy', 'porcupine', 'possum', 'rabbit', 'raccoon', 'ray', 'road', 'rocket',
+    'rose', 'sea', 'seal', 'shark', 'shrew', 'skunk', 'skyscraper', 'snail', 'snake', 'spider',
+    'squirrel', 'streetcar', 'sunflower', 'sweet_pepper', 'table', 'tank', 'telephone', 'television', 'tiger', 'tractor',
+    'train', 'trout', 'tulip', 'turtle', 'wardrobe', 'whale', 'willow_tree', 'wolf', 'woman', 'worm',
+];
+
+type ModelType = 'fashion' | 'cifar' | 'cifar100';
 
 const MODELS = {
     fashion: {
         id: 'fashion',
-        name: 'LiteNeTX-Fashion',
-        shortName: 'Fashion',
+        name: 'LiteNeTX-FMNIST',
+        shortName: 'LiteNeTX-FMNIST',
         description: 'Classify grayscale clothing items',
         endpoint: '/predict/fashion',
         labels: fashionLabels,
@@ -33,22 +46,37 @@ const MODELS = {
         accent: 'text-blue-400',
         bg: 'bg-blue-500/10',
         border: 'border-blue-500/20',
-        examples: [] // Will be loaded from backend
+        examples: [],
     },
     cifar: {
         id: 'cifar',
-        name: 'LiteNeTX-CIFAR',
-        shortName: 'CIFAR-10',
+        name: 'LiteNeTX-CIFAR10',
+        shortName: 'LiteNeTX-CIFAR10',
         description: 'Classify common objects in RGB',
         endpoint: '/predict/cifar',
-        labels: cifarLabels,
+        labels: cifar10Labels,
         inputFormat: '32×32 RGB',
         icon: ImageIcon,
         color: 'from-emerald-500 to-teal-500',
         accent: 'text-emerald-400',
         bg: 'bg-emerald-500/10',
         border: 'border-emerald-500/20',
-        examples: [] // Will be loaded from backend
+        examples: [],
+    },
+    cifar100: {
+        id: 'cifar100',
+        name: 'LiteNeTX-CIFAR100',
+        shortName: 'LiteNeTX-CIFAR100',
+        description: 'Fine-grained 100-class classification',
+        endpoint: '/predict/cifar100',
+        labels: cifar100Labels,
+        inputFormat: '32×32 RGB',
+        icon: ImageIcon,
+        color: 'from-purple-500 to-fuchsia-500',
+        accent: 'text-purple-400',
+        bg: 'bg-purple-500/10',
+        border: 'border-purple-500/20',
+        examples: [],
     },
 };
 
@@ -105,6 +133,17 @@ export default function ModelPlayground() {
 
         fetchExamples();
     }, [activeModel]);
+
+    // Clear input and results when model changes
+    useEffect(() => {
+        setImage(null);
+        setFile(null);
+        setResults([]);
+        setError(null);
+        setIsScanning(false);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+    }, [activeModel]);
+
 
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -348,7 +387,7 @@ export default function ModelPlayground() {
                                                 <motion.div
                                                     initial={{ opacity: 0 }}
                                                     animate={{ opacity: 1 }}
-                                                    className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"
+                                                    className="absolute inset-0 bg-white/80 dark:bg-black/60 backdrop-blur-[2px]"
                                                 />
 
                                                 {/* Tech Overlay Background */}
@@ -399,25 +438,25 @@ export default function ModelPlayground() {
                                                         />
                                                         {/* Counter-rotating inner ring */}
                                                         <motion.div
-                                                            className="absolute inset-8 border border-white/10 rounded-full"
+                                                            className="absolute inset-8 border border-black/10 dark:border-white/10 rounded-full"
                                                             animate={{ rotate: -360 }}
                                                             transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
                                                         />
 
                                                         {/* Center Core */}
-                                                        <div className="absolute bg-black/80 backdrop-blur-xl border border-white/10 p-5 rounded-2xl shadow-2xl flex flex-col items-center gap-2 min-w-[160px]">
+                                                        <div className="absolute bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/10 p-5 rounded-2xl shadow-2xl flex flex-col items-center gap-2 min-w-[160px]">
                                                             <div className="flex items-center gap-2">
                                                                 <Loader2 className="w-4 h-4 text-primary animate-spin" />
-                                                                <span className="font-mono text-xs font-bold text-white tracking-[0.2em] relative top-px">ANALYZING</span>
+                                                                <span className="font-mono text-xs font-bold text-foreground tracking-[0.2em] relative top-px">ANALYZING</span>
                                                             </div>
-                                                            <div className="h-[1px] w-full bg-white/10 my-1" />
+                                                            <div className="h-[1px] w-full bg-border my-1" />
                                                             <div className="flex flex-col gap-1.5 w-full">
                                                                 <div className="flex justify-between items-center text-[9px] text-muted-foreground font-mono">
                                                                     <span>CONFIDENCE</span>
                                                                     <span className="text-primary animate-pulse">CALCULATING...</span>
                                                                 </div>
                                                                 {/* Animated Bar */}
-                                                                <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                                                                <div className="w-full h-1 bg-secondary rounded-full overflow-hidden">
                                                                     <motion.div
                                                                         className="h-full bg-primary"
                                                                         animate={{ width: ["10%", "60%", "30%", "90%"] }}
@@ -447,9 +486,7 @@ export default function ModelPlayground() {
                                             </div>
                                         )}
 
-                                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-xs text-white/70 bg-black/50 px-3 py-1 rounded-full backdrop-blur-md">
-                                            Click or drop to change
-                                        </div>
+
                                     </motion.div>
                                 ) : (
                                     <motion.div

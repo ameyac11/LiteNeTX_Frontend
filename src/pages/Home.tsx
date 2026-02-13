@@ -5,9 +5,9 @@ import { Button } from '@/components/ui/button';
 import PageTransition from '@/components/PageTransition';
 
 const stats = [
-  { value: '98%', label: 'Accuracy', icon: Activity },
+  { value: '99%', label: 'Accuracy', icon: Activity },
   { value: '<50ms', label: 'Latency', icon: Zap },
-  { value: '2', label: 'Models', icon: Database },
+  { value: '3', label: 'Models', icon: Database },
   { value: '100%', label: 'Custom', icon: Sparkles },
 ];
 
@@ -19,10 +19,7 @@ export default function Home() {
 
         {/* Background Effects */}
         <div className="absolute inset-0 -z-20 bg-background" />
-        <div className="absolute inset-0 -z-10 opacity-30 pointer-events-none overflow-hidden">
-          <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[128px] animate-pulse" />
-          <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-[128px]" />
-        </div>
+
 
         <div className="container-custom relative z-10 flex-1 flex flex-col justify-center">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -66,7 +63,7 @@ export default function Home() {
                 </Button>
                 <Button asChild size="lg" variant="outline" className="h-12 px-7 text-base rounded-full hover:bg-white/5 transition-all">
                   <Link to="/3d-nn">
-                    Explore 3D NN
+                    Explore 3D View
                   </Link>
                 </Button>
               </motion.div>
@@ -77,7 +74,7 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
-              className="relative h-[350px] lg:h-[500px] min-h-[350px] lg:min-h-[500px] shadow-[0_0_50px_-12px_rgba(59,130,246,0.3)]"
+              className="relative h-[350px] lg:h-[500px] min-h-[350px] lg:min-h-[500px]"
             >
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-primary/5 to-transparent rounded-3xl border border-white/10 backdrop-blur-sm p-4 lg:p-8 overflow-hidden">
                 {/* Neural Network Background Image */}
@@ -96,7 +93,7 @@ export default function Home() {
                 <motion.div
                   animate={{ y: [0, -20, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute top-4 right-4 lg:top-20 lg:right-20 p-3 lg:p-4 glass-card rounded-2xl border-white/10 shadow-xl"
+                  className="absolute top-4 right-4 lg:top-20 lg:right-20 p-3 lg:p-4 glass-card rounded-2xl border-white/10"
                 >
                   <Flame className="w-6 h-6 lg:w-8 lg:h-8 text-orange-500 mb-2" />
                   <div className="text-xs text-muted-foreground">Backend</div>
@@ -106,17 +103,17 @@ export default function Home() {
                 <motion.div
                   animate={{ y: [0, 15, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute bottom-4 left-4 lg:bottom-32 lg:left-10 p-3 lg:p-4 glass-card rounded-2xl border-white/10 shadow-xl"
+                  className="absolute bottom-4 left-4 lg:bottom-32 lg:left-10 p-3 lg:p-4 glass-card rounded-2xl border-white/10"
                 >
                   <Server className="w-6 h-6 lg:w-8 lg:h-8 text-blue-500 mb-2" />
                   <div className="text-xs text-muted-foreground">Model Size</div>
-                  <div className="font-bold text-sm lg:text-base">26-42 MB</div>
+                  <div className="font-bold text-sm lg:text-base">1.6-56 MB</div>
                 </motion.div>
 
                 <motion.div
                   animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                  className="absolute bottom-4 right-4 lg:bottom-20 lg:right-10 p-3 lg:p-4 glass-card rounded-2xl border-white/10 shadow-xl"
+                  className="absolute bottom-4 right-4 lg:bottom-20 lg:right-10 p-3 lg:p-4 glass-card rounded-2xl border-white/10"
                 >
                   <Database className="w-6 h-6 lg:w-8 lg:h-8 text-emerald-500 mb-2" />
                   <div className="text-xs text-muted-foreground">Training</div>
@@ -138,7 +135,7 @@ export default function Home() {
           {/* Mobile: Grid of Cards */}
           <div className="grid grid-cols-2 gap-3 w-full max-w-md mx-auto lg:hidden">
             {stats.map((stat, i) => (
-              <div key={i} className="glass-card p-4 rounded-2xl border border-white/10 shadow-xl">
+              <div key={i} className="glass-card p-4 rounded-2xl border border-white/10">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-full bg-primary/10 text-primary">
                     <stat.icon className="w-5 h-5" />
@@ -153,7 +150,7 @@ export default function Home() {
           </div>
 
           {/* Desktop: Horizontal Bar */}
-          <div className="hidden lg:flex glass-card px-6 py-3 rounded-full border border-white/10 shadow-2xl items-center gap-10 mx-auto w-fit">
+          <div className="hidden lg:flex glass-card px-6 py-3 rounded-full border border-white/10 items-center gap-10 mx-auto w-fit">
             {stats.map((stat, i) => (
               <div key={i} className="flex items-center gap-2.5 shrink-0">
                 <div className="p-1.5 rounded-full bg-primary/10 text-primary">
