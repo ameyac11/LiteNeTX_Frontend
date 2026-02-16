@@ -64,16 +64,16 @@ const MODEL_CONFIG = {
   cifar100: {
     id: 'cifar100',
     name: 'LiteNeTX-CIFAR100',
-    type: 'SE-CNN',
-    description: 'High-performance Squeeze-and-Excitation CNN for 100-class fine-grained classification.',
+    type: 'PreAct Wide SE-ResNet',
+    description: 'PreAct Wide SE-ResNet with wider basic blocks and Squeeze-and-Excitation attention for 100-class fine-grained classification.',
     layers: [
       { id: 'input', name: 'Input Layer', type: 'Input', nodes: 9, shape: '3×32×32', params: '0', x: -9, color: '#a855f7', details: 'Raw RGB input. The entry point for 32x32 pixel images.' },
       { id: 'stem', name: 'Stem', type: 'Conv2d + BN', nodes: 16, shape: '64×32×32', params: '1,792', x: -6, color: '#d8b4fe', details: 'Initial processing layer that expands channel depth to 64.' },
-      { id: 'stage1', name: 'Stage 1', type: 'SE-Bottleneck x3', nodes: 16, shape: '256×32×32', params: '228k', x: -3, color: '#c084fc', isResidual: true, details: 'First block of 3 bottleneck layers with Squeeze-and-Excitation attention.' },
-      { id: 'stage2', name: 'Stage 2', type: 'SE-Bottleneck x12', nodes: 25, shape: '512×16×16', params: '3.2M', x: 0, color: '#a855f7', isResidual: true, details: 'Deep processing block with 12 layers, handling complex pattern recognition.' },
-      { id: 'stage3', name: 'Stage 3', type: 'SE-Bottleneck x8', nodes: 36, shape: '1024×8×8', params: '11M', x: 3, color: '#9333ea', isResidual: true, details: 'Final feature extraction stage producing high-level 1024-channel features.' },
-      { id: 'pool', name: 'Global Pool', type: 'AdaptiveAvgPool', nodes: 9, shape: '1024×1×1', params: '0', x: 6, color: '#7e22ce', details: 'Condenses spatial information into a single feature vector.' },
-      { id: 'fc', name: 'Classifier', type: 'Linear', nodes: 10, shape: '100', params: '102,500', x: 8, color: '#f0abfc', details: 'Final dense layer mapping features to 100 specific object classes.' },
+      { id: 'stage1', name: 'Stage 1', type: 'PreActBasicSE x4', nodes: 16, shape: '128×32×32', params: '369k', x: -3, color: '#c084fc', isResidual: true, details: 'First block of 4 basic layers with Squeeze-and-Excitation attention and stochastic depth.' },
+      { id: 'stage2', name: 'Stage 2', type: 'PreActBasicSE x4', nodes: 25, shape: '256×16×16', params: '1.7M', x: 0, color: '#a855f7', isResidual: true, details: 'Wider processing block with 4 layers, handling spatial downsampling with SE attention.' },
+      { id: 'stage3', name: 'Stage 3', type: 'PreActBasicSE x3', nodes: 36, shape: '512×8×8', params: '5.3M', x: 3, color: '#9333ea', isResidual: true, details: 'Final feature extraction stage producing high-level 512-channel features with SE attention.' },
+      { id: 'pool', name: 'Global Pool', type: 'AdaptiveAvgPool', nodes: 9, shape: '512×1×1', params: '0', x: 6, color: '#7e22ce', details: 'Condenses spatial information into a single feature vector.' },
+      { id: 'fc', name: 'Classifier', type: 'Linear', nodes: 10, shape: '100', params: '51,300', x: 8, color: '#f0abfc', details: 'Final dense layer mapping features to 100 specific object classes.' },
     ],
     connections: [
       ['input', 'stem'], ['stem', 'stage1'], ['stage1', 'stage2'],

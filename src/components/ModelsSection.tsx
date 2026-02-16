@@ -35,8 +35,8 @@ const models = [
     inputSize: '32×32',
     channels: 3,
     classes: 100,
-    params: '14.6M',
-    modelSize: '55.62 MB',
+    params: '18.9M',
+    modelSize: '72.14 MB',
     endpoint: '/predict/cifar100',
     useCase: 'Fine-grained 100-class classification',
     color: 'purple',
@@ -47,8 +47,8 @@ const comparisonData = [
   { property: 'Dataset', values: ['FashionMNIST', 'CIFAR-10', 'CIFAR-100'] },
   { property: 'Input Size', values: ['1×28×28', '3×32×32', '3×32×32'] },
   { property: 'Classes', values: ['10', '10', '100'] },
-  { property: 'Parameters', values: ['426,602', '1,903,146', '14,579,492'] },
-  { property: 'Model Size', values: ['1.63 MB', '7.26 MB', '55.62 MB'] },
+  { property: 'Parameters', values: ['0.43M', '1.90M', '18.88M'] },
+  { property: 'Model Size', values: ['1.63 MB', '7.26 MB', '72.14 MB'] },
   { property: 'Endpoint', values: ['/predict/fashion', '/predict/cifar', '/predict/cifar100'] },
 ];
 

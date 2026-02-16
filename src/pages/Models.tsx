@@ -13,7 +13,7 @@ const models = [
     inputSize: '28×28',
     channels: 1,
     classes: 10,
-    params: '426,602',
+    params: '0.43M',
     modelSize: '1.63 MB',
     convLayers: 6,
     endpoint: '/predict/fashion',
@@ -31,7 +31,7 @@ const models = [
     inputSize: '32×32',
     channels: 3,
     classes: 10,
-    params: '1,903,146',
+    params: '1.90M',
     modelSize: '7.26 MB',
     convLayers: 13,
     endpoint: '/predict/cifar',
@@ -49,25 +49,25 @@ const models = [
     inputSize: '32×32',
     channels: 3,
     classes: 100,
-    params: '14,579,492',
-    modelSize: '55.62 MB',
-    convLayers: 70,
+    params: '18.88M',
+    modelSize: '72.14 MB',
+    convLayers: 23,
     endpoint: '/predict/cifar100',
     useCase: 'Fine-Grained 100-Class Classification',
     color: 'from-purple-500 to-fuchsia-500',
     accent: 'text-purple-400',
-    description: 'Pre-activation bottleneck SE-CNN with stochastic depth, 23 blocks, and squeeze-excitation attention. 91.54% on CIFAR-100.',
-    architecture: 'Bottleneck SE-CNN'
+    description: 'PreAct Wide SE-ResNet with wider basic blocks, SE attention, and stochastic depth. 11 residual blocks optimized for CIFAR-100.',
+    architecture: 'PreAct Wide SE-ResNet'
   },
 ];
 
 const comparisonData = [
   { property: 'Dataset', values: ['FashionMNIST', 'CIFAR-10', 'CIFAR-100'] },
   { property: 'Input Shape', values: ['1×28×28', '3×32×32', '3×32×32'] },
-  { property: 'Architecture', values: ['Compact CNN', 'Custom Residual', 'Bottleneck SE-CNN'] },
-  { property: 'Parameters', values: ['426,602', '1,903,146', '14,579,492'] },
-  { property: 'Model Size', values: ['1.63 MB', '7.26 MB', '55.62 MB'] },
-  { property: 'Conv Layers', values: ['6', '13', '70'] },
+  { property: 'Architecture', values: ['Compact CNN', 'Custom Residual', 'PreAct Wide SE-ResNet'] },
+  { property: 'Parameters', values: ['0.43M', '1.90M', '18.88M'] },
+  { property: 'Model Size', values: ['1.63 MB', '7.26 MB', '72.14 MB'] },
+  { property: 'Conv Layers', values: ['6', '13', '23'] },
   { property: 'Target Accuracy', values: ['98.93%', '96.71%', '91.54%'] },
 ];
 

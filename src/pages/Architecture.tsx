@@ -43,7 +43,7 @@ const fashionArchitecture = {
     { name: 'fc', type: 'Linear', shape: '10', description: '128 → 10 (output)', icon: Activity },
   ],
   specs: [
-    { label: 'Parameters', value: '426,602' },
+    { label: 'Parameters', value: '0.43M' },
     { label: 'Model Size', value: '1.63 MB' },
     { label: 'Input Size', value: '28×28' },
     { label: 'Conv Layers', value: '6' },
@@ -73,7 +73,7 @@ const cifarArchitecture = {
     { name: 'fc', type: 'Linear', shape: '10', description: '192 → 10 (output)', icon: Activity },
   ],
   specs: [
-    { label: 'Parameters', value: '1,903,146' },
+    { label: 'Parameters', value: '1.90M' },
     { label: 'Model Size', value: '7.26 MB' },
     { label: 'Input Size', value: '32×32' },
     { label: 'Conv Layers', value: '13' },
@@ -94,19 +94,19 @@ const cifar100Architecture = {
   layers: [
     { name: 'Input', type: 'Input', shape: '3 × 32 × 32', description: 'RGB image', icon: Box },
     { name: 'conv1 + bn1', type: 'Conv2d+BN', shape: '64 × 32 × 32', description: '3→64, 3×3, bias=False + BN + ReLU', icon: Layers },
-    { name: 'stage1', type: 'PreActBottleneckSE ×3', shape: '256 × 32 × 32', description: 'mid=64, out=256, SE(r=16), drop=5%', icon: Box },
-    { name: 'stage2', type: 'PreActBottleneckSE ×12', shape: '512 × 16 × 16', description: 'mid=128, out=512, SE(r=16), drop=10%', icon: Box },
-    { name: 'stage3', type: 'PreActBottleneckSE ×8', shape: '1024 × 8 × 8', description: 'mid=256, out=1024, SE(r=16), drop=15%', icon: Box },
-    { name: 'final_bn', type: 'BatchNorm2d', shape: '1024 × 8 × 8', description: 'Final batch normalization + ReLU', icon: Settings },
-    { name: 'AdaptiveAvgPool', type: 'Pooling', shape: '1024 × 1 × 1', description: 'Global average pooling', icon: ArrowRight },
-    { name: 'Dropout', type: 'Regularization', shape: '1024', description: 'p=0.3', icon: Shield },
-    { name: 'fc', type: 'Linear', shape: '100', description: '1024 → 100 (output)', icon: Activity },
+    { name: 'stage1', type: 'PreActBasicSE ×4', shape: '128 × 32 × 32', description: '64→128, stride=1, SE(r=16), stochastic depth', icon: Box },
+    { name: 'stage2', type: 'PreActBasicSE ×4', shape: '256 × 16 × 16', description: '128→256, stride=2, SE(r=16), stochastic depth', icon: Box },
+    { name: 'stage3', type: 'PreActBasicSE ×3', shape: '512 × 8 × 8', description: '256→512, stride=2, SE(r=16), stochastic depth', icon: Box },
+    { name: 'final_bn', type: 'BatchNorm2d', shape: '512 × 8 × 8', description: 'Final batch normalization + ReLU', icon: Settings },
+    { name: 'AdaptiveAvgPool', type: 'Pooling', shape: '512 × 1 × 1', description: 'Global average pooling', icon: ArrowRight },
+    { name: 'Dropout', type: 'Regularization', shape: '512', description: 'p=0.25', icon: Shield },
+    { name: 'fc', type: 'Linear', shape: '100', description: '512 → 100 (output)', icon: Activity },
   ],
   specs: [
-    { label: 'Parameters', value: '14,579,492' },
-    { label: 'Model Size', value: '55.62 MB' },
+    { label: 'Parameters', value: '18.88M' },
+    { label: 'Model Size', value: '72.14 MB' },
     { label: 'Input Size', value: '32×32' },
-    { label: 'Conv Layers', value: '70' },
+    { label: 'Conv Layers', value: '23' },
   ],
   training: [
     'SGD with momentum',
@@ -175,13 +175,13 @@ const ArchitectureDisplay = ({ data }: { data: ArchData }) => {
               <h3 className="text-xl font-bold mb-3">
                 {data.id === 'fashion' && 'Optimized Grayscale CNN'}
                 {data.id === 'cifar' && 'Lightweight Residual Network'}
-                {data.id === 'cifar100' && 'Deep SE-CNN Architecture'}
+                {data.id === 'cifar100' && 'PreAct Wide SE-ResNet'}
               </h3>
 
               <p className="text-muted-foreground leading-relaxed mb-6">
                 {data.id === 'fashion' && 'A highly efficient 6-layer convolutional neural network designed specifically for single-channel fashion item classification. Features strategic stride-based downsampling and adaptive regularization.'}
                 {data.id === 'cifar' && 'Advanced residual architecture featuring 3 processing stages with skip connections. Balances depth and efficiency to capture complex color patterns in 32x32 RGB space without vanishing gradients.'}
-                {data.id === 'cifar100' && 'State-of-the-art bottleneck architecture enhanced with Squeeze-and-Excitation attention modules. Dynamically recalibrates channel-wise feature responses to distinguish between 100 fine-grained object classes.'}
+                {data.id === 'cifar100' && 'Advanced PreAct Wide SE-ResNet with wider basic blocks and Squeeze-and-Excitation attention. Optimized for 100-class fine-grained classification with efficient channel-wise feature learning and stochastic depth regularization.'}
               </p>
 
               <div className="flex flex-wrap gap-2 justify-center">
@@ -191,7 +191,7 @@ const ArchitectureDisplay = ({ data }: { data: ArchData }) => {
                 {data.id === 'cifar' && ['ResBlock', 'Skip Connections', 'Cosine Annealing', 'AMP'].map((tag, i) => (
                   <Badge key={i} variant="outline" className="font-mono text-xs">{tag}</Badge>
                 ))}
-                {data.id === 'cifar100' && ['SE-Attention', 'Bottleneck', 'CutMix', 'AutoAugment'].map((tag, i) => (
+                {data.id === 'cifar100' && ['SE-Attention', 'PreAct Basic', 'CutMix', 'AutoAugment'].map((tag, i) => (
                   <Badge key={i} variant="outline" className="font-mono text-xs">{tag}</Badge>
                 ))}
               </div>
