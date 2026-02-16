@@ -43,10 +43,10 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${is3DPage
-        ? 'bg-transparent py-4'
+        ? 'bg-transparent py-2'
         : isScrolled
-          ? 'glass-card py-3'
-          : 'bg-background/50 backdrop-blur-sm py-4'
+          ? 'glass-card py-1.5'
+          : 'bg-background/50 backdrop-blur-sm py-2'
         }`}
     >
       <div className="container-custom flex items-center justify-between">
@@ -55,10 +55,10 @@ export default function Navbar() {
           <img
             src={is3DPage || theme === 'dark' ? "/LiteNeTX_logo_bwhite.png" : "/LiteNeTX_logo_bblack.png"}
             alt="LiteNeTX Logo"
-            className="w-12 h-12 object-contain -mr-1"
+            className="w-8 h-8 object-contain -mr-1"
           />
-          <span className={`text-xl font-bold tracking-tight ${is3DPage ? 'text-white' : ''}`}>
-            Lite<span className="gradient-text">NeTX</span>
+          <span className={`text-base font-bold tracking-tight ${is3DPage ? 'text-white' : ''}`}>
+            LiteNet<span className="text-primary">TX</span>
           </span>
         </Link>
 
@@ -94,7 +94,7 @@ export default function Navbar() {
               <Moon className={`w-5 h-5 ${is3DPage ? 'text-white' : 'text-foreground'}`} />
             )}
           </Button>
-          <Button asChild className="gradient-bg hover:opacity-90 transition-opacity">
+          <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary/10 hover:text-primary">
             <Link to="/demos">Try Demo</Link>
           </Button>
         </div>
@@ -145,7 +145,7 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <Button asChild className="gradient-bg mt-2">
+              <Button asChild variant="outline" className="mt-2 border-primary text-primary hover:bg-primary/10 hover:text-primary">
                 <Link to="/demos" onClick={() => setIsMobileMenuOpen(false)}>
                   Try Demo
                 </Link>

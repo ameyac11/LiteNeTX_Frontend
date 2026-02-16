@@ -157,13 +157,13 @@
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
   }
-  
+
   /* Ensure consistent font loading and prevent FOUT */
   html {
     font-feature-settings: 'kern' 1, 'liga' 1;
     font-kerning: normal;
   }
-  
+
   /* Prevent layout shift during font loading */
   * {
     font-synthesis: none;
@@ -298,6 +298,7 @@
     0% {
       transform: translateX(-100%);
     }
+
     100% {
       transform: translateX(100%);
     }
@@ -329,21 +330,17 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.1),
-      transparent
-    );
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent);
     animation: shimmer 2s infinite;
   }
 
   .dark .skeleton-shimmer::after {
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.05),
-      transparent
-    );
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.05),
+        transparent);
   }
 }

@@ -40,7 +40,7 @@ export default function Home() {
                 </div>
 
                 <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-tight mb-3">
-                  <span className="text-foreground">Lite</span><span className="gradient-text">NeTX</span>
+                  <span className="text-foreground">LiteNet</span><span className="text-primary">TX</span>
                 </h1>
 
                 <p className="text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed">

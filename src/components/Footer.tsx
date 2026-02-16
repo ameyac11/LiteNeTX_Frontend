@@ -6,54 +6,70 @@ export default function Footer() {
   const { theme } = useTheme();
 
   return (
-    <footer className="py-6 mt-12 border-t border-border bg-muted/30 backdrop-blur-sm">
+    <footer className="py-12 mt-12 border-t border-border bg-muted/30 backdrop-blur-sm">
       <div className="container-custom">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start gap-8">
 
-          {/* Logo - Left */}
-          <Link to="/" className="flex items-center gap-0 order-1 md:order-1">
-            <img
-              src={theme === 'dark' ? "/LiteNeTX_logo_bwhite.png" : "/LiteNeTX_logo_bblack.png"}
-              alt="LiteNeTX Logo"
-              className="w-12 h-12 object-contain -mr-1"
-            />
-            <span className="text-lg font-bold">
-              Lite<span className="gradient-text">NeTX</span>
-            </span>
-          </Link>
-
-          {/* Copyright - Center */}
-          <div className="text-xs text-muted-foreground/60 order-3 md:order-2 text-center">
-            <p>© {new Date().getFullYear()} LiteNeTX • Built with PyTorch, FastAPI & React</p>
+          {/* Left Column - Brand */}
+          <div className="flex flex-col gap-4 max-w-sm">
+            <Link to="/" className="flex items-center gap-0">
+              <img
+                src={theme === 'dark' ? "/LiteNeTX_logo_bwhite.png" : "/LiteNeTX_logo_bblack.png"}
+                alt="LiteNeTX Logo"
+                className="w-10 h-10 object-contain -mr-1"
+              />
+              <span className="text-lg font-bold">
+                LiteNet<span className="text-primary">TX</span>
+              </span>
+            </Link>
+            <p className="text-sm text-muted-foreground">
+              Custom CNN models built from scratch
+            </p>
+            <p className="text-xs text-muted-foreground/60 mt-4">
+              © {new Date().getFullYear()} LiteNeTX. All rights reserved.
+            </p>
           </div>
 
-          {/* Social - Right */}
-          <div className="flex items-center gap-3 order-2 md:order-3">
-            <a
-              href="https://github.com/AmeyC171"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-lg hover:bg-white/5 transition-colors text-muted-foreground hover:text-foreground"
-              aria-label="GitHub"
-            >
-              <Github className="w-4 h-4" />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/ameyac11"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-lg hover:bg-white/5 transition-colors text-muted-foreground hover:text-foreground"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="w-4 h-4" />
-            </a>
-            <a
-              href="mailto:ameyaccod171@gmail.com"
-              className="p-2 rounded-lg hover:bg-white/5 transition-colors text-muted-foreground hover:text-foreground"
-              aria-label="Email"
-            >
-              <Mail className="w-4 h-4" />
-            </a>
+          {/* Center Column - Navigation */}
+          <div className="flex items-center gap-6 self-center md:self-start md:mt-2">
+            <Link to="/demos" className="text-sm text-muted-foreground hover:text-primary transition-colors">Demos</Link>
+            <Link to="/models" className="text-sm text-muted-foreground hover:text-primary transition-colors">Models</Link>
+            <Link to="/architecture" className="text-sm text-muted-foreground hover:text-primary transition-colors">Architecture</Link>
+            <Link to="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">Contact</Link>
+          </div>
+
+          {/* Right Column - Social & Info */}
+          <div className="flex flex-col items-end gap-4 mt-2">
+            <div className="flex items-center gap-3">
+              <a
+                href="https://github.com/AmeyC171"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="GitHub"
+              >
+                <Github className="w-5 h-5" />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/ameyac11"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a
+                href="mailto:ameyaccod171@gmail.com"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Email"
+              >
+                <Mail className="w-5 h-5" />
+              </a>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Crafted with PyTorch & React
+            </p>
           </div>
 
         </div>
