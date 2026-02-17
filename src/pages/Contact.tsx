@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Loader2, CheckCircle2, Mail, Github, Linkedin, Sparkles } from 'lucide-react';
+import { Send, Loader2, CheckCircle2, Mail, Github, Linkedin, MapPin, Twitter, MessageSquare, Terminal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -21,16 +21,15 @@ export default function Contact() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Security: Validate origin to prevent unauthorized form submissions
+        // Security: Validate origin
         const allowedOrigins = [
             'https://litenetx.in',
             'https://www.litenetx.in',
-            'https://litenetx.vercel.app'
+            'https://litenetx.vercel.app',
+            'http://localhost:5173' // For local dev
         ];
-
         const currentOrigin = window.location.origin;
 
-        // In production, only allow official domains
         if (import.meta.env.PROD && !allowedOrigins.includes(currentOrigin)) {
             toast({
                 title: 'Access Denied',
@@ -45,19 +44,27 @@ export default function Contact() {
         try {
             const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
 
-            if (!accessKey) {
-                throw new Error('Contact form is not configured. Please set up Web3Forms.');
+            // Allow submission without key in dev for UI testing if variable is missing
+            if (!accessKey && import.meta.env.DEV) {
+                console.log("Dev mode: Simulating submission", formData);
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                setIsSuccess(true);
+                toast({ title: 'Message sent (Dev)!', description: "We'll be in touch." });
+                setFormData({ name: '', email: '', subject: '', message: '' });
+                setTimeout(() => setIsSuccess(false), 5000);
+                setIsSubmitting(false);
+                return;
             }
+
+            if (!accessKey) throw new Error('Contact form is not configured.');
 
             const response = await fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     access_key: accessKey,
-                    from_name: "LiteNeTX Contact Form",
-                    subject: formData.subject || "New Message from LiteNeTX",
+                    from_name: "LiteNeTX Contact",
+                    subject: formData.subject || "New Message",
                     name: formData.name,
                     email: formData.email,
                     message: formData.message,
@@ -67,23 +74,18 @@ export default function Contact() {
             });
 
             const result = await response.json();
-
             if (result.success) {
                 setIsSuccess(true);
-                toast({
-                    title: 'Message sent!',
-                    description: 'Thank you for reaching out. We\'ll get back to you soon.',
-                });
+                toast({ title: 'Message sent!', description: "We'll be in touch." });
                 setFormData({ name: '', email: '', subject: '', message: '' });
-                // Reset success state after 3 seconds
-                setTimeout(() => setIsSuccess(false), 3000);
+                setTimeout(() => setIsSuccess(false), 5000);
             } else {
-                throw new Error(result.message || 'Failed to send message');
+                throw new Error(result.message || 'Failed to send');
             }
         } catch (error) {
             toast({
                 title: 'Error',
-                description: error instanceof Error ? error.message : 'Failed to send message. Please try again.',
+                description: 'Failed to send message. Please try again.',
                 variant: 'destructive',
             });
         } finally {
@@ -92,85 +94,109 @@ export default function Contact() {
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormData((prev) => ({
-            ...prev,
-            [e.target.name]: e.target.value,
-        }));
+        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
     return (
         <PageTransition>
-            <div className="min-h-screen pt-24 pb-12 flex items-center justify-center bg-background relative overflow-hidden">
-                {/* Background Effects */}
-                <div className="fixed inset-0 z-0 pointer-events-none">
-                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-                    <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl" />
-                </div>
+            <div className="min-h-screen pt-24 pb-12 bg-white dark:bg-[#09090b] text-slate-900 dark:text-white overflow-hidden transition-colors duration-300">
+                <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
 
-                <div className="container-custom relative z-10">
-                    <div className="max-w-3xl mx-auto">
-                        {/* Section Header */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
-                            className="text-center mb-12"
-                        >
-                            <motion.div
-                                initial={{ scale: 0.9, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1 }}
-                                transition={{ delay: 0.1 }}
-                                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
-                            >
-                                <Sparkles className="w-4 h-4" />
-                                <span>Let's Connect</span>
-                            </motion.div>
-                            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                                Get in <span className="text-primary">Touch</span>
-                            </h1>
-                            <p className="text-muted-foreground text-lg">
-                                Have questions about LiteNeTX? We'd love to hear from you.
-                            </p>
-                        </motion.div>
+                    {/* Header Section */}
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex flex-col items-center justify-center text-center mb-16 space-y-5"
+                    >
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-xs font-medium text-slate-600 dark:text-slate-300">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                            </span>
+                            Let's connect
+                        </div>
 
-                        {/* Contact Info Cards */}
+                        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white">
+                            Get In Touch
+                        </h1>
+
+                        <p className="text-base text-slate-600 dark:text-slate-400 max-w-xl leading-relaxed">
+                            Ready to start your next project? Let's collaborate and create something amazing together!
+                        </p>
+                    </motion.div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+
+                        {/* Left Column: Info */}
                         <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.1 }}
-                            className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.1 }}
+                            className="space-y-8"
                         >
-                            {[
-                                { icon: Mail, label: 'Email', href: 'mailto:ameyaccod171@gmail.com' },
-                                { icon: Github, label: 'GitHub', href: 'https://github.com/AmeyC171', external: true },
-                                { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/ameyac11', external: true },
-                            ].map((item, index) => (
-                                <a
-                                    key={index}
-                                    href={item.href}
-                                    {...(item.external && { target: '_blank', rel: 'noopener noreferrer' })}
-                                    className="bg-card border border-border rounded-xl p-6 flex flex-col items-center gap-3 hover:border-primary/50 transition-colors shadow-sm"
-                                >
-                                    <div className="p-3 bg-primary/10 rounded-lg text-primary">
-                                        <item.icon className="w-6 h-6" />
+                            <div className="space-y-3">
+                                <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                                    Let's Start a Conversation
+                                </h2>
+                                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                                    I'm always excited to discuss new projects, creative ideas, or opportunities to be part of your vision. Whether you have a question or just want to say hello, I'd love to hear from you!
+                                </p>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* Email Card */}
+                                <div className="group bg-slate-50 dark:bg-[#0c0c0e] border border-slate-200 dark:border-white/10 p-5 rounded-xl hover:border-slate-300 dark:hover:border-white/20 transition-all duration-300">
+                                    <div className="w-10 h-10 rounded-lg bg-slate-200 dark:bg-white/5 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform duration-300">
+                                        <Mail className="w-5 h-5 text-slate-700 dark:text-slate-200" />
                                     </div>
-                                    <span className="font-medium">{item.label}</span>
-                                </a>
-                            ))}
+                                    <h3 className="font-semibold text-slate-900 dark:text-white mb-0.5 text-sm">Email</h3>
+                                    <a href="mailto:ameyaccod171@gmail.com" className="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                                        ameyaccod171@gmail.com
+                                    </a>
+                                </div>
+
+                                {/* Location Card */}
+                                <div className="group bg-slate-50 dark:bg-[#0c0c0e] border border-slate-200 dark:border-white/10 p-5 rounded-xl hover:border-slate-300 dark:hover:border-white/20 transition-all duration-300">
+                                    <div className="w-10 h-10 rounded-lg bg-slate-200 dark:bg-white/5 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform duration-300">
+                                        <MapPin className="w-5 h-5 text-slate-700 dark:text-slate-200" />
+                                    </div>
+                                    <h3 className="font-semibold text-slate-900 dark:text-white mb-0.5 text-sm">Location</h3>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400">Based in India</p>
+                                </div>
+                            </div>
+
+                            <div className="pt-4">
+                                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-500 mb-4">Connect With Me</h4>
+                                <div className="flex gap-3">
+                                    {[
+                                        { icon: Github, href: 'https://github.com/AmeyC171' },
+                                        { icon: Linkedin, href: 'https://www.linkedin.com/in/ameyac11' },
+                                        { icon: Mail, href: 'mailto:ameyaccod171@gmail.com' },
+                                    ].map((item, i) => (
+                                        <a
+                                            key={i}
+                                            href={item.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-all duration-300"
+                                        >
+                                            <item.icon className="w-4 h-4" />
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
                         </motion.div>
 
-                        {/* Contact Form */}
+                        {/* Right Column: Form */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.2 }}
-                            className="bg-card border border-border rounded-2xl p-8 shadow-sm relative overflow-hidden"
+                            transition={{ delay: 0.2 }}
+                            className="bg-slate-50 dark:bg-[#0c0c0e] border border-slate-200 dark:border-white/10 rounded-2xl p-6 lg:p-8 shadow-sm"
                         >
-                            {/* Corner Decorations */}
-                            <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary/30 rounded-tl-xl" />
-                            <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary/30 rounded-tr-xl" />
-                            <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary/30 rounded-bl-xl" />
-                            <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary/30 rounded-br-xl" />
+                            <div className="flex items-center gap-3 mb-6">
+                                <h2 className="text-lg font-bold text-slate-900 dark:text-white">Send Message</h2>
+                            </div>
 
                             <AnimatePresence mode="wait">
                                 {isSuccess ? (
@@ -178,105 +204,84 @@ export default function Contact() {
                                         key="success"
                                         initial={{ opacity: 0, scale: 0.9 }}
                                         animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0, scale: 0.9 }}
-                                        className="flex flex-col items-center justify-center py-12"
+                                        className="flex flex-col items-center justify-center py-12 text-center"
                                     >
                                         <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mb-4">
                                             <CheckCircle2 className="w-8 h-8 text-green-500" />
                                         </div>
-                                        <h3 className="text-xl font-semibold mb-2">Message Sent!</h3>
-                                        <p className="text-muted-foreground text-center">
-                                            We'll get back to you shortly.
-                                        </p>
+                                        <h3 className="text-xl font-bold mb-2 text-slate-900 dark:text-white">Message Sent</h3>
+                                        <p className="text-slate-500 dark:text-slate-400 mb-6 text-sm">Thank you for reaching out! I'll get back to you soon.</p>
+                                        <Button
+                                            onClick={() => setIsSuccess(false)}
+                                            className="bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-black dark:hover:bg-slate-200 rounded-full px-6 h-10 text-sm"
+                                        >
+                                            Send Another
+                                        </Button>
                                     </motion.div>
                                 ) : (
-                                    <motion.form
-                                        key="form"
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        onSubmit={handleSubmit}
-                                        className="space-y-6"
-                                    >
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="space-y-2">
-                                                <Label htmlFor="name" className="text-base">Name</Label>
+                                    <form onSubmit={handleSubmit} className="space-y-5">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                            <div className="space-y-1.5">
+                                                <Label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-500 pl-1">Full Name</Label>
                                                 <Input
-                                                    id="name"
                                                     name="name"
-                                                    placeholder="Your name"
                                                     value={formData.name}
                                                     onChange={handleChange}
                                                     required
-                                                    disabled={isSubmitting}
-                                                    className="h-12"
+                                                    className="bg-white dark:bg-[#121214] border-slate-200 dark:border-white/10 h-11 text-slate-900 dark:text-white focus-visible:ring-slate-400 dark:focus-visible:ring-slate-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-700 rounded-lg px-3 text-sm"
+                                                    placeholder="John Doe"
                                                 />
                                             </div>
-
-                                            <div className="space-y-2">
-                                                <Label htmlFor="email" className="text-base">Email</Label>
+                                            <div className="space-y-1.5">
+                                                <Label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-500 pl-1">Email</Label>
                                                 <Input
-                                                    id="email"
                                                     name="email"
                                                     type="email"
-                                                    placeholder="your@email.com"
                                                     value={formData.email}
                                                     onChange={handleChange}
                                                     required
-                                                    disabled={isSubmitting}
-                                                    className="h-12"
+                                                    className="bg-white dark:bg-[#121214] border-slate-200 dark:border-white/10 h-11 text-slate-900 dark:text-white focus-visible:ring-slate-400 dark:focus-visible:ring-slate-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-700 rounded-lg px-3 text-sm"
+                                                    placeholder="john@example.com"
                                                 />
                                             </div>
                                         </div>
 
-                                        <div className="space-y-2">
-                                            <Label htmlFor="subject" className="text-base">Subject</Label>
+                                        <div className="space-y-1.5">
+                                            <Label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-500 pl-1">Subject</Label>
                                             <Input
-                                                id="subject"
                                                 name="subject"
-                                                placeholder="What's this about?"
                                                 value={formData.subject}
                                                 onChange={handleChange}
                                                 required
-                                                disabled={isSubmitting}
-                                                className="h-12"
+                                                className="bg-white dark:bg-[#121214] border-slate-200 dark:border-white/10 h-11 text-slate-900 dark:text-white focus-visible:ring-slate-400 dark:focus-visible:ring-slate-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-700 rounded-lg px-3 text-sm"
+                                                placeholder="Project Collaboration"
                                             />
                                         </div>
 
-                                        <div className="space-y-2">
-                                            <Label htmlFor="message" className="text-base">Message</Label>
+                                        <div className="space-y-1.5">
+                                            <Label className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-500 pl-1">Message</Label>
                                             <Textarea
-                                                id="message"
                                                 name="message"
-                                                placeholder="Your message..."
                                                 value={formData.message}
                                                 onChange={handleChange}
                                                 required
-                                                disabled={isSubmitting}
-                                                rows={6}
-                                                className="resize-none"
+                                                className="bg-white dark:bg-[#121214] border-slate-200 dark:border-white/10 min-h-[140px] text-slate-900 dark:text-white focus-visible:ring-slate-400 dark:focus-visible:ring-slate-600 transition-all resize-none p-3 placeholder:text-slate-400 dark:placeholder:text-slate-700 rounded-lg px-3 text-sm"
+                                                placeholder="Tell me about your project..."
                                             />
                                         </div>
 
                                         <Button
                                             type="submit"
                                             disabled={isSubmitting}
-                                            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 text-base font-medium"
-                                            size="lg"
+                                            className="w-full h-11 text-sm font-semibold bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-slate-200 dark:text-black rounded-lg mt-2 transition-all shadow-sm"
                                         >
-                                            {isSubmitting ? (
-                                                <>
-                                                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                                                    Sending...
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <Send className="w-5 h-5 mr-2" />
-                                                    Send Message
-                                                </>
-                                            )}
+                                            {isSubmitting ? <Loader2 className="animate-spin w-4 h-4" /> :
+                                                <span className="flex items-center gap-2">
+                                                    <Send className="w-4 h-4" /> Send Message
+                                                </span>
+                                            }
                                         </Button>
-                                    </motion.form>
+                                    </form>
                                 )}
                             </AnimatePresence>
                         </motion.div>

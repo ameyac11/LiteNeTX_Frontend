@@ -6,13 +6,13 @@ export default function Footer() {
   const { theme } = useTheme();
 
   return (
-    <footer className="py-12 mt-12 border-t border-border bg-muted/30 backdrop-blur-sm">
+    <footer className="py-12 mt-12 border-t border-border bg-background/95 backdrop-blur-sm">
       <div className="container-custom">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8 px-4">
 
           {/* Left Column - Brand */}
-          <div className="flex flex-col gap-4 max-w-sm">
-            <Link to="/" className="flex items-center gap-0">
+          <div className="flex flex-col gap-4 max-w-sm text-center md:text-left">
+            <Link to="/" className="flex items-center gap-0 justify-center md:justify-start">
               <img
                 src={theme === 'dark' ? "/LiteNeTX_logo_bwhite.png" : "/LiteNeTX_logo_bblack.png"}
                 alt="LiteNeTX Logo"
@@ -30,17 +30,17 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Center Column - Navigation */}
-          <div className="flex items-center gap-6 self-center md:self-start md:mt-2">
-            <Link to="/demos" className="text-sm text-muted-foreground hover:text-primary transition-colors">Demos</Link>
-            <Link to="/models" className="text-sm text-muted-foreground hover:text-primary transition-colors">Models</Link>
-            <Link to="/architecture" className="text-sm text-muted-foreground hover:text-primary transition-colors">Architecture</Link>
-            <Link to="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">Contact</Link>
+          {/* Center Column - Navigation - Properly Centered */}
+          <div className="flex items-center gap-8 md:-ml-20">
+            <Link to="/demos" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Demos</Link>
+            <Link to="/models" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Models</Link>
+            <Link to="/architecture" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Architecture</Link>
+            <Link to="/contact" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Contact</Link>
           </div>
 
           {/* Right Column - Social & Info */}
-          <div className="flex flex-col items-end gap-4 mt-2">
-            <div className="flex items-center gap-3">
+          <div className="flex flex-col items-center md:items-end gap-2">
+            <div className="flex items-center gap-4">
               <a
                 href="https://github.com/AmeyC171"
                 target="_blank"
@@ -67,7 +67,7 @@ export default function Footer() {
                 <Mail className="w-5 h-5" />
               </a>
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground mt-2">
               Crafted with PyTorch & React
             </p>
           </div>

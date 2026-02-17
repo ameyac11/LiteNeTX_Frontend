@@ -128,71 +128,71 @@ const ArchitectureDisplay = ({ data }: { data: ArchData }) => {
   const c = colorMap[data.color] || colorMap.blue;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       {/* Specs Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
         {data.specs.map((spec, i) => (
           <Card key={i} className="bg-background/40 backdrop-blur border-border/50 overflow-hidden relative group">
             <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${c.bgSoft}`} />
-            <CardContent className="p-4 flex flex-col items-center justify-center text-center">
-              <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider mb-1">{spec.label}</span>
-              <span className={`text-xl md:text-2xl font-bold font-mono ${c.primary}`}>{spec.value}</span>
+            <CardContent className="p-3 md:p-4 flex flex-col items-center justify-center text-center">
+              <span className="text-[9px] sm:text-[10px] md:text-xs font-mono text-muted-foreground uppercase tracking-wider mb-0.5 md:mb-1">{spec.label}</span>
+              <span className={`text-base sm:text-lg md:text-xl lg:text-2xl font-bold font-mono ${c.primary}`}>{spec.value}</span>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-3 gap-4 md:gap-6">
         {/* Architecture Overview (Protected) */}
-        <Card className="lg:col-span-2 bg-background/50 backdrop-blur-md border-border/50 h-[400px] flex flex-col relative overflow-hidden">
+        <Card className="lg:col-span-2 bg-background/50 backdrop-blur-md border-border/50 min-h-[300px] md:min-h-[400px] h-auto flex flex-col relative overflow-hidden">
           <div className={`absolute top-0 left-0 w-full h-1 ${c.gradient}`} />
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Code2 className={`w-5 h-5 ${c.primary}`} />
-                <CardTitle className="font-mono text-lg">Architecture Overview</CardTitle>
+          <CardHeader className="pb-2 px-4 md:px-6 pt-4 md:pt-6">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5 md:gap-2">
+                <Code2 className={`w-4 h-4 md:w-5 md:h-5 ${c.primary}`} />
+                <CardTitle className="font-mono text-sm md:text-base lg:text-lg">Architecture Overview</CardTitle>
               </div>
 
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary/50 border border-border/50">
-                <Shield className="w-3 h-3 text-muted-foreground" />
-                <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">Proprietary</span>
+              <div className="flex items-center gap-1 md:gap-1.5 px-2 md:px-3 py-0.5 md:py-1 rounded-full bg-secondary/50 border border-border/50">
+                <Shield className="w-2.5 h-2.5 md:w-3 md:h-3 text-muted-foreground" />
+                <span className="text-[8px] md:text-[10px] font-mono text-muted-foreground uppercase tracking-wider">Proprietary</span>
               </div>
             </div>
-            <CardDescription>High-level design philosophy and capabilities</CardDescription>
+            <CardDescription className="text-xs md:text-sm">High-level design philosophy and capabilities</CardDescription>
           </CardHeader>
 
-          <CardContent className="flex-1 flex flex-col items-center justify-center p-8 text-center relative">
+          <CardContent className="flex-1 flex flex-col items-center justify-center p-4 md:p-6 lg:p-8 text-center relative">
 
             {/* Background Tech Pattern */}
             <div className={`absolute inset-0 ${c.bgSoft} opacity-20 [mask-image:radial-gradient(ellipse_at_center,black,transparent)]`} />
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_at_center,black,transparent)]" />
 
             <div className="relative z-10 max-w-lg mx-auto">
-              <div className={`w-16 h-16 mx-auto mb-6 rounded-2xl flex items-center justify-center ${c.bgSoft} border ${c.borderSoft}`}>
-                <data.icon className={`w-8 h-8 ${c.primary}`} />
+              <div className={`w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 mx-auto mb-4 md:mb-5 lg:mb-6 rounded-xl md:rounded-2xl flex items-center justify-center ${c.bgSoft} border ${c.borderSoft}`}>
+                <data.icon className={`w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 ${c.primary}`} />
               </div>
 
-              <h3 className="text-xl font-bold mb-3">
+              <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 md:mb-3">
                 {data.id === 'fashion' && 'Optimized Grayscale CNN'}
                 {data.id === 'cifar' && 'Lightweight Residual Network'}
                 {data.id === 'cifar100' && 'PreAct Wide SE-ResNet'}
               </h3>
 
-              <p className="text-muted-foreground leading-relaxed mb-6">
+              <p className="text-muted-foreground text-xs sm:text-sm md:text-base leading-relaxed mb-4 md:mb-5 lg:mb-6 px-2">
                 {data.id === 'fashion' && 'A highly efficient 6-layer convolutional neural network designed specifically for single-channel fashion item classification. Features strategic stride-based downsampling and adaptive regularization.'}
                 {data.id === 'cifar' && 'Advanced residual architecture featuring 3 processing stages with skip connections. Balances depth and efficiency to capture complex color patterns in 32x32 RGB space without vanishing gradients.'}
                 {data.id === 'cifar100' && 'Advanced PreAct Wide SE-ResNet with wider basic blocks and Squeeze-and-Excitation attention. Optimized for 100-class fine-grained classification with efficient channel-wise feature learning and stochastic depth regularization.'}
               </p>
 
-              <div className="flex flex-wrap gap-2 justify-center">
+              <div className="flex flex-wrap gap-1.5 md:gap-2 justify-center">
                 {data.id === 'fashion' && ['Conv2d', 'BatchNorm', 'Dropout', 'SGD'].map((tag, i) => (
-                  <Badge key={i} variant="outline" className="font-mono text-xs">{tag}</Badge>
+                  <Badge key={i} variant="outline" className="font-mono text-[10px] md:text-xs">{tag}</Badge>
                 ))}
                 {data.id === 'cifar' && ['ResBlock', 'Skip Connections', 'Cosine Annealing', 'AMP'].map((tag, i) => (
-                  <Badge key={i} variant="outline" className="font-mono text-xs">{tag}</Badge>
+                  <Badge key={i} variant="outline" className="font-mono text-[10px] md:text-xs">{tag}</Badge>
                 ))}
                 {data.id === 'cifar100' && ['SE-Attention', 'PreAct Basic', 'CutMix', 'AutoAugment'].map((tag, i) => (
-                  <Badge key={i} variant="outline" className="font-mono text-xs">{tag}</Badge>
+                  <Badge key={i} variant="outline" className="font-mono text-[10px] md:text-xs">{tag}</Badge>
                 ))}
               </div>
             </div>
@@ -200,32 +200,32 @@ const ArchitectureDisplay = ({ data }: { data: ArchData }) => {
         </Card>
 
         {/* Training Config */}
-        <Card className="bg-background/50 backdrop-blur-md border-border/50 flex flex-col h-[400px]">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <Cpu className={`w-5 h-5 ${c.primary}`} />
-              <CardTitle className="font-mono text-lg">Training Protocol</CardTitle>
+        <Card className="bg-background/50 backdrop-blur-md border-border/50 flex flex-col min-h-[300px] md:min-h-[400px] h-auto">
+          <CardHeader className="px-4 md:px-6 pt-4 md:pt-6">
+            <div className="flex items-center gap-1.5 md:gap-2">
+              <Cpu className={`w-4 h-4 md:w-5 md:h-5 ${c.primary}`} />
+              <CardTitle className="font-mono text-sm md:text-base lg:text-lg">Training Protocol</CardTitle>
             </div>
-            <CardDescription>Hyperparameters & optimization</CardDescription>
+            <CardDescription className="text-xs md:text-sm">Hyperparameters & optimization</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <ScrollArea className="h-[280px] pr-4">
-              <div className="space-y-4">
+          <CardContent className="space-y-3 md:space-y-4 px-4 md:px-6">
+            <ScrollArea className="h-[200px] md:h-[280px] pr-2 md:pr-4">
+              <div className="space-y-3 md:space-y-4">
                 {data.training.map((item, i) => (
-                  <div key={i} className="flex gap-3 text-sm group">
-                    <div className={`mt-1.5 w-1.5 h-1.5 rounded-full ${data.color === 'emerald' ? 'bg-emerald-500/50 group-hover:bg-emerald-500' : data.color === 'purple' ? 'bg-purple-500/50 group-hover:bg-purple-500' : 'bg-blue-500/50 group-hover:bg-blue-500'} transition-colors shrink-0`} />
-                    <span className="text-muted-foreground group-hover:text-foreground transition-colors">{item}</span>
+                  <div key={i} className="flex gap-2 md:gap-3 text-xs md:text-sm group">
+                    <div className={`mt-1 md:mt-1.5 w-1.5 h-1.5 rounded-full ${data.color === 'emerald' ? 'bg-emerald-500/50 group-hover:bg-emerald-500' : data.color === 'purple' ? 'bg-purple-500/50 group-hover:bg-purple-500' : 'bg-blue-500/50 group-hover:bg-blue-500'} transition-colors shrink-0`} />
+                    <span className="text-muted-foreground group-hover:text-foreground transition-colors leading-relaxed">{item}</span>
                   </div>
                 ))}
 
                 {data.id === 'cifar' && (
                   <>
-                    <Separator className="my-4" />
-                    <div className="space-y-3">
-                      <h4 className="font-mono text-xs font-bold uppercase text-muted-foreground flex items-center gap-2">
-                        <GitBranch className="w-3 h-3" /> Core Logic
+                    <Separator className="my-3 md:my-4" />
+                    <div className="space-y-2 md:space-y-3">
+                      <h4 className="font-mono text-[10px] md:text-xs font-bold uppercase text-muted-foreground flex items-center gap-1.5 md:gap-2">
+                        <GitBranch className="w-2.5 h-2.5 md:w-3 md:h-3" /> Core Logic
                       </h4>
-                      <p className="text-xs text-muted-foreground leading-relaxed">
+                      <p className="text-[11px] md:text-xs text-muted-foreground leading-relaxed">
                         Utilizes identity mappings with projection shortcuts to maintain signal propagation across 13 convolutional layers.
                       </p>
                     </div>
@@ -234,12 +234,12 @@ const ArchitectureDisplay = ({ data }: { data: ArchData }) => {
 
                 {data.id === 'cifar100' && (
                   <>
-                    <Separator className="my-4" />
-                    <div className="space-y-3">
-                      <h4 className="font-mono text-xs font-bold uppercase text-muted-foreground flex items-center gap-2">
-                        <Zap className="w-3 h-3" /> Advanced Attention
+                    <Separator className="my-3 md:my-4" />
+                    <div className="space-y-2 md:space-y-3">
+                      <h4 className="font-mono text-[10px] md:text-xs font-bold uppercase text-muted-foreground flex items-center gap-1.5 md:gap-2">
+                        <Zap className="w-2.5 h-2.5 md:w-3 md:h-3" /> Advanced Attention
                       </h4>
-                      <p className="text-xs text-muted-foreground leading-relaxed">
+                      <p className="text-[11px] md:text-xs text-muted-foreground leading-relaxed">
                         incorporates SE blocks to explicitly model interdependencies between channels, adaptively recalibrating channel-wise feature responses.
                       </p>
                     </div>
@@ -260,47 +260,51 @@ export default function Architecture() {
       <div className="page-container relative overflow-hidden">
         <div className="fixed inset-0 z-0 bg-[linear-gradient(to_right,#80808030_1px,transparent_1px),linear-gradient(to_bottom,#80808030_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff20_1px,transparent_1px),linear-gradient(to_bottom,#ffffff20_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
 
-        <div className="container-custom relative z-10">
+        <div className="container-custom relative z-10 pt-4 md:pt-6 pb-4 md:pb-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-12 text-center max-w-2xl mx-auto"
+            className="mb-6 md:mb-8 text-center max-w-2xl mx-auto px-4"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-mono mb-6 border border-primary/20">
-              <Terminal className="w-3 h-3" />
-              <span>SYSTEM ARCHITECTURE V3.0</span>
+            <div className="inline-flex items-center gap-1.5 md:gap-2 px-2.5 md:px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] md:text-xs font-mono mb-3 md:mb-4 border border-primary/20">
+              <Terminal className="w-2.5 h-2.5 md:w-3 md:h-3" />
+              <span className="hidden sm:inline">SYSTEM ARCHITECTURE V3.0</span>
+              <span className="sm:hidden">ARCH V3.0</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/50">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-3 md:mb-4 bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/50">
               Neural Schematics
             </h1>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed px-2">
               Detailed breakdown of all three LiteNeTX architectures powering the classification engine.
             </p>
           </motion.div>
 
-          <Tabs defaultValue="fashion" className="w-full max-w-6xl mx-auto">
-            <div className="flex justify-center mb-8">
-              <TabsList className="bg-background/60 backdrop-blur border border-border/40 p-1 h-auto rounded-full">
+          <Tabs defaultValue="fashion" className="w-full max-w-6xl mx-auto px-2 md:px-4">
+            <div className="flex justify-center mb-6 md:mb-8 overflow-x-auto pb-2">
+              <TabsList className="bg-background/60 backdrop-blur border border-border/40 p-1 h-auto rounded-full inline-flex">
                 <TabsTrigger
                   value="fashion"
-                  className="rounded-full px-6 py-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white font-mono text-sm transition-all"
+                  className="rounded-full px-3 sm:px-4 md:px-6 py-1.5 md:py-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white font-mono text-[10px] sm:text-xs md:text-sm transition-all whitespace-nowrap"
                 >
-                  <Shirt className="w-4 h-4 mr-2" />
-                  LiteNeTX-FMNIST
+                  <Shirt className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" />
+                  <span className="hidden sm:inline">LiteNeTX-FMNIST</span>
+                  <span className="sm:hidden">FMNIST</span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="cifar"
-                  className="rounded-full px-6 py-2 data-[state=active]:bg-emerald-500 data-[state=active]:text-white font-mono text-sm transition-all"
+                  className="rounded-full px-3 sm:px-4 md:px-6 py-1.5 md:py-2 data-[state=active]:bg-emerald-500 data-[state=active]:text-white font-mono text-[10px] sm:text-xs md:text-sm transition-all whitespace-nowrap"
                 >
-                  <ImageIcon className="w-4 h-4 mr-2" />
-                  LiteNeTX-CIFAR10
+                  <ImageIcon className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" />
+                  <span className="hidden sm:inline">LiteNeTX-CIFAR10</span>
+                  <span className="sm:hidden">CIFAR10</span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="cifar100"
-                  className="rounded-full px-6 py-2 data-[state=active]:bg-purple-500 data-[state=active]:text-white font-mono text-sm transition-all"
+                  className="rounded-full px-3 sm:px-4 md:px-6 py-1.5 md:py-2 data-[state=active]:bg-purple-500 data-[state=active]:text-white font-mono text-[10px] sm:text-xs md:text-sm transition-all whitespace-nowrap"
                 >
-                  <Grid3X3 className="w-4 h-4 mr-2" />
-                  LiteNeTX-CIFAR100
+                  <Grid3X3 className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" />
+                  <span className="hidden sm:inline">LiteNeTX-CIFAR100</span>
+                  <span className="sm:hidden">CIFAR100</span>
                 </TabsTrigger>
               </TabsList>
             </div>

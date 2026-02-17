@@ -380,108 +380,91 @@ export default function ModelPlayground() {
                                             <X className="w-4 h-4" />
                                         </motion.button>
 
-                                        {/* Advanced AI Interface Scanning Loop */}
+                                        {/* Minimal Futuristic AI Scanning Interface */}
                                         {isScanning && (
                                             <div className="absolute inset-0 z-20 pointer-events-none rounded-2xl overflow-hidden select-none">
-                                                {/* Contrast/Dimming Backdrop */}
-                                                <motion.div
-                                                    initial={{ opacity: 0 }}
-                                                    animate={{ opacity: 1 }}
-                                                    className="absolute inset-0 bg-white/80 dark:bg-black/60 backdrop-blur-[2px]"
-                                                />
+                                                {/* Tech Overlay - Subtle Grid */}
+                                                <div className="absolute inset-0 bg-white/70 dark:bg-black/60 backdrop-blur-[2px]" />
+                                                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,180,180,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(0,180,180,0.08)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(0,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px]" />
 
-                                                {/* Tech Overlay Background */}
-                                                <div className="absolute inset-0 bg-primary/5 mix-blend-overlay" />
-                                                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20" />
-
-                                                {/* 1. Dynamic Corner Brackets (Animated) */}
+                                                {/* Ultra-Thin Precision Scanning Line */}
                                                 <motion.div
-                                                    initial={{ opacity: 0, x: -10, y: -10 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}
-                                                    className="absolute top-6 left-6 w-16 h-16 border-t-[1px] border-l-[1px] border-primary/40 rounded-tl-2xl shadow-[0_0_10px_rgba(var(--primary),0.2)]"
-                                                />
-                                                <motion.div
-                                                    initial={{ opacity: 0, x: 10, y: -10 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}
-                                                    className="absolute top-6 right-6 w-16 h-16 border-t-[1px] border-r-[1px] border-primary/40 rounded-tr-2xl shadow-[0_0_10px_rgba(var(--primary),0.2)]"
-                                                />
-                                                <motion.div
-                                                    initial={{ opacity: 0, x: -10, y: 10 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}
-                                                    className="absolute bottom-6 left-6 w-16 h-16 border-b-[1px] border-l-[1px] border-primary/40 rounded-bl-2xl shadow-[0_0_10px_rgba(var(--primary),0.2)]"
-                                                />
-                                                <motion.div
-                                                    initial={{ opacity: 0, x: 10, y: 10 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}
-                                                    className="absolute bottom-6 right-6 w-16 h-16 border-b-[1px] border-r-[1px] border-primary/40 rounded-br-2xl shadow-[0_0_10px_rgba(var(--primary),0.2)]"
-                                                />
-
-                                                {/* 2. Active Scanning Beam (High Precision) */}
-                                                <motion.div
-                                                    className="absolute w-full h-[60px] bg-gradient-to-b from-primary/20 via-primary/5 to-transparent z-30 backdrop-blur-[1px]"
-                                                    initial={{ top: "-20%" }}
-                                                    animate={{ top: "120%" }}
-                                                    transition={{ duration: 2.2, repeat: Infinity, ease: "linear" }}
+                                                    className="absolute w-full h-[2px] dark:h-[1px] bg-cyan-500/90 dark:bg-cyan-400/80 shadow-[0_0_20px_rgba(6,182,212,0.6)] dark:shadow-[0_0_15px_rgba(34,211,238,0.4)] z-40"
+                                                    initial={{ top: "0%" }}
+                                                    animate={{ top: "100%" }}
+                                                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                                                 >
-                                                    <div className="absolute w-full h-[2px] bg-primary/50 shadow-[0_0_15px_rgba(var(--primary),0.5)] top-0" />
+                                                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-24 h-[100px] bg-gradient-to-l from-cyan-500/20 dark:from-cyan-500/10 to-transparent" />
                                                 </motion.div>
 
-                                                {/* 3. Central Analysis Node */}
-                                                <div className="absolute inset-0 flex items-center justify-center z-40">
-                                                    <motion.div
-                                                        className="relative w-48 h-48 flex items-center justify-center"
-                                                        initial={{ opacity: 0, scale: 0.9 }}
-                                                        animate={{ opacity: 1, scale: 1 }}
-                                                        transition={{ duration: 0.5 }}
-                                                    >
-                                                        {/* Rotating outer ring */}
-                                                        <motion.div
-                                                            className="absolute inset-0 border border-t-primary/30 border-r-transparent border-b-primary/30 border-l-transparent rounded-full"
-                                                            animate={{ rotate: 360 }}
-                                                            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                                                        />
-                                                        {/* Counter-rotating inner ring */}
-                                                        <motion.div
-                                                            className="absolute inset-8 border border-black/10 dark:border-white/10 rounded-full"
-                                                            animate={{ rotate: -360 }}
-                                                            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-                                                        />
+                                                {/* Minimal Corner Data Points */}
+                                                <div className="absolute inset-4">
+                                                    <div className="absolute top-0 left-0 w-8 h-[2px] dark:h-[1px] bg-cyan-600/70 dark:bg-cyan-500/50" />
+                                                    <div className="absolute top-0 left-0 w-[2px] dark:w-[1px] h-8 bg-cyan-600/70 dark:bg-cyan-500/50" />
 
-                                                        {/* Center Core */}
-                                                        <div className="absolute bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/10 p-5 rounded-2xl shadow-2xl flex flex-col items-center gap-2 min-w-[160px]">
-                                                            <div className="flex items-center gap-2">
-                                                                <Loader2 className="w-4 h-4 text-primary animate-spin" />
-                                                                <span className="font-mono text-xs font-bold text-foreground tracking-[0.2em] relative top-px">ANALYZING</span>
-                                                            </div>
-                                                            <div className="h-[1px] w-full bg-border my-1" />
-                                                            <div className="flex flex-col gap-1.5 w-full">
-                                                                <div className="flex justify-between items-center text-[9px] text-muted-foreground font-mono">
-                                                                    <span>CONFIDENCE</span>
-                                                                    <span className="text-primary animate-pulse">CALCULATING...</span>
-                                                                </div>
-                                                                {/* Animated Bar */}
-                                                                <div className="w-full h-1 bg-secondary rounded-full overflow-hidden">
-                                                                    <motion.div
-                                                                        className="h-full bg-primary"
-                                                                        animate={{ width: ["10%", "60%", "30%", "90%"] }}
-                                                                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </motion.div>
+                                                    <div className="absolute top-0 right-0 w-8 h-[2px] dark:h-[1px] bg-cyan-600/70 dark:bg-cyan-500/50" />
+                                                    <div className="absolute top-0 right-0 w-[2px] dark:w-[1px] h-8 bg-cyan-600/70 dark:bg-cyan-500/50" />
+
+                                                    <div className="absolute bottom-0 left-0 w-8 h-[2px] dark:h-[1px] bg-cyan-600/70 dark:bg-cyan-500/50" />
+                                                    <div className="absolute bottom-0 left-0 w-[2px] dark:w-[1px] h-8 bg-cyan-600/70 dark:bg-cyan-500/50" />
+
+                                                    <div className="absolute bottom-0 right-0 w-8 h-[2px] dark:h-[1px] bg-cyan-600/70 dark:bg-cyan-500/50" />
+                                                    <div className="absolute bottom-0 right-0 w-[2px] dark:w-[1px] h-8 bg-cyan-600/70 dark:bg-cyan-500/50" />
                                                 </div>
 
-                                                {/* 4. Side Data Stream (Decorative) */}
-                                                <div className="absolute right-8 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-3 opacity-60">
-                                                    {[...Array(5)].map((_, i) => (
+                                                {/* Futuristic Status Display - Floating Data */}
+                                                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-50">
+                                                    <div className="flex flex-col items-center gap-3">
                                                         <motion.div
-                                                            key={i}
-                                                            className="flex items-center justify-end gap-2"
-                                                            initial={{ opacity: 0, x: 20 }}
-                                                            animate={{ opacity: 1, x: 0 }}
-                                                            transition={{ delay: 0.2 + (i * 0.1) }}
+                                                            initial={{ opacity: 0, scale: 0.95 }}
+                                                            animate={{ opacity: 1, scale: 1 }}
+                                                            className="flex items-center gap-3 px-6 py-2 bg-white/80 dark:bg-black/40 backdrop-blur-md rounded-full border border-cyan-600/40 dark:border-cyan-500/20"
                                                         >
-                                                            <div className="h-[1px] w-8 bg-white/20" />
-                                                            <div className="w-1 h-1 bg-primary rounded-full" />
+                                                            <Loader2 className="w-4 h-4 text-cyan-600 dark:text-cyan-400 animate-spin" />
+                                                            <div className="flex flex-col">
+                                                                <span className="text-[10px] font-mono text-cyan-600/90 dark:text-cyan-400/80 tracking-[0.2em] uppercase">
+                                                                    System Analysis
+                                                                </span>
+                                                                <span className="text-xs font-mono font-medium text-gray-900 dark:text-white tracking-widest">
+                                                                    PROCESSING NEURAL DATA...
+                                                                </span>
+                                                            </div>
                                                         </motion.div>
-                                                    ))}
+
+                                                        {/* Animated Data Stream */}
+                                                        <div className="flex gap-1 h-1">
+                                                            {[...Array(5)].map((_, i) => (
+                                                                <motion.div
+                                                                    key={i}
+                                                                    className="w-8 h-full bg-cyan-600/60 dark:bg-cyan-500/40 rounded-full"
+                                                                    animate={{ opacity: [0.2, 0.8, 0.2] }}
+                                                                    transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.15 }}
+                                                                />
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Center Focus Reticle */}
+                                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                                    <motion.div
+                                                        initial={{ opacity: 0, scale: 0.8 }}
+                                                        animate={{ opacity: 1, scale: 1 }}
+                                                        className="relative w-48 h-48"
+                                                    >
+                                                        {/* Minimal Brackets */}
+                                                        <div className="absolute top-0 left-0 w-4 h-4 border-t-2 dark:border-t border-l-2 dark:border-l border-cyan-600/50 dark:border-cyan-500/30" />
+                                                        <div className="absolute top-0 right-0 w-4 h-4 border-t-2 dark:border-t border-r-2 dark:border-r border-cyan-600/50 dark:border-cyan-500/30" />
+                                                        <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 dark:border-b border-l-2 dark:border-l border-cyan-600/50 dark:border-cyan-500/30" />
+                                                        <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 dark:border-b border-r-2 dark:border-r border-cyan-600/50 dark:border-cyan-500/30" />
+
+                                                        {/* Rotating Ring */}
+                                                        <motion.div
+                                                            className="absolute inset-4 rounded-full border-2 dark:border border-cyan-600/20 dark:border-cyan-500/10 border-t-cyan-600/60 dark:border-t-cyan-500/40"
+                                                            animate={{ rotate: 360 }}
+                                                            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                                                        />
+                                                    </motion.div>
                                                 </div>
                                             </div>
                                         )}
