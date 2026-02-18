@@ -85,8 +85,9 @@ export default function Navbar() {
             >
               {isActive(link.href) && (
                 <motion.div
-                  layoutId="navbar-active"
                   className="absolute inset-0 bg-white dark:bg-white/10 rounded-full shadow-sm"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                   style={{ zIndex: -1 }}
                 />
