@@ -389,31 +389,31 @@ export default function ModelPlayground() {
                                             <div className="absolute inset-0 z-20 pointer-events-none rounded-2xl overflow-hidden select-none">
                                                 {/* Tech Overlay - Subtle Grid */}
                                                 <div className="absolute inset-0 bg-white/70 dark:bg-black/60 backdrop-blur-[2px]" />
-                                                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,180,180,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(0,180,180,0.08)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(0,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px]" />
+                                                <div className="absolute inset-0 bg-[linear-gradient(hsl(var(--primary)/0.07)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--primary)/0.07)_1px,transparent_1px)] bg-[size:20px_20px]" />
 
                                                 {/* Ultra-Thin Precision Scanning Line */}
                                                 <motion.div
-                                                    className="absolute w-full h-[2px] dark:h-[1px] bg-cyan-500/90 dark:bg-cyan-400/80 shadow-[0_0_20px_rgba(6,182,212,0.6)] dark:shadow-[0_0_15px_rgba(34,211,238,0.4)] z-40"
+                                                    className="absolute w-full h-[2px] bg-primary/80 shadow-[0_0_18px_hsl(var(--primary)/0.5)] z-40"
                                                     initial={{ top: "0%" }}
                                                     animate={{ top: "100%" }}
                                                     transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                                                 >
-                                                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-24 h-[100px] bg-gradient-to-l from-cyan-500/20 dark:from-cyan-500/10 to-transparent" />
+                                                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-24 h-[100px] bg-gradient-to-l from-primary/15 to-transparent" />
                                                 </motion.div>
 
                                                 {/* Minimal Corner Data Points */}
                                                 <div className="absolute inset-4">
-                                                    <div className="absolute top-0 left-0 w-8 h-[2px] dark:h-[1px] bg-cyan-600/70 dark:bg-cyan-500/50" />
-                                                    <div className="absolute top-0 left-0 w-[2px] dark:w-[1px] h-8 bg-cyan-600/70 dark:bg-cyan-500/50" />
+                                                    <div className="absolute top-0 left-0 w-8 h-[2px] bg-primary/60" />
+                                                    <div className="absolute top-0 left-0 w-[2px] h-8 bg-primary/60" />
 
-                                                    <div className="absolute top-0 right-0 w-8 h-[2px] dark:h-[1px] bg-cyan-600/70 dark:bg-cyan-500/50" />
-                                                    <div className="absolute top-0 right-0 w-[2px] dark:w-[1px] h-8 bg-cyan-600/70 dark:bg-cyan-500/50" />
+                                                    <div className="absolute top-0 right-0 w-8 h-[2px] bg-primary/60" />
+                                                    <div className="absolute top-0 right-0 w-[2px] h-8 bg-primary/60" />
 
-                                                    <div className="absolute bottom-0 left-0 w-8 h-[2px] dark:h-[1px] bg-cyan-600/70 dark:bg-cyan-500/50" />
-                                                    <div className="absolute bottom-0 left-0 w-[2px] dark:w-[1px] h-8 bg-cyan-600/70 dark:bg-cyan-500/50" />
+                                                    <div className="absolute bottom-0 left-0 w-8 h-[2px] bg-primary/60" />
+                                                    <div className="absolute bottom-0 left-0 w-[2px] h-8 bg-primary/60" />
 
-                                                    <div className="absolute bottom-0 right-0 w-8 h-[2px] dark:h-[1px] bg-cyan-600/70 dark:bg-cyan-500/50" />
-                                                    <div className="absolute bottom-0 right-0 w-[2px] dark:w-[1px] h-8 bg-cyan-600/70 dark:bg-cyan-500/50" />
+                                                    <div className="absolute bottom-0 right-0 w-8 h-[2px] bg-primary/60" />
+                                                    <div className="absolute bottom-0 right-0 w-[2px] h-8 bg-primary/60" />
                                                 </div>
 
                                                 {/* Futuristic Status Display - Floating Data */}
@@ -422,14 +422,14 @@ export default function ModelPlayground() {
                                                         <motion.div
                                                             initial={{ opacity: 0, scale: 0.95 }}
                                                             animate={{ opacity: 1, scale: 1 }}
-                                                            className="flex items-center gap-3 px-6 py-2 bg-white/80 dark:bg-black/40 backdrop-blur-md rounded-full border border-cyan-600/40 dark:border-cyan-500/20"
+                                                            className="flex items-center gap-3 px-6 py-2 bg-background/80 backdrop-blur-md rounded-full border border-primary/30"
                                                         >
-                                                            <Loader2 className="w-4 h-4 text-cyan-600 dark:text-cyan-400 animate-spin" />
+                                                            <Loader2 className="w-4 h-4 text-primary animate-spin" />
                                                             <div className="flex flex-col">
-                                                                <span className="text-[10px] font-mono text-cyan-600/90 dark:text-cyan-400/80 tracking-[0.2em] uppercase">
+                                                                <span className="text-[10px] font-mono text-primary/80 tracking-[0.2em] uppercase">
                                                                     System Analysis
                                                                 </span>
-                                                                <span className="text-xs font-mono font-medium text-gray-900 dark:text-white tracking-widest">
+                                                                <span className="text-xs font-mono font-medium text-foreground tracking-widest">
                                                                     PROCESSING NEURAL DATA...
                                                                 </span>
                                                             </div>
@@ -440,7 +440,7 @@ export default function ModelPlayground() {
                                                             {[...Array(5)].map((_, i) => (
                                                                 <motion.div
                                                                     key={i}
-                                                                    className="w-8 h-full bg-cyan-600/60 dark:bg-cyan-500/40 rounded-full"
+                                                                    className="w-8 h-full bg-primary/50 rounded-full"
                                                                     animate={{ opacity: [0.2, 0.8, 0.2] }}
                                                                     transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.15 }}
                                                                 />
@@ -457,14 +457,14 @@ export default function ModelPlayground() {
                                                         className="relative w-48 h-48"
                                                     >
                                                         {/* Minimal Brackets */}
-                                                        <div className="absolute top-0 left-0 w-4 h-4 border-t-2 dark:border-t border-l-2 dark:border-l border-cyan-600/50 dark:border-cyan-500/30" />
-                                                        <div className="absolute top-0 right-0 w-4 h-4 border-t-2 dark:border-t border-r-2 dark:border-r border-cyan-600/50 dark:border-cyan-500/30" />
-                                                        <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 dark:border-b border-l-2 dark:border-l border-cyan-600/50 dark:border-cyan-500/30" />
-                                                        <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 dark:border-b border-r-2 dark:border-r border-cyan-600/50 dark:border-cyan-500/30" />
+                                                        <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary/50" />
+                                                        <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary/50" />
+                                                        <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary/50" />
+                                                        <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary/50" />
 
                                                         {/* Rotating Ring */}
                                                         <motion.div
-                                                            className="absolute inset-4 rounded-full border-2 dark:border border-cyan-600/20 dark:border-cyan-500/10 border-t-cyan-600/60 dark:border-t-cyan-500/40"
+                                                            className="absolute inset-4 rounded-full border border-primary/15 border-t-primary/50"
                                                             animate={{ rotate: 360 }}
                                                             transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
                                                         />

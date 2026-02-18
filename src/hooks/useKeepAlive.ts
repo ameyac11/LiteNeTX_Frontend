@@ -1,38 +1,36 @@
 import { useEffect, useRef } from 'react';
 
+// Fallback to a dummy URL during local dev; the real URL is set via
+// VITE_API_BASE_URL in Vercel environment variables for production.
+const BACKEND_URL =
+    import.meta.env.VITE_API_BASE_URL || 'https://litenetx-api.onrender.com';
+
 /**
- * Custom hook to keep the backend server alive by pinging it every 14 minutes.
+ * Custom hook to keep the Render backend alive by pinging /health every 14 minutes.
  * Render spins down free web services after 15 minutes of inactivity.
- * We ping every 14 minutes to be safe and efficient.
  */
 export const useKeepAlive = () => {
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
-        const backendUrl = import.meta.env.VITE_API_BASE_URL;
-
-        if (!backendUrl) {
-            return;
-        }
-
         const pingBackend = async () => {
             try {
-                await fetch(`${backendUrl}/`, {
+                await fetch(`${BACKEND_URL}/health`, {
                     method: 'GET',
-                    mode: 'no-cors', // Avoid CORS issues for simple ping
+                    // No 'no-cors' — we want a real HTTP request that Render counts as activity.
+                    // CORS is fine because /health is a simple GET that the backend allows.
                 });
-            } catch (error) {
-                // Silent failure - don't disrupt user experience
+            } catch {
+                // Silent failure — never disrupt the user experience.
             }
         };
 
-        // Send initial ping immediately
+        // Ping immediately on app load
         pingBackend();
 
-        // Set up interval to ping every 14 minutes (14 * 60 * 1000 = 840,000ms)
+        // Then ping every 14 minutes (safely under Render's 15-min sleep threshold)
         intervalRef.current = setInterval(pingBackend, 14 * 60 * 1000);
 
-        // Cleanup on unmount
         return () => {
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);

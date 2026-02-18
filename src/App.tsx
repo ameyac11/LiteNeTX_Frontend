@@ -32,7 +32,7 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="dark" storageKey="litenetx-theme">
+      <ThemeProvider defaultTheme="light" storageKey="litenetx-theme">
         <TooltipProvider>
           <Toaster />
           <Sonner />
