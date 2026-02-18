@@ -591,7 +591,7 @@ export default function NeuralNetwork3D() {
             initial={{ x: 50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: 50, opacity: 0 }}
-            className="absolute top-8 right-8 w-80 bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6 shadow-2xl z-30 overflow-hidden"
+            className="absolute top-8 right-4 left-4 md:left-auto md:right-8 md:w-80 bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-4 md:p-6 shadow-2xl z-30 overflow-hidden"
           >
             {/* Glow Effect */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-[60px] pointer-events-none" />
@@ -643,12 +643,12 @@ export default function NeuralNetwork3D() {
         )}
       </AnimatePresence>
 
-      {/* Instructions Overlay (Fades out) */}
+      {/* Instructions Overlay (Fades out) — desktop only */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
-        className="absolute top-8 left-8 text-xs font-mono text-white/30 pointer-events-none"
+        className="hidden md:block absolute top-8 left-8 text-xs font-mono text-white/30 pointer-events-none"
       >
         <div className="flex items-center gap-2 mb-1">
           <MousePointer2 className="w-3 h-3" />
