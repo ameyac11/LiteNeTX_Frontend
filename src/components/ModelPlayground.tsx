@@ -326,7 +326,11 @@ export default function ModelPlayground() {
                         onClick={handlePredict}
                         disabled={!file || isLoading}
                         size="lg"
-                        className={cn("w-full sm:w-auto bg-gradient-to-r shadow-lg hover:shadow-xl hover:scale-105 transition-all", currentModel.color)}
+                        className={cn(
+                            "w-full sm:w-auto shadow-lg hover:shadow-xl hover:scale-105 transition-all border-0 rounded-xl",
+                            "bg-slate-900 text-white hover:bg-slate-800",
+                            "dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100"
+                        )}
                     >
                         {isLoading ? (
                             <>
@@ -620,7 +624,7 @@ export default function ModelPlayground() {
                                                     <div className="flex justify-between items-end mb-2.5">
                                                         <div className="flex flex-col">
                                                             <div className="flex items-center gap-2">
-                                                                {isTop && <div className={cn("w-1.5 h-1.5 rounded-full animate-ping", currentModel.color.split(' ')[0])} />}
+                                                                {isTop && <div className={cn("w-1.5 h-1.5 rounded-full animate-ping", currentModel.color.split(' ')[0].replace('from-', 'bg-'))} />}
                                                                 <span className={cn(
                                                                     "font-bold tracking-tight capitalize transition-colors",
                                                                     isTop ? "text-lg text-foreground" : "text-sm text-foreground/60 dark:text-muted-foreground"

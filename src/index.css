@@ -65,9 +65,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    --primary: 221 83% 53%;
-    /* "Computer Blue" - slightly more vibrant */
-    --primary-foreground: 210 40% 98%;
+    --primary: 222 47% 11%;
+    /* Solid Black-ish for high contrast */
+    --primary-foreground: 0 0% 100%;
+    /* Pure White */
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222 47% 11%;
@@ -109,9 +110,10 @@
     /* Charcoal Black */
     --popover-foreground: 210 40% 98%;
 
-    --primary: 217 91% 60%;
-    /* Bright Computer Blue for dark mode */
+    --primary: 0 0% 100%;
+    /* Pure White for dark mode */
     --primary-foreground: 222 47% 11%;
+    /* Black-ish */
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -194,7 +196,7 @@
   }
 
   .gradient-text {
-    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent;
   }
 
   .gradient-bg {
@@ -203,6 +205,40 @@
 
   .glow {
     box-shadow: 0 0 60px 20px hsl(var(--glow));
+  }
+
+  /* Premium card with gradient border on hover */
+  .premium-card {
+    @apply relative rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/[0.03] transition-all duration-300;
+  }
+
+  .premium-card:hover {
+    @apply border-transparent shadow-xl translate-y-[-4px];
+    background-image: linear-gradient(hsl(var(--background)), hsl(var(--background))),
+      linear-gradient(135deg, rgba(128, 128, 128, 0.2), rgba(128, 128, 128, 0.4), rgba(128, 128, 128, 0.2));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+
+  /* Gradient icon container */
+  .icon-gradient-blue {
+    background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  }
+
+  .icon-gradient-indigo {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  }
+
+  .icon-gradient-cyan {
+    background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+  }
+
+  .icon-gradient-emerald {
+    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+  }
+
+  .icon-gradient-purple {
+    background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
   }
 
   .section-padding {
@@ -260,6 +296,14 @@
     animation: float 6s ease-in-out infinite;
   }
 
+  .animate-glow-pulse {
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+
+  .animate-shimmer-border {
+    animation: shimmerBorder 3s linear infinite;
+  }
+
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -301,6 +345,48 @@
 
     100% {
       transform: translateX(100%);
+    }
+  }
+
+  @keyframes glowPulse {
+
+    0%,
+    100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes shimmerBorder {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
     }
   }
 

@@ -32,17 +32,17 @@ export default function NeuralNetworkPage() {
             </h1>
           </div>
 
-          <div className="flex items-center gap-6 mt-4 md:mt-0 text-xs font-mono text-muted-foreground">
+          <div className="flex items-center gap-6 mt-4 md:mt-0 text-xs font-mono text-slate-400">
             <div className="flex items-center gap-2">
-              <Cpu className="w-4 h-4 text-primary/50" />
+              <Cpu className="w-4 h-4 text-emerald-500/80" />
               <span>Latence: &lt;50ms</span>
             </div>
             <div className="flex items-center gap-2">
-              <Network className="w-4 h-4 text-primary/50" />
+              <Network className="w-4 h-4 text-emerald-500/80" />
               <span>WebGL: 2.0</span>
             </div>
             <div className="flex items-center gap-2">
-              <Zap className="w-4 h-4 text-primary/50" />
+              <Zap className="w-4 h-4 text-emerald-500/80" />
               <span>FPS: 60</span>
             </div>
           </div>
