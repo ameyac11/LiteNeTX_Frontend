@@ -85,17 +85,7 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
                 </div>
             </div>
 
-            {/* Viewfinder Overlay */}
-            <div className="absolute inset-8 pointer-events-none border border-white/5 rounded-3xl">
-                {/* Top Left Corner */}
-                <div className="absolute -top-px -left-px w-8 h-8 border-t-2 border-l-2 border-blue-500/50 rounded-tl-xl" />
-                {/* Top Right Corner */}
-                <div className="absolute -top-px -right-px w-8 h-8 border-t-2 border-r-2 border-blue-500/50 rounded-tr-xl" />
-                {/* Bottom Left Corner */}
-                <div className="absolute -bottom-px -left-px w-8 h-8 border-b-2 border-l-2 border-blue-500/50 rounded-bl-xl" />
-                {/* Bottom Right Corner */}
-                <div className="absolute -bottom-px -right-px w-8 h-8 border-b-2 border-r-2 border-blue-500/50 rounded-br-xl" />
-            </div>
+
 
             <div className="flex flex-col items-center max-w-sm w-full px-8 relative z-10">
                 {/* Scanner Beam Container */}
