@@ -17,7 +17,7 @@ export const useKeepAlive = () => {
             try {
                 await fetch(`${BACKEND_URL}/health`, {
                     method: 'GET',
-                    // No 'no-cors' — we want a real HTTP request that Render counts as activity.
+                    
                     // CORS is fine because /health is a simple GET that the backend allows.
                 });
             } catch {
