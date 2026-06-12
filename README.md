@@ -41,8 +41,23 @@
 
 <br />
 
-The client app for **LiteNeTX** — explore custom CNN architectures built entirely from scratch (no pretrained models), run live inference, and visualize model performance.  
-Powered by the [Backend API](../backend/README.md).
+The client app for **LiteNeTX** — a lightweight CNN family built entirely from scratch (no pretrained models or transfer learning). Explore architectures, run live inference, and visualize model performance through an interactive web UI.
+
+**Related repository:** [LiteNeTX Backend](https://github.com/ameyac11/LiteNeTX_Backend) — FastAPI inference API that powers this app.
+
+---
+
+## 📖 About
+
+LiteNeTX is a research-driven image classification project with three custom models for **FashionMNIST**, **CIFAR-10**, and **CIFAR-100**. This repo is the React frontend deployed at [litenetx.in](https://litenetx.in); it connects to the backend for uploads, predictions, and example galleries.
+
+| Model | Dataset | Highlights |
+|:---|:---|:---|
+| LiteNeTX-FMNIST | FashionMNIST | Compact conv blocks · grayscale 28×28 |
+| LiteNeTX-C10 | CIFAR-10 | Residual stages · 32×32 RGB |
+| LiteNeTX-C100 | CIFAR-100 | Wide SE-ResNet · 100-class head |
+
+**Training hardware:** NVIDIA Tesla T4 ×2 (30 GB VRAM)
 
 ---
 
@@ -80,7 +95,14 @@ npm install
 npm run dev
 ```
 
-🌐 App → [`http://localhost:8080`](http://localhost:8080)
+Create a `.env` file and point the app at your local or deployed API:
+
+```env
+VITE_API_BASE_URL=http://localhost:8000
+```
+
+🌐 App → [`http://localhost:8080`](http://localhost:8080)  
+⚡ Backend → [LiteNeTX_Backend](https://github.com/ameyac11/LiteNeTX_Backend)
 
 ---
 
