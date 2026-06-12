@@ -14,7 +14,7 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
         "SYSTEM_READY",
     ];
 
-    // Generate random hex codes for "Data Stream" effect
+    // Render hex stream
     useEffect(() => {
         const interval = setInterval(() => {
             const hex = "0x" + Math.floor(Math.random() * 16777215).toString(16).toUpperCase().padStart(6, '0');
@@ -24,7 +24,7 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
     }, []);
 
     useEffect(() => {
-        // Wake up backend server
+        // Wake backend server
         const wakeUpBackend = async () => {
             try {
                 const baseUrl = import.meta.env.VITE_API_BASE_URL;

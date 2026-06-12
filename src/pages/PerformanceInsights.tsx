@@ -255,7 +255,7 @@ export default function PerformanceInsights() {
                     {/* Optimization Summary Cards */}
                     <div className="grid md:grid-cols-3 gap-4">
                         {parameterData.map((model, index) => {
-                            // Define model-specific colors
+                            // Model color set
                             const gradients = [
                                 'from-blue-500 to-cyan-500',       // FMNIST
                                 'from-emerald-500 to-teal-500',    // CIFAR-10

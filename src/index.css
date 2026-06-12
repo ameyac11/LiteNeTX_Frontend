@@ -2,13 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Font face declarations with fallbacks to prevent layout shift */
+/* Font fallback setup */
 @font-face {
   font-family: 'Inter Fallback';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  /* System fonts adjusted to match Inter metrics */
+  /* Match Inter metrics */
   src: local('Arial');
   ascent-override: 90%;
   descent-override: 22%;
@@ -55,9 +55,9 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    /* Pure White */
+    /* Pure white base */
     --foreground: 222 47% 11%;
-    /* Very Dark Blue/Black for high contrast text */
+    /* Dark text tone */
 
     --card: 0 0% 100%;
     --card-foreground: 222 47% 11%;
@@ -66,9 +66,9 @@
     --popover-foreground: 222 47% 11%;
 
     --primary: 222 47% 11%;
-    /* Solid Black-ish for high contrast */
+    /* Strong dark primary */
     --primary-foreground: 0 0% 100%;
-    /* Pure White */
+    /* Pure white text */
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222 47% 11%;
@@ -87,9 +87,9 @@
     --ring: 221 83% 53%;
 
     --radius: 0.5rem;
-    /* Slightly sharper corners for professional look */
+    /* Sharper corner radius */
 
-    /* Custom tokens */
+    /* Custom theme tokens */
     --gradient-start: 221 83% 53%;
     --gradient-end: 200 80% 50%;
     --glass: 0 0% 100% / 0.8;
@@ -99,21 +99,21 @@
 
   .dark {
     --background: 0 0% 0%;
-    /* Pitch Black */
+    /* Pitch black base */
     --foreground: 210 40% 98%;
 
     --card: 0 0% 9%;
-    /* Charcoal Black */
+    /* Charcoal dark tone */
     --card-foreground: 210 40% 98%;
 
     --popover: 0 0% 9%;
-    /* Charcoal Black */
+    /* Charcoal dark tone */
     --popover-foreground: 210 40% 98%;
 
     --primary: 0 0% 100%;
-    /* Pure White for dark mode */
+    /* Bright dark primary */
     --primary-foreground: 222 47% 11%;
-    /* Black-ish */
+    /* Deep dark tone */
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -131,7 +131,7 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
 
-    /* Custom tokens */
+    /* Dark theme tokens */
     --gradient-start: 217 91% 60%;
     --gradient-end: 200 90% 50%;
     --glass: 0 0% 9% / 0.6;
@@ -151,27 +151,27 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    /* Enhanced font rendering for consistency across browsers */
+    /* Better font rendering */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    /* Prevent text size adjustments on orientation change (mobile) */
+    /* Stop mobile text resize */
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
   }
 
-  /* Ensure consistent font loading and prevent FOUT */
+  /* Keep font loading smooth */
   html {
     font-feature-settings: 'kern' 1, 'liga' 1;
     font-kerning: normal;
   }
 
-  /* Prevent layout shift during font loading */
+  /* Prevent font shift */
   * {
     font-synthesis: none;
   }
 
-  /* Custom Scrollbar */
+  /* Custom scrollbar styles */
   ::-webkit-scrollbar {
     width: 8px;
   }
@@ -207,7 +207,7 @@
     box-shadow: 0 0 60px 20px hsl(var(--glow));
   }
 
-  /* Premium card with gradient border on hover */
+  /* Hover gradient card */
   .premium-card {
     @apply relative rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/[0.03] transition-all duration-300;
   }
@@ -220,7 +220,7 @@
     background-clip: padding-box, border-box;
   }
 
-  /* Gradient icon container */
+  /* Gradient icon wrapper */
   .icon-gradient-blue {
     background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
   }
@@ -390,7 +390,7 @@
     }
   }
 
-  /* Aspect ratio utilities for stable image containers */
+  /* Stable ratio helpers */
   .aspect-square {
     aspect-ratio: 1 / 1;
   }
@@ -403,7 +403,7 @@
     aspect-ratio: 4 / 3;
   }
 
-  /* Shimmer effect for skeleton loaders */
+  /* Skeleton shimmer effect */
   .skeleton-shimmer {
     position: relative;
     overflow: hidden;

@@ -1,4 +1,4 @@
-# Logs
+# Log file rules
 logs
 *.log
 npm-debug.log*
@@ -7,18 +7,18 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Dependencies
+# Dependency folders only
 node_modules
 .pnp
 .pnp.js
 
-# Build output
+# Build output files
 dist
 dist-ssr
 build
 *.local
 
-# Environment variables
+# Env file rules
 .env
 .env.*
 !.env.example
@@ -27,16 +27,16 @@ build
 .env.test.local
 .env.production.local
 
-# Vercel deployment
+# Vercel deploy files
 .vercel
 .vercel.json.backup
 
-# Testing
+# Test artifact files
 coverage
 .nyc_output
 .vitest
 
-# Editor directories and files
+# Editor files only
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -46,30 +46,30 @@ coverage
 *.sln
 *.sw?
 
-# OS
+# OS artifact files
 Thumbs.db
 .DS_Store
 *~
 
-# Cache
+# Cache files only
 .cache
 .parcel-cache
 .eslintcache
 .stylelintcache
 
-# Temporary files
+# Temp file rules
 *.tmp
 *.temp
 tmp/
 temp/
 
-# Package manager
+# Package manager files
 .yarn/
 .pnpm-debug.log
 
-# TypeScript
+# TypeScript cache files
 *.tsbuildinfo
 
-# Vite
+# Vite cache files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*

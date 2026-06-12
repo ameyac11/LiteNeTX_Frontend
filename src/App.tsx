@@ -27,7 +27,7 @@ const queryClient = new QueryClient();
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
 
-  // Keep backend alive by pinging every 5 minutes
+  // Keep backend warm
   useKeepAlive();
 
   return (

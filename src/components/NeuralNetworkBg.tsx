@@ -87,7 +87,7 @@ export default function NeuralNetworkBg() {
                 }
             }
 
-            // Build edges: connect to adjacent rings
+            // Link adjacent rings
             const edges: Edge[] = [];
             for (let r = 0; r < rings.length - 1; r++) {
                 const current = nodes.filter(n => n.ring === r);
@@ -107,7 +107,7 @@ export default function NeuralNetworkBg() {
                 }
             }
 
-            // Cross-ring connections for depth
+            // Add depth links
             for (let r = 0; r < rings.length - 2; r++) {
                 const current = nodes.filter(n => n.ring === r);
                 const skip = nodes.filter(n => n.ring === r + 2);
@@ -141,7 +141,7 @@ export default function NeuralNetworkBg() {
             const rings = [0, maxR * 0.16, maxR * 0.34, maxR * 0.55, maxR * 0.76, maxR];
             const time = tick * 0.016;
 
-            // Animate node positions
+            // Animate node motion
             for (const node of nodes) {
                 const ringR = rings[node.ring];
                 const currentAngle = node.angle + time * node.orbitSpeed * 60;
@@ -150,7 +150,7 @@ export default function NeuralNetworkBg() {
                 node.y = cy + Math.sin(currentAngle) * (ringR + breathe);
             }
 
-            // Color palette
+            // Choose color set
             const lineRgb = isDark ? '148,163,184' : '100,116,139';
             const accentColors = isDark
                 ? ['96,165,250', '34,211,238', '129,140,248']   // blue, cyan, indigo
@@ -158,7 +158,7 @@ export default function NeuralNetworkBg() {
             const nodeRgb = isDark ? '148,163,184' : '71,85,105';
             const centerRgb = accentColors[0];
 
-            // Large ambient center glow
+            // Center glow bloom
             const centerGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxR * 0.55);
             const glowAlpha = isDark ? 0.07 : 0.04;
             centerGlow.addColorStop(0, `rgba(${centerRgb},${glowAlpha})`);
@@ -169,7 +169,7 @@ export default function NeuralNetworkBg() {
             ctx.fillStyle = centerGlow;
             ctx.fill();
 
-            // Secondary outer glow ring
+            // Outer glow ring
             const outerGlow = ctx.createRadialGradient(cx, cy, maxR * 0.5, cx, cy, maxR * 0.9);
             outerGlow.addColorStop(0, `rgba(${accentColors[2]},0)`);
             outerGlow.addColorStop(0.5, `rgba(${accentColors[2]},${isDark ? 0.025 : 0.015})`);
@@ -179,7 +179,7 @@ export default function NeuralNetworkBg() {
             ctx.fillStyle = outerGlow;
             ctx.fill();
 
-            // Faint concentric ring guides
+            // Faint ring guides
             for (let r = 1; r < rings.length; r++) {
                 const ringAlpha = isDark ? 0.04 : 0.025;
                 ctx.beginPath();
@@ -189,7 +189,7 @@ export default function NeuralNetworkBg() {
                 ctx.stroke();
             }
 
-            // Draw edges with bezier curves
+            // Draw curved edges
             for (const edge of edges) {
                 const from = nodes[edge.from];
                 const to = nodes[edge.to];
@@ -210,7 +210,7 @@ export default function NeuralNetworkBg() {
                 ctx.stroke();
             }
 
-            // Spawn pulses more frequently
+            // Spawn pulses often
             if (tick % 18 === 0 && pulses.length < 20) {
                 const idx = Math.floor(Math.random() * edges.length);
                 pulses.push({
@@ -223,7 +223,7 @@ export default function NeuralNetworkBg() {
                 });
             }
 
-            // Draw pulses with trails
+            // Draw pulse trails
             for (let i = pulses.length - 1; i >= 0; i--) {
                 const p = pulses[i];
                 const edge = edges[p.edgeIdx];
@@ -247,11 +247,11 @@ export default function NeuralNetworkBg() {
                 const a = fade * p.alpha;
                 const rgb = accentColors[p.colorIdx];
 
-                // Add to trail
+                // Extend pulse trail
                 p.trail.push({ x: px, y: py, a });
                 if (p.trail.length > 10) p.trail.shift();
 
-                // Draw trail
+                // Render trail dots
                 for (let j = 0; j < p.trail.length; j++) {
                     const tp = p.trail[j];
                     const trailFade = (j / p.trail.length) * tp.a * 0.4;
@@ -264,7 +264,7 @@ export default function NeuralNetworkBg() {
                     }
                 }
 
-                // Outer glow
+                // Outer glow bloom
                 const glow = ctx.createRadialGradient(px, py, 0, px, py, 12);
                 glow.addColorStop(0, `rgba(${rgb},${a * 0.5})`);
                 glow.addColorStop(1, `rgba(${rgb},0)`);
@@ -273,7 +273,7 @@ export default function NeuralNetworkBg() {
                 ctx.fillStyle = glow;
                 ctx.fill();
 
-                // Inner glow
+                // Inner glow bloom
                 const innerGlow = ctx.createRadialGradient(px, py, 0, px, py, 4);
                 innerGlow.addColorStop(0, `rgba(${rgb},${a * 0.9})`);
                 innerGlow.addColorStop(1, `rgba(${rgb},0)`);
@@ -282,7 +282,7 @@ export default function NeuralNetworkBg() {
                 ctx.fillStyle = innerGlow;
                 ctx.fill();
 
-                // Core dot
+                // Core pulse dot
                 ctx.beginPath();
                 ctx.arc(px, py, 1.8, 0, Math.PI * 2);
                 ctx.fillStyle = `rgba(255,255,255,${a * 0.95})`;
@@ -292,13 +292,13 @@ export default function NeuralNetworkBg() {
                 if (p.progress >= 1) pulses.splice(i, 1);
             }
 
-            // Draw nodes
+            // Render network nodes
             for (const node of nodes) {
                 const pulseFactor = 0.18 * Math.sin(time * 1.2 + node.pulsePhase) + 1;
                 const isCenter = node.ring === 0;
                 const rgb = isCenter ? accentColors[0] : nodeRgb;
 
-                // Halo
+                // Node halo bloom
                 const haloR = node.radius * 6 * pulseFactor;
                 const halo = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, haloR);
                 const haloAlpha = isCenter ? 0.25 : 0.10 + (1 - node.ring / 5) * 0.05;
@@ -309,14 +309,14 @@ export default function NeuralNetworkBg() {
                 ctx.fillStyle = halo;
                 ctx.fill();
 
-                // Core dot
+                // Core pulse dot
                 const coreAlpha = isCenter ? 0.85 : 0.35 + (1 - node.ring / 5) * 0.2;
                 ctx.beginPath();
                 ctx.arc(node.x, node.y, node.radius * pulseFactor, 0, Math.PI * 2);
                 ctx.fillStyle = `rgba(${rgb},${coreAlpha})`;
                 ctx.fill();
 
-                // White specular highlight on center node
+                // Center highlight dot
                 if (isCenter) {
                     ctx.beginPath();
                     ctx.arc(node.x - 0.5, node.y - 0.5, node.radius * 0.4, 0, Math.PI * 2);

@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
-// --- Configuration ---
+// Model config block
 const fashionLabels = [
     'T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
     'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot',
@@ -99,7 +99,7 @@ export default function ModelPlayground() {
 
     const currentModel = MODELS[activeModel];
 
-    // Fetch example images from backend
+    // Load backend examples
     useEffect(() => {
         const fetchExamples = async () => {
             setIsLoadingExamples(true);
@@ -115,7 +115,7 @@ export default function ModelPlayground() {
                 const data = await response.json();
 
                 if (data.examples && data.examples.length > 0) {
-                    // Prepend base URL to example URLs
+                    // Prefix example URLs
                     const examplesWithFullUrls = data.examples.map((ex: any) => ({
                         url: `${baseUrl}${ex.url}`,
                         label: ex.label
@@ -134,7 +134,7 @@ export default function ModelPlayground() {
         fetchExamples();
     }, [activeModel]);
 
-    // Clear input and results when model changes
+    // Reset on model change
     useEffect(() => {
         setImage(null);
         setFile(null);
@@ -216,7 +216,7 @@ export default function ModelPlayground() {
         setError(null);
         setResults([]);
 
-        // Simulate scanning effect
+        // Simulate scan effect
         setIsScanning(true);
         await new Promise(r => setTimeout(r, 1500)); // Aesthetic delay for "scanning"
 
@@ -236,7 +236,7 @@ export default function ModelPlayground() {
 
             const data = await response.json();
 
-            // Backend returns {model, top1, top3} format
+            // Parse model results
             const predictions: PredictionResult[] = data.top3?.map((pred: any) => ({
                 label: pred.label,
                 probability: pred.confidence,
@@ -270,7 +270,7 @@ export default function ModelPlayground() {
                                     setActiveModel(key);
                                     setResults([]);
                                     setError(null);
-                                    // Keep image if user wants to test same image on different model
+                                    // Keep image for reuse
                                 }}
                                 className={cn(
                                     "flex items-center gap-3 p-3 rounded-xl transition-all duration-300 text-left relative overflow-hidden group cursor-pointer",
@@ -509,7 +509,7 @@ export default function ModelPlayground() {
                             <h4 className="text-xs uppercase text-muted-foreground font-semibold tracking-wider">Try an Example</h4>
                             <div className="flex gap-2 overflow-x-auto overflow-y-hidden pb-4 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent min-h-[64px] w-full max-w-[calc(100vw-64px)] lg:max-w-none hover:scrollbar-thumb-white/40 transition-colors">
                                 {isLoadingExamples ? (
-                                    // Skeleton loaders - exact dimensions match loaded state
+                                    // Match loaded dimensions
                                     [...Array(6)].map((_, i) => (
                                         <Skeleton
                                             key={i}

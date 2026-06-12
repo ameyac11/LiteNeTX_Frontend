@@ -21,12 +21,12 @@ export default function Contact() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Security: Validate origin
+        // Validate request origin
         const allowedOrigins = [
             'https://litenetx.in',
             'https://www.litenetx.in',
             'https://litenetx.vercel.app',
-            'http://localhost:5173' // For local dev
+            'http://localhost:5173' // Local dev only
         ];
         const currentOrigin = window.location.origin;
 
@@ -44,7 +44,7 @@ export default function Contact() {
         try {
             const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
 
-            // Allow submission without key in dev for UI testing if variable is missing
+            // Dev fallback enabled
             if (!accessKey && import.meta.env.DEV) {
                 console.log("Dev mode: Simulating submission", formData);
                 await new Promise(resolve => setTimeout(resolve, 1500));

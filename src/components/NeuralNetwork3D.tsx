@@ -17,7 +17,7 @@ import {
 import { cn } from '@/lib/utils';
 import * as THREE from 'three';
 
-// --- Improved Model Configurations ---
+// Model config blocks
 const MODEL_CONFIG = {
   fashion: {
     id: 'fashion',
@@ -85,7 +85,7 @@ const MODEL_CONFIG = {
   },
 };
 
-// --- Components ---
+// Scene component set
 
 function Node({ position, color, hovered, onClick, onHover }: any) {
   const ref = useRef<THREE.Mesh>(null);
@@ -171,7 +171,7 @@ function Layer({ layer, onNodeClick, hoveredLayer, setHoveredLayer }: any) {
   );
 }
 
-// Refactored to just render lines passed from parent
+// Render parent lines
 function Connections({ lines }: any) {
   return (
     <group>
@@ -193,9 +193,9 @@ function Connections({ lines }: any) {
   );
 }
 
-// --- Animated Data Flow ---
+// Data flow animation
 function DataFlow({ lines, color = '#38bdf8', speed = 1, count = 30 }: any) {
-  // Create a pool of particles that travel along random curves
+  // Spawn flow particles
   const particles = useMemo(() => {
     return new Array(count).fill(0).map(() => ({
       currentLineIndex: Math.floor(Math.random() * lines.length),
@@ -218,12 +218,12 @@ function DataFlow({ lines, color = '#38bdf8', speed = 1, count = 30 }: any) {
       }
 
       const line = lines[p.currentLineIndex];
-      // Sample point at progress
-      // We need the curve helper to sample. 
-      // Since we only stored geometry, we can't easily sample without reconstructing curve or using geometry attribute.
-      // Optimization: We can just lerp between points in geometry if we want, but reconstructing simple curve is cheap.
-      // Re-using the curve object would be better, but let's assume we can pass curves instead of just geometry lines from parent.
-      // FALLBACK: For now, let's just use the geometry position buffer to sample.
+      // Sample curve point
+      // Use curve sampling
+      // Rebuild curves from geometry
+      // Lerp would also work
+      // Parent could pass curves
+      // Fall back to geometry
 
       const positions = line.geometry.attributes.position.array;
       const totalPoints = positions.length / 3;
@@ -233,7 +233,7 @@ function DataFlow({ lines, color = '#38bdf8', speed = 1, count = 30 }: any) {
       const y = positions[pointIndex * 3 + 1];
       const z = positions[pointIndex * 3 + 2];
 
-      // Interpolate for smoothness
+      // Smooth the motion
       const nextIndex = Math.min(pointIndex + 1, totalPoints - 1);
       const x2 = positions[nextIndex * 3];
       const y2 = positions[nextIndex * 3 + 1];
@@ -247,7 +247,7 @@ function DataFlow({ lines, color = '#38bdf8', speed = 1, count = 30 }: any) {
         z + (z2 - z) * subProgress
       );
 
-      // Make particles small and sharp 'sparks'
+      // Keep particles sharp
       const scale = (Math.sin(p.progress * Math.PI) * 0.5 + 0.5) * 0.04;
       dummy.scale.set(scale, scale, scale);
       dummy.updateMatrix();
@@ -276,10 +276,10 @@ function Scene({ model, autoRotate, showConnections, showResidual, density, onLa
   const config = MODEL_CONFIG[model as keyof typeof MODEL_CONFIG];
   const [hoveredLayer, setHoveredLayer] = useState<string | null>(null);
 
-  // Calculate lines in Scene to share with DataFlow
+  // Share lines with flow
   const lines = useMemo(() => {
     const lineData: any[] = [];
-    // Fix TS error by explicitly typing the entries
+    // Type entries explicitly
     const layerMap = new Map(config.layers.map((l: any) => [l.id, l] as [string, any]));
 
     config.connections.forEach(([sourceId, targetId]: string[]) => {
@@ -290,14 +290,14 @@ function Scene({ model, autoRotate, showConnections, showResidual, density, onLa
       const count = Math.max(3, Math.floor(Math.min(source.nodes, target.nodes) * density * 3)); // Increased density multiplier
 
       for (let i = 0; i < count; i++) {
-        // Balanced spread - spacious but contained within network bounds
+        // Balanced network spread
         const sy = (Math.random() - 0.5) * 1.2;
         const sz = (Math.random() - 0.5) * 1.2;
         const ty = (Math.random() - 0.5) * 1.2;
         const tz = (Math.random() - 0.5) * 1.2;
 
         const points = [];
-        // Moderate bezier curves for balanced spread
+        // Moderate curve spread
         points.push(new THREE.Vector3(source.x, sy, sz));
         points.push(new THREE.Vector3((source.x + target.x) / 2, sy * 0.5, sz * 0.5)); // Balanced center spread
         points.push(new THREE.Vector3((source.x + target.x) / 2, ty * 0.5, tz * 0.5));
@@ -313,7 +313,7 @@ function Scene({ model, autoRotate, showConnections, showResidual, density, onLa
         const layer = layerMap.get(layerId) as any;
         if (!layer) return;
 
-        // Elegant arc for residual
+        // Residual shortcut arc
         const points = [
           new THREE.Vector3(layer.x - 0.3, 1.2, 0),
           new THREE.Vector3(layer.x, 2.0, 0),
@@ -454,7 +454,7 @@ export default function NeuralNetwork3D() {
             size="icon"
             className="rounded-full w-7 h-7 hover:bg-white/10"
             onClick={() => {
-              // Reset Camera
+              // Reset camera view
               controlsRef.current?.reset();
             }}
             title="Reset Camera"
@@ -563,7 +563,7 @@ export default function NeuralNetwork3D() {
           size="icon"
           className="rounded-full w-9 h-9 hover:bg-white/10 relative"
           onClick={() => {
-            // Cycle through density levels: 0.3 -> 0.6 -> 1.0 -> 0.3
+            // Cycle density levels
             const currentDensity = density[0];
             if (currentDensity < 0.5) {
               setDensity([0.6]);
