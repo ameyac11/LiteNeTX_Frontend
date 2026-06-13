@@ -108,7 +108,7 @@ VITE_API_BASE_URL=http://localhost:8000
 
 ## 📜 License
 
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue?style=for-the-badge)](./LICENSE)
+[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue?style=for-the-badge)](./LICENSE)
 
-Licensed under the **Apache License, Version 2.0**.  
+Licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**.  
 Copyright © 2026 Ameya Sanjay Chopade · See [LICENSE](./LICENSE) for details.
