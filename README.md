@@ -84,7 +84,7 @@ LiteNeTX is a research-driven image classification project with three custom mod
 | 🌐 | **React Three Fiber** · Drei · Three.js |
 | 🔄 | **React Query** · React Hook Form · Zod |
 | 📊 | **Recharts** — performance visualizations |
-| 🗺️ | **React Router** · Vercel Analytics |
+| 🗺️ | **React Router** |
 
 ---
 

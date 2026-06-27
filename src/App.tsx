@@ -16,8 +16,6 @@ import NotFound from "./pages/NotFound";
 
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/react";
 import LoadingScreen from "@/components/LoadingScreen";
 import ScrollToTop from "@/components/ScrollToTop";
 import { useKeepAlive } from "@/hooks/useKeepAlive";
@@ -58,8 +56,6 @@ const App = () => {
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Layout>
-              <Analytics />
-              <SpeedInsights />
             </BrowserRouter>
           )}
 

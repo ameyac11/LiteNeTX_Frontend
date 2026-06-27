@@ -25,7 +25,6 @@ export default function Contact() {
         const allowedOrigins = [
             'https://litenetx.in',
             'https://www.litenetx.in',
-            'https://litenetx.vercel.app',
             'http://localhost:5173' // Local dev only
         ];
         const currentOrigin = window.location.origin;
