@@ -4,5 +4,4 @@ import App from "./App.tsx";
 import "./index.css";
 
 clarity.init("xdych1gxkq");
-
 createRoot(document.getElementById("root")!).render(<App />);
